@@ -1,0 +1,6 @@
+spring:
+   application:
+      name: nextgen-ai-service
+
+server:
+   port: ${PORT:8080}
