@@ -1,4 +1,4 @@
-package com.cts.product.rental;
+package com.cts.product;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

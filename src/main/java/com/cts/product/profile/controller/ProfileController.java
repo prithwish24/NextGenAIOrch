@@ -85,7 +85,7 @@ public class ProfileController {
 	return bp;
     }
 
-    @RequestMapping(value = "/{loyalty}/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/{brand}/{channel}/{loyalty}/login", method = RequestMethod.POST)
     public ProfileResponse login(@RequestBody LoginRequest loginRequest, @PathVariable("brand") String brand,
 	    @PathVariable("channel") String channel, @PathVariable("loyalty") String loyalty,
 	    HttpServletRequest request) {
