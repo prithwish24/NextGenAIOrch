@@ -1,6 +1,12 @@
 spring:
    application:
       name: nextgen-ai-service
+   mvc:
+      view:
+         prefix: /WEB-INF/jsp/
+         suffix: .jsp
 
 server:
    port: ${PORT:8080}
+   
+   

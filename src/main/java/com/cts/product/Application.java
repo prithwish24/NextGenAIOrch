@@ -3,10 +3,12 @@ package com.cts.product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
+@EnableAutoConfiguration
+@ComponentScan (basePackages={"com.cts.product"})
 public class Application {
 	public static final Logger LOG = LoggerFactory.getLogger(Application.class);
 	
