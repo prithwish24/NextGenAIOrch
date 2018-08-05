@@ -14,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 import com.cts.product.profile.domain.UserProfile;
 import com.cts.product.profile.dto.messages.LoginRequest;
 import com.cts.product.profile.dto.messages.ProfileResponse;
+import com.cts.product.util.HeaderBuilder;
+import com.cts.product.util.RestTemplateBuilder;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -67,21 +69,16 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ProfileResponse login(LoginRequest loginRequest, String brand, String channel, String loyalty) {
-	final String uri = "https://www-gbo-profile-rcqa.gbo.csdev.ehiaws-nonprod.com/gbo-profile/api/v2/profiles/"
-		+ brand + "/" + channel + "/" + loyalty + "/login";
-	RestTemplate restTemplate = new RestTemplate();
-	HttpHeaders headers = new HttpHeaders();
-	headers.set("CORRELATION_ID", "_Login");
-	headers.set("Accept-Language", "en_US");
-	headers.set("country-of-residence-code", "US");
-	headers.set("Ehi-API-Key", "OOEuCONvdswAtjr/86KwIuxiSP7Z0Tknd98mU02FIQQ=");
-	headers.set("Content-Type", "application/json; charset=UTF-8");
+    public ProfileResponse login(LoginRequest loginRequest, String brand, String channel, String loyalty,
+	    HttpHeaders httpHeaders) {
+	final String uri = "https://www-gbo-profile-rcqa.gbo.csdev.ehiaws-nonprod.com/gbo-profile/api/v2/profiles/{brand}/{channel}/{loyalty}/login";
+	RestTemplate restTemplate = RestTemplateBuilder.getRestTemplate();
+	HttpHeaders headers = HeaderBuilder.createHeaders(httpHeaders.toSingleValueMap());
 
 	HttpEntity<LoginRequest> entity = new HttpEntity<LoginRequest>(loginRequest, headers);
 
 	ResponseEntity<ProfileResponse> result = restTemplate.exchange(uri, HttpMethod.POST, entity,
-		ProfileResponse.class);
+		ProfileResponse.class, brand, channel, loyalty);
 	return result.getBody();
     }
 }

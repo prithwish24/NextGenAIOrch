@@ -1,6 +1,7 @@
 package com.cts.product.profile.delegate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import com.cts.product.profile.domain.UserProfile;
@@ -34,8 +35,9 @@ public class ProfileServiceDelegate {
 	sessionService.removeSession(userId);
     }
 
-    public ProfileResponse login(LoginRequest loginRequest, String brand, String channel, String loyalty) {
-	return profileService.login(loginRequest, brand, channel, loyalty);
+    public ProfileResponse login(LoginRequest loginRequest, String brand, String channel, String loyalty,
+	    HttpHeaders headers) {
+	return profileService.login(loginRequest, brand, channel, loyalty, headers);
     }
 
     public UserProfile authenticate_fallback(String username, String password) {
