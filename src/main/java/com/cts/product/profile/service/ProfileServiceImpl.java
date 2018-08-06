@@ -3,6 +3,7 @@ package com.cts.product.profile.service;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
+
+    @Value(value = "${profile.baseUrl}${profile.loginUrl}")
+    private String loginUrl;
 
     @Override
     public UserProfile authenticate(String username, String password) {
@@ -71,13 +75,12 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ProfileResponse login(LoginRequest loginRequest, String brand, String channel, String loyalty,
 	    HttpHeaders httpHeaders) {
-	final String uri = "https://www-gbo-profile-rcqa.gbo.csdev.ehiaws-nonprod.com/gbo-profile/api/v2/profiles/{brand}/{channel}/{loyalty}/login";
 	RestTemplate restTemplate = RestTemplateBuilder.getRestTemplate();
 	HttpHeaders headers = HeaderBuilder.createHeaders(httpHeaders.toSingleValueMap());
 
 	HttpEntity<LoginRequest> entity = new HttpEntity<LoginRequest>(loginRequest, headers);
 
-	ResponseEntity<ProfileResponse> result = restTemplate.exchange(uri, HttpMethod.POST, entity,
+	ResponseEntity<ProfileResponse> result = restTemplate.exchange(loginUrl, HttpMethod.POST, entity,
 		ProfileResponse.class, brand, channel, loyalty);
 	return result.getBody();
     }
