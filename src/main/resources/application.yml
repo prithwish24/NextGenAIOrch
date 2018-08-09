@@ -3,10 +3,11 @@ spring:
       name: nextgen-ai-service
    mvc:
       view:
-         prefix: /WEB-INF/jsp/
+         prefix: /WEB-INF/views/
          suffix: .jsp
+      static-path-pattern: /resources/**
 
 server:
-   port: ${PORT:8080}
+   port: ${PORT:8080} 
    
    
