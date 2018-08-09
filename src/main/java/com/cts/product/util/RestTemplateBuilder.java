@@ -7,6 +7,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
@@ -16,7 +17,9 @@ public class RestTemplateBuilder {
 	List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
 	MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
 	ObjectMapper objMapper = new ObjectMapper();
-	jsonMessageConverter.setObjectMapper(objMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE));
+	objMapper.setSerializationInclusion(Include.NON_NULL);
+	objMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+	jsonMessageConverter.setObjectMapper(objMapper);
 	messageConverters.add(jsonMessageConverter);
 	restTemplate.setMessageConverters(messageConverters);
 	return restTemplate;
