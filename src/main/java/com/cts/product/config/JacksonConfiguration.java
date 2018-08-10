@@ -14,6 +14,8 @@ public class JacksonConfiguration {
     public ObjectMapper jackson2ObjectMapperBuilder() {
 	ObjectMapper objMapper = new ObjectMapper();
 	objMapper.setSerializationInclusion(Include.NON_NULL);
-	return objMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+	objMapper.setSerializationInclusion(Include.NON_EMPTY);
+	objMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+	return objMapper;
     }
 }
