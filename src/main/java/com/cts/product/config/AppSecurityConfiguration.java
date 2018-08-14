@@ -24,7 +24,7 @@ public class AppSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	// Authentication : User --> Roles
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		/*auth.inMemoryAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance())
+		/*auth.inMemoryAuthentication().passwordEncoder(getPasswordEncoder())
 			.withUser(__SERVICE_USER).password(__SERVICE_PASSWD).roles(__SERVICE_ROLE);*/
 		auth.inMemoryAuthentication().withUser(__SERVICE_USER).password(__SERVICE_PASSWD).roles(__SERVICE_ROLE);
 	}
