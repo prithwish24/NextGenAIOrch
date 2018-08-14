@@ -13,21 +13,21 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
 public class RestTemplateBuilder {
 
-    public static RestTemplate getRestTemplate() {
-	RestTemplate restTemplate = new RestTemplate();
-	List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
-	MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
-	ObjectMapper objMapper = getObjectMapper();
-	jsonMessageConverter.setObjectMapper(objMapper);
-	messageConverters.add(jsonMessageConverter);
-	restTemplate.setMessageConverters(messageConverters);
-	return restTemplate;
-    }
+	public static RestTemplate getRestTemplate() {
+		RestTemplate restTemplate = new RestTemplate();
+		List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
+		MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
+		ObjectMapper objMapper = getObjectMapper();
+		jsonMessageConverter.setObjectMapper(objMapper);
+		messageConverters.add(jsonMessageConverter);
+		restTemplate.setMessageConverters(messageConverters);
+		return restTemplate;
+	}
 
-    public static ObjectMapper getObjectMapper() {
-	ObjectMapper objMapper = new ObjectMapper();
-	objMapper.setSerializationInclusion(Include.NON_NULL);
-	objMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
-	return objMapper;
-    }
+	public static ObjectMapper getObjectMapper() {
+		ObjectMapper objMapper = new ObjectMapper();
+		objMapper.setSerializationInclusion(Include.NON_NULL);
+		objMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+		return objMapper;
+	}
 }

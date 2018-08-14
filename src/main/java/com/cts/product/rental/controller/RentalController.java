@@ -17,19 +17,28 @@ import com.cts.product.rental.dto.ai.ReservationResponse;
 import com.cts.product.rental.service.RentalService;
 
 @RestController
-@RequestMapping(value = "/rental/{brand}/{channel}")
+@RequestMapping(value = "/services/rental/{brand}/{channel}")
 public class RentalController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RentalController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RentalController.class);
 
-    @Autowired
-    private RentalService rentalService;
+	@Autowired
+	private RentalService rentalService;
 
-    @RequestMapping(value = "/initiate", method = RequestMethod.POST)
-    public ReservationResponse initiateReservation(@Valid @RequestBody ReservationRequest initiateReservationRequest,
-	    HttpServletRequest request, @PathVariable("brand") String brand, @PathVariable("channel") String channel) {
-	rentalService.initiate(initiateReservationRequest, brand, channel);
-	return new ReservationResponse();
-    }
+	@RequestMapping(value = "/initiate", method = RequestMethod.POST)
+	public ReservationResponse initiateReservation(@Valid @RequestBody ReservationRequest initiateReservationRequest,
+			HttpServletRequest request, @PathVariable("brand") String brand, @PathVariable("channel") String channel) {
+		LOG.info("Entering initiateReservation service");
+		
+		ReservationResponse response = null;
+		try {
+			response = rentalService.initiate(initiateReservationRequest, brand, channel);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+		LOG.info("Exisiting from initiateReservation service");
+		return response;
+	}
 
 }

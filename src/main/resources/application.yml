@@ -5,9 +5,13 @@ spring:
       view:
          prefix: /WEB-INF/views/
          suffix: .jsp
-      static-path-pattern: /resources/**
+
 
 server:
    port: ${PORT:8080} 
    
-   
+logging:
+   level:
+      org.springframework.web: INFO
+
+      

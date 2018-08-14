@@ -15,65 +15,65 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "responseId", "queryResult", "originalDetectIntentRequest", "session" })
 public class ReservationRequest {
 
-    @JsonProperty("responseId")
-    private String responseId;
-    @JsonProperty("queryResult")
-    private QueryResult queryResult;
-    @JsonProperty("originalDetectIntentRequest")
-    private OriginalDetectIntentRequest originalDetectIntentRequest;
-    @JsonProperty("session")
-    private String session;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	@JsonProperty("responseId")
+	private String responseId;
+	@JsonProperty("queryResult")
+	private QueryResult queryResult;
+	@JsonProperty("originalDetectIntentRequest")
+	private OriginalDetectIntentRequest originalDetectIntentRequest;
+	@JsonProperty("session")
+	private String session;
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("responseId")
-    public String getResponseId() {
-	return responseId;
-    }
+	@JsonProperty("responseId")
+	public String getResponseId() {
+		return responseId;
+	}
 
-    @JsonProperty("responseId")
-    public void setResponseId(String responseId) {
-	this.responseId = responseId;
-    }
+	@JsonProperty("responseId")
+	public void setResponseId(String responseId) {
+		this.responseId = responseId;
+	}
 
-    @JsonProperty("queryResult")
-    public QueryResult getQueryResult() {
-	return queryResult;
-    }
+	@JsonProperty("queryResult")
+	public QueryResult getQueryResult() {
+		return queryResult;
+	}
 
-    @JsonProperty("queryResult")
-    public void setQueryResult(QueryResult queryResult) {
-	this.queryResult = queryResult;
-    }
+	@JsonProperty("queryResult")
+	public void setQueryResult(QueryResult queryResult) {
+		this.queryResult = queryResult;
+	}
 
-    @JsonProperty("originalDetectIntentRequest")
-    public OriginalDetectIntentRequest getOriginalDetectIntentRequest() {
-	return originalDetectIntentRequest;
-    }
+	@JsonProperty("originalDetectIntentRequest")
+	public OriginalDetectIntentRequest getOriginalDetectIntentRequest() {
+		return originalDetectIntentRequest;
+	}
 
-    @JsonProperty("originalDetectIntentRequest")
-    public void setOriginalDetectIntentRequest(OriginalDetectIntentRequest originalDetectIntentRequest) {
-	this.originalDetectIntentRequest = originalDetectIntentRequest;
-    }
+	@JsonProperty("originalDetectIntentRequest")
+	public void setOriginalDetectIntentRequest(OriginalDetectIntentRequest originalDetectIntentRequest) {
+		this.originalDetectIntentRequest = originalDetectIntentRequest;
+	}
 
-    @JsonProperty("session")
-    public String getSession() {
-	return session;
-    }
+	@JsonProperty("session")
+	public String getSession() {
+		return session;
+	}
 
-    @JsonProperty("session")
-    public void setSession(String session) {
-	this.session = session;
-    }
+	@JsonProperty("session")
+	public void setSession(String session) {
+		this.session = session;
+	}
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-	return this.additionalProperties;
-    }
+	@JsonAnyGetter
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-	this.additionalProperties.put(name, value);
-    }
+	@JsonAnySetter
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
+	}
 
 }
