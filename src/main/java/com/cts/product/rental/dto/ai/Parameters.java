@@ -28,6 +28,10 @@ public class Parameters {
     private String pickuptimeOriginal;
     @JsonProperty("duration.original")
     private String durationOriginal;
+    @JsonProperty("returndate")
+    private String returndate;
+    @JsonProperty("returntime")
+    private String returntime;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -99,6 +103,26 @@ public class Parameters {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
 	this.additionalProperties.put(name, value);
+    }
+
+    @JsonProperty("returndate")
+    public String getReturndate() {
+	return returndate;
+    }
+
+    @JsonProperty("returndate")
+    public void setReturndate(String returndate) {
+	this.returndate = returndate;
+    }
+
+    @JsonProperty("returntime")
+    public String getReturntime() {
+	return returntime;
+    }
+
+    @JsonProperty("returntime")
+    public void setReturntime(String returntime) {
+	this.returntime = returntime;
     }
 
 }

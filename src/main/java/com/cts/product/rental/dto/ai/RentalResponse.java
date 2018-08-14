@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "outputContexts",
     "followupEventInput"
 })
-public class ReservationResponse {
+public class RentalResponse {
 
     @JsonProperty("fulfillmentText")
     private String fulfillmentText;

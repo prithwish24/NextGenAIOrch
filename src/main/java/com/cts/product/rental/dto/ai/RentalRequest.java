@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "responseId", "queryResult", "originalDetectIntentRequest", "session" })
-public class ReservationRequest {
+public class RentalRequest {
 
     @JsonProperty("responseId")
     private String responseId;
