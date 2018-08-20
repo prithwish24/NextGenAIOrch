@@ -17,21 +17,30 @@ import com.cts.product.profile.dto.messages.LoginRequest;
 import com.cts.product.profile.dto.messages.ProfileResponse;
 import com.cts.product.profile.service.ProfileService;
 
-@RestController
-@RequestMapping(value = "/profile/{brand}/{channel}")
+@RestController()
+@RequestMapping(value = "/services/profile/{brand}/{channel}")
 public class ProfileController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProfileController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ProfileController.class);
 
-    @Autowired
-    private ProfileService profileService;
+	@Autowired
+	private ProfileService profileService;
 
-    @RequestMapping(value = "/{loyalty}/login", method = RequestMethod.POST)
-    public ProfileResponse login(@RequestBody LoginRequest loginRequest, @PathVariable("brand") String brand,
-	    @PathVariable("channel") String channel, @PathVariable("loyalty") String loyalty,
-	    HttpServletRequest request, @RequestHeader HttpHeaders headers) throws Exception {
-
-	return profileService.login(loginRequest, brand, channel, loyalty, headers);
-    }
+	@RequestMapping(value = "/{loyalty}/login", method = RequestMethod.POST)
+	public ProfileResponse login(@RequestBody LoginRequest loginRequest, @PathVariable("brand") String brand,
+			@PathVariable("channel") String channel, @PathVariable("loyalty") String loyalty,
+			HttpServletRequest request, @RequestHeader HttpHeaders headers) throws Exception {
+		LOG.info("Entering login service");
+		
+		ProfileResponse response = null;
+		try {
+			response = profileService.login(loginRequest, brand, channel, loyalty, headers);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+		LOG.info("Exisiting from login service");
+		return response;
+	}
 
 }

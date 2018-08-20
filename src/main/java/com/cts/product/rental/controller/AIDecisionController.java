@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/aihook")
+@RequestMapping("/services/aihook")
 public class AIDecisionController {
 
 	@RequestMapping (
@@ -17,14 +17,14 @@ public class AIDecisionController {
 	public String ping() {
 		return "{\"success\":\"true\"}";
 	}
-	
-	
-	
+
+
+
 	/* ------------------- RESERVATION SERVICES ------------------- */
-	
-	
-	
+
+
+
 	/* ------------------- AI AGENT ROUTING SERVICES ------------------- */
-	
-	
+
+
 }

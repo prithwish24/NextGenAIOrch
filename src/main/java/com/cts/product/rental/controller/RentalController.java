@@ -19,7 +19,7 @@ import com.cts.product.rental.dto.ai.RentalRequest;
 import com.cts.product.rental.dto.ai.RentalResponse;
 
 @RestController
-@RequestMapping(value = "/rental/{brand}/{channel}")
+@RequestMapping(value = "/services/rental/{brand}/{channel}")
 public class RentalController {
 
     private static final Logger LOG = LoggerFactory.getLogger(RentalController.class);
@@ -28,11 +28,23 @@ public class RentalController {
     private ReservationServiceDelegate reservationServiceDelegate;
 
     @RequestMapping(value = "/initiate", method = RequestMethod.POST)
-    public RentalResponse initiateReservation(@Valid @RequestBody RentalRequest initiateReservationRequest,
-	    HttpServletRequest request, @PathVariable("brand") String brand, @PathVariable("channel") String channel,
-	    @RequestHeader HttpHeaders headers) throws Exception {
-	reservationServiceDelegate.delegate(initiateReservationRequest, brand, channel, headers);
-	return new RentalResponse();
+    public RentalResponse initiateReservation(
+    		@Valid @RequestBody RentalRequest initiateReservationRequest,
+    		HttpServletRequest request, 
+    		@PathVariable("brand") String brand, 
+    		@PathVariable("channel") String channel,
+    		@RequestHeader HttpHeaders headers) throws Exception {
+    	LOG.info("Entering initiateReservation service");
+    	
+    	RentalResponse response = null;
+		try {
+			response = reservationServiceDelegate.delegate(initiateReservationRequest, brand, channel, headers);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+    	LOG.info("Exisiting from initiateReservation service");
+    	return response;
     }
 
 }

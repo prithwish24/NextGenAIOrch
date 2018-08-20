@@ -1,4 +1,3 @@
-
 package com.cts.product.rental.dto.ai;
 
 import java.util.HashMap;
