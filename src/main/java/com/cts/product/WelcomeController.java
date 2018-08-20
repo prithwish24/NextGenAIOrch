@@ -13,4 +13,5 @@ public class WelcomeController {
         modal.addAttribute("message", "Congratulation! Application is running successfully.");
 		return "index";
 	}
+	
 }
