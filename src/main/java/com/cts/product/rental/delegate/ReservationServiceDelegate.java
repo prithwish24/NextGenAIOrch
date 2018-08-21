@@ -12,7 +12,7 @@ import com.cts.product.rental.dto.ai.RentalRequest;
 import com.cts.product.rental.dto.ai.RentalResponse;
 import com.cts.product.rental.dto.messages.InitiateReservationRequest;
 import com.cts.product.rental.dto.messages.ReservationResponse;
-import com.cts.product.rental.mapper.ReservationRequestMapper;
+import com.cts.product.rental.mapper.ReservationMapper;
 import com.cts.product.rental.service.RentalService;
 
 @Service
@@ -35,11 +35,11 @@ public class ReservationServiceDelegate {
 
 		switch (action) {
 		case "initiateReservation":
-			InitiateReservationRequest initiateReservationRequest = ReservationRequestMapper
+			InitiateReservationRequest initiateReservationRequest = ReservationMapper
 			.mapRequest(reservationRequest);
 			ReservationResponse reservationResponse = reservationService.initiate(initiateReservationRequest, brand,
 					channel, headers);
-			rentalResponse = ReservationRequestMapper.mapResponse(reservationResponse);
+			rentalResponse = ReservationMapper.mapResponse(reservationResponse);
 			break;
 		default:
 			throw new IOException("Undefined action (" + action + ")");

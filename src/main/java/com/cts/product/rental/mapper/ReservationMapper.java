@@ -5,7 +5,7 @@ import com.cts.product.rental.dto.ai.RentalResponse;
 import com.cts.product.rental.dto.messages.InitiateReservationRequest;
 import com.cts.product.rental.dto.messages.ReservationResponse;
 
-public class ReservationRequestMapper {
+public class ReservationMapper {
     public static InitiateReservationRequest mapRequest(RentalRequest initiateAIRequest) {
 	String pickupdate = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters()
 		.getPickupdate();
