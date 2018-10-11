@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,8 +54,10 @@ public class ProfileController {
 	if (response == null) {
 	    bp.setServiceError("2003", "ERROR", "Invalid user credentials");
 	} else {
-	    bp.setSuccess(true);
 	    bp.setResponse(response);
+	    if (CollectionUtils.isEmpty(response.getMessages())) {
+		bp.setSuccess(true);
+	    }
 	}
 	LOG.info("Exisiting from login service");
 	return bp;
