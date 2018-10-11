@@ -1,5 +1,9 @@
 package com.cts.product.rental.mapper;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import com.cts.product.rental.dto.ai.RentalRequest;
 import com.cts.product.rental.dto.ai.RentalResponse;
 import com.cts.product.rental.dto.messages.InitiateReservationRequest;
@@ -13,19 +17,20 @@ public class ReservationMapper {
 	String pickuptime = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters()
 		.getPickuptime();
 	pickuptime = pickuptime.substring(pickuptime.indexOf("T"), (pickuptime.indexOf(":") + 3));
-	String returndate = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters()
-		.getReturndate();
-	returndate = returndate.substring(0, returndate.indexOf("T"));
-	String returntime = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters()
-		.getReturntime();
-	returntime = returntime.substring(returntime.indexOf("T"), (returntime.indexOf(":") + 3));
+	String pickupDateTime = pickupdate + pickuptime;
+	DateTime pikupDate = new DateTime(pickupDateTime);
+	Integer duration = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getDuration();
+	DateTime rtrnDate = pikupDate;
+	rtrnDate.plusDays(duration);
+	DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-ddTHH:mm");
+	String returnDateTime = dtf.print(rtrnDate);
 	String pickupLocation = "STLT61";
 	String returnLocation = pickupLocation;
 	InitiateReservationRequest initiateReservationRequest = new InitiateReservationRequest();
 	initiateReservationRequest.setPickupLocationId(pickupLocation);
 	initiateReservationRequest.setReturnLocationId(returnLocation);
-	initiateReservationRequest.setPickupTime(pickupdate + pickuptime);
-	initiateReservationRequest.setReturnTime(returndate + returntime);
+	initiateReservationRequest.setPickupTime(pickupDateTime);
+	initiateReservationRequest.setReturnTime(returnDateTime);
 	return initiateReservationRequest;
     }
 
