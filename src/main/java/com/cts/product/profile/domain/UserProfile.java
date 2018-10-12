@@ -3,11 +3,9 @@ package com.cts.product.profile.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"firstName", "lastName", "username", "mobileNo", "emailId", "password", "dateOfBirth", "carTypePref", "preferences"})
+@JsonPropertyOrder({ "firstName", "lastName", "username", "mobileNo", "emailId", "password", "dateOfBirth",
+	"carTypePref", "preferences" })
 public class UserProfile {
 
     private String firstName;
@@ -17,23 +15,30 @@ public class UserProfile {
     private String emailId;
     private String password;
     private String dateOfBirth;
-    private String carTypePref;
-    private List<Preference> preferences;
+    private String authToken;
+    private String individualId;
+    private String loyaltyNumber;
+    private String loyaltyProgram;
+    private String encryptedCredential;
+    private Boolean creditCardNearExpiration;
+    private Boolean creditCardExpired;
+    private Boolean driverLicenseExpired;
+    private Boolean driverLicenseNearExpiration;
 
     public String getFirstName() {
-        return firstName;
+	return firstName;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+	this.firstName = firstName;
     }
 
     public String getLastName() {
-        return lastName;
+	return lastName;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+	this.lastName = lastName;
     }
 
     public String getUsername() {
@@ -76,18 +81,76 @@ public class UserProfile {
 	this.dateOfBirth = dateOfBirth;
     }
 
-    public String getCarTypePref() {
-        return carTypePref;
+    public String getAuthToken() {
+	return authToken;
     }
 
-    public void setCarTypePref(String carTypePref) {
-        this.carTypePref = carTypePref;
+    public void setAuthToken(String authToken) {
+	this.authToken = authToken;
     }
 
-    public List<Preference> getPreferences() {
-	if (preferences == null) {
-	    preferences = new ArrayList<Preference>();
-	}
-	return preferences;
+    public String getIndividualId() {
+	return individualId;
     }
+
+    public void setIndividualId(String individualId) {
+	this.individualId = individualId;
+    }
+
+    public String getLoyaltyNumber() {
+	return loyaltyNumber;
+    }
+
+    public void setLoyaltyNumber(String loyaltyNumber) {
+	this.loyaltyNumber = loyaltyNumber;
+    }
+
+    public String getLoyaltyProgram() {
+	return loyaltyProgram;
+    }
+
+    public void setLoyaltyProgram(String loyaltyProgram) {
+	this.loyaltyProgram = loyaltyProgram;
+    }
+
+    public String getEncryptedCredential() {
+	return encryptedCredential;
+    }
+
+    public void setEncryptedCredential(String encryptedCredential) {
+	this.encryptedCredential = encryptedCredential;
+    }
+
+    public boolean isCreditCardNearExpiration() {
+	return creditCardNearExpiration;
+    }
+
+    public void setCreditCardNearExpiration(Boolean creditCardNearExpiration) {
+	this.creditCardNearExpiration = creditCardNearExpiration;
+    }
+
+    public Boolean isCreditCardExpired() {
+	return creditCardExpired;
+    }
+
+    public void setCreditCardExpired(Boolean creditCardExpired) {
+	this.creditCardExpired = creditCardExpired;
+    }
+
+    public Boolean isDriverLicenseExpired() {
+	return driverLicenseExpired;
+    }
+
+    public void setDriverLicenseExpired(Boolean driverLicenseExpired) {
+	this.driverLicenseExpired = driverLicenseExpired;
+    }
+
+    public Boolean isDriverLicenseNearExpiration() {
+	return driverLicenseNearExpiration;
+    }
+
+    public void setDriverLicenseNearExpiration(Boolean driverLicenseNearExpiration) {
+	this.driverLicenseNearExpiration = driverLicenseNearExpiration;
+    }
+
 }
