@@ -20,10 +20,10 @@ public class ReservationMapper {
 	String pickupDateTime = pickupdate + pickuptime;
 	DateTime pikupDate = new DateTime(pickupDateTime);
 	Integer duration = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getDuration();
-	DateTime rtrnDate = pikupDate;
-	rtrnDate.plusDays(duration);
-	DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-ddTHH:mm");
+	DateTime rtrnDate = pikupDate.plusDays(duration);
+	DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
 	String returnDateTime = dtf.print(rtrnDate);
+	pickupDateTime = dtf.print(pikupDate);
 	String pickupLocation = "STLT61";
 	String returnLocation = pickupLocation;
 	InitiateReservationRequest initiateReservationRequest = new InitiateReservationRequest();

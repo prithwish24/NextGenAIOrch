@@ -61,7 +61,7 @@ public class ProfileController {
 		}
 	    }
 	}
-	LOG.info("Exisiting from login service");
+	LOG.info("Exiting from login service");
 	return bp;
     }
 

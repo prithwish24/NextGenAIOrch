@@ -28,23 +28,20 @@ public class RentalController {
     private ReservationServiceDelegate reservationServiceDelegate;
 
     @RequestMapping(value = "/initiate", method = RequestMethod.POST)
-    public RentalResponse initiateReservation(
-    		@Valid @RequestBody RentalRequest initiateReservationRequest,
-    		HttpServletRequest request, 
-    		@PathVariable("brand") String brand, 
-    		@PathVariable("channel") String channel,
-    		@RequestHeader HttpHeaders headers) throws Exception {
-    	LOG.info("Entering initiateReservation service");
-    	
-    	RentalResponse response = null;
-		try {
-			response = reservationServiceDelegate.delegate(initiateReservationRequest, brand, channel, headers);
-		} catch (Exception e) {
-			throw e;
-		}
-		
-    	LOG.info("Exisiting from initiateReservation service");
-    	return response;
+    public RentalResponse initiateReservation(@Valid @RequestBody RentalRequest initiateReservationRequest,
+	    HttpServletRequest request, @PathVariable("brand") String brand, @PathVariable("channel") String channel,
+	    @RequestHeader HttpHeaders headers) throws Exception {
+	LOG.info("Entering initiateReservation service");
+
+	RentalResponse response = null;
+	try {
+	    response = reservationServiceDelegate.delegate(initiateReservationRequest, brand, channel, headers);
+	} catch (Exception e) {
+	    throw e;
+	}
+
+	LOG.info("Exiting from initiateReservation service");
+	return response;
     }
 
 }
