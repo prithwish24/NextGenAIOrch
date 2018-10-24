@@ -16,6 +16,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 	"duration.original" })
 public class Parameters {
 
+    @JsonProperty("pickuplocation")
+    private String pickuplocation;
     @JsonProperty("pickuptime")
     private String pickuptime;
     @JsonProperty("duration")
@@ -34,6 +36,15 @@ public class Parameters {
     private String returntime;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonProperty("pickuplocation")
+    public String getPickuplocation() {
+	return pickuplocation;
+    }
+
+    public void setPickuplocation(String pickuplocation) {
+	this.pickuplocation = pickuplocation;
+    }
 
     @JsonProperty("pickuptime")
     public String getPickuptime() {

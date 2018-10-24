@@ -24,7 +24,8 @@ public class ReservationMapper {
 	DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
 	String returnDateTime = dtf.print(rtrnDate);
 	pickupDateTime = dtf.print(pikupDate);
-	String pickupLocation = "STLT61";
+	String pickupLocation = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters()
+		.getPickuplocation();
 	String returnLocation = pickupLocation;
 	InitiateReservationRequest initiateReservationRequest = new InitiateReservationRequest();
 	initiateReservationRequest.setPickupLocationId(pickupLocation);
