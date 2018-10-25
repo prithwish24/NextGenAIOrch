@@ -10,27 +10,28 @@ printf "${RED}Stoping service..${NC}"
 echo
 
 sudo service nextgen-ai-orch stop
+sleep 30
 
 echo
 printf "${LBLUE}Copying deployable package..${NC}"
 echo
 
-sudo rm -f /opt/app/nextgen-ai-orch.jar
-sudo cp ./target/nextgen-ai-orch.jar /opt/app/nextgen-ai-orch.jar
+sudo rm -f /opt/app/nextgen-ai-orch.war
+sudo cp ./target/nextgen-ai-orch.war /opt/app/nextgen-ai-orch.jar
 
 echo
 printf "${LBLUE}Updating execute permission..${NC}"
 echo 
 
-sudo chown ec2-user:root /opt/app/nextgen-ai-orch.jar
-sudo chmod 755 /opt/app/nextgen-ai-orch.jar
+sudo chown ec2-user:ec2-user /opt/app/nextgen-ai-orch.jar
+sudo chmod 555 /opt/app/nextgen-ai-orch.jar
 
 echo
 printf "${LGREEN}Setting log permission..${NC}"
 echo
 
-sudo chown ec2-user /opt/logs/ngrental.log
-sudo chmod 764 /opt/logs/ngrental.log
+sudo chown ec2-user:ec2-user /opt/logs/ngrental.log
+sudo chmod 664 /opt/logs/ngrental.log
 
 echo
 printf "${LGREEN}Starting service..${NC}"
