@@ -17,34 +17,34 @@ import com.cts.product.rental.service.RentalService;
 
 @Service
 public class ReservationServiceDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(ReservationServiceDelegate.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ReservationServiceDelegate.class);
 
-    @Autowired
-    private RentalService reservationService;
+	@Autowired
+	private RentalService reservationService;
 
-    public RentalResponse delegate(RentalRequest reservationRequest, String brand, String channel, HttpHeaders headers)
-	    throws Exception {
-	RentalResponse rentalResponse = new RentalResponse();
-	String action = "";
-	if (reservationRequest.getQueryResult() != null && reservationRequest.getQueryResult().getAction() != null) {
-	    action = reservationRequest.getQueryResult().getAction().trim();
-	    LOG.debug("action : " + action);
-	} else {
-	    LOG.debug("action is empty : " + action.isEmpty());
+	public RentalResponse delegate(RentalRequest reservationRequest, String brand, String channel, HttpHeaders headers)
+			throws Exception {
+		RentalResponse rentalResponse = new RentalResponse();
+		String action = "";
+		if (reservationRequest.getQueryResult() != null && reservationRequest.getQueryResult().getAction() != null) {
+			action = reservationRequest.getQueryResult().getAction().trim();
+			LOG.debug("action : " + action);
+		} else {
+			LOG.debug("action is empty : " + action.isEmpty());
+		}
+
+		switch (action) {
+		case "initiateReservation":
+			InitiateReservationRequest initiateReservationRequest = ReservationMapper.mapRequest(reservationRequest);
+			ReservationResponse reservationResponse = reservationService.initiate(initiateReservationRequest, brand,
+					channel, headers);
+			rentalResponse = ReservationMapper.mapResponse(reservationResponse);
+			break;
+		default:
+			throw new IOException("Undefined action (" + action + ")");
+		}
+
+		LOG.debug("response: " + rentalResponse);
+		return rentalResponse;
 	}
-
-	switch (action) {
-	case "initiateReservation":
-	    InitiateReservationRequest initiateReservationRequest = ReservationMapper.mapRequest(reservationRequest);
-	    ReservationResponse reservationResponse = reservationService.initiate(initiateReservationRequest, brand,
-		    channel, headers);
-	    rentalResponse = ReservationMapper.mapResponse(reservationResponse);
-	    break;
-	default:
-	    throw new IOException("Undefined action (" + action + ")");
-	}
-
-	LOG.debug("response: " + rentalResponse);
-	return rentalResponse;
-    }
 }

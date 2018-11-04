@@ -13,8 +13,11 @@ public class Application {
     public static final Logger LOG = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
-	LOG.info("Application initializing...");
-	new SpringApplicationBuilder(Application.class).bannerMode(Banner.Mode.CONSOLE).logStartupInfo(true).run(args);
+    	LOG.info("Application initializing...");
+    	new SpringApplicationBuilder(Application.class)
+    		.bannerMode(Banner.Mode.CONSOLE)
+    		.logStartupInfo(true)
+    		.run(args);
     }
 
 }
