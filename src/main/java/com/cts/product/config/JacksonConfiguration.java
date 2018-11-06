@@ -26,19 +26,12 @@ public class JacksonConfiguration {
     }
     
     
-	private ObjectMapper mapper;
-	JacksonConfiguration(final ObjectMapper objectMapper) {
-		super();
-		this.mapper = objectMapper;
-	}
-	
-    
     public String toJson(final Object instance) throws IOException {
-      return mapper.writeValueAsString(instance);
+      return jackson2ObjectMapperBuilder().writeValueAsString(instance);
     }
 
     public <T> T fromJson(final String json, final Class<T> clazz) throws IOException {
-      return mapper.readValue(json, clazz);
+      return jackson2ObjectMapperBuilder().readValue(json, clazz);
     }
     
 }

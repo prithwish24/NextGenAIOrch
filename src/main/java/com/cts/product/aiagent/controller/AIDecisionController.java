@@ -1,6 +1,7 @@
 package com.cts.product.aiagent.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cts.product.aiagent.converter.RequestConverter;
+import com.cts.product.aiagent.dto.Airport;
+import com.cts.product.aiagent.dto.FollowupEventInput;
+import com.cts.product.aiagent.dto.FulfillmentMessage;
 import com.cts.product.aiagent.dto.InputRequest;
 import com.cts.product.aiagent.dto.Intent;
 import com.cts.product.aiagent.dto.OutputContext;
 import com.cts.product.aiagent.dto.OutputResponse;
 import com.cts.product.aiagent.dto.Parameters;
+import com.cts.product.aiagent.dto.QueryResult;
+import com.cts.product.aiagent.dto.Text;
 import com.cts.product.lrd.Location;
 import com.cts.product.lrd.LocationService;
 import com.cts.product.rental.delegate.ReservationServiceDelegate;
@@ -28,6 +34,7 @@ import com.cts.product.rental.delegate.ReservationServiceDelegate;
 @RequestMapping("/services")
 public class AIDecisionController {
 	private static final String CARRENTAL = "carrental";
+	private static final String ACTION_SPLIT_DELIM = ".";
 
 	@Autowired	private LocationService locationService;
 	@Autowired	private RequestConverter requestConverter;
@@ -55,40 +62,81 @@ public class AIDecisionController {
 			return response;
 		}
 		
-		switch (request.getQueryResult().getAction()) {
-			case "greetings":
-				response = userGreetings(request);
-				break;
-			case "initiateRental":
-				validateInitiateRentalData(request, response);
-				if (hasOutputError(response)) 	break;
-				response = getAvailableCarClasses(request);
-				break;
-			case "searchBranchesFromGps":
-				response = searchBranchByGPSLocation(request);
-				break;
-			case "findRentalOffice":
-				response = findRentalBranches(request);
-				break;
-			default:
-				response = new OutputResponse();
-				response.setError(997, "Invalid 'action' parameter");
+		final String [] actionTokens = StringUtils.split(request.getQueryResult().getAction(), ACTION_SPLIT_DELIM, 2);
+		if (actionTokens.length == 2 && "decision".equalsIgnoreCase(actionTokens[0])) {
+			switch (actionTokens[1]) {
+				case "initiate.request":
+					initiateRequest(request, response);
+					
+					break;
+				default:
+					response = new OutputResponse();
+					response.setError(997, "Invalid 'action' parameter");
+			}
+		} else {
+			switch (request.getQueryResult().getAction()) {
+				case "greetings":
+					response = userGreetings(request);
+					break;
+				case "initiateRental":
+					validateInitiateRentalData(request, response);
+					if (hasOutputError(response)) 	break;
+					response = getAvailableCarClasses(request);
+					break;
+				case "searchBranchesFromGps":
+					response = searchBranchByGPSLocation(request);
+					break;
+				case "findRentalOffice":
+					response = findRentalBranches(request);
+					break;
+				default:
+					response = new OutputResponse();
+					response.setError(997, "Invalid 'action' parameter");
+			}
 		}
 		
 		return response; 
 	}
 
 	
+	private void initiateRequest(final InputRequest request, final OutputResponse response) {
+		final OutputContext rentalContext = getCarRentalContext(request);
+		final Parameters p = rentalContext.getParameters();
+
+		// Check location
+		if (StringUtils.isAllBlank(p.getGeoCity(), p.getAddress(), p.getZipCode())) {
+			//addFulfilmentMessage(response, "From where you want to rent the vehicle?");
+			//addFulfilmentEvent(response, "");
+			return;
+		}
+		
+		if (StringUtils.isAnyBlank(p.getDate(), p.getTime())) {
+			addFulfilmentMessage(response, "When do you want to pickup the vehicle?");
+			addFulfilmentEvent(response, "");
+			return;
+		}
+		
+		if (StringUtils.isBlank(p.getDuration())) {
+			addFulfilmentMessage(response, "How long you need this car?");
+			addFulfilmentEvent(response, "");
+			return;
+		}
+
+		if (StringUtils.isBlank(p.getCarclass())) {
+			addFulfilmentMessage(response, "What size of car you want? Mid-size, Standard or Full-size.");
+			addFulfilmentEvent(response, "");
+			return;
+		}
+		
+		addAllContexts(response, request.getQueryResult().getOutputContexts());
+	}
+
 	private OutputResponse getAvailableCarClasses(InputRequest request) {
 		OutputContext rentalContext = getCarRentalContext(request);
 		final Parameters parameters = rentalContext.getParameters();
 		
-		
-		
 		return null;
 	}
-
-
 
 
 	/**
@@ -101,25 +149,77 @@ public class AIDecisionController {
 		OutputContext rentalContext = getCarRentalContext(request);
 		final Parameters parameters = rentalContext.getParameters();
 		
-		if (StringUtils.isNoneBlank(
-				parameters.getTypeofservice(),
-				parameters.getLocation(),
+		/*if (StringUtils.isAllBlank(
+				parameters.getAirport(),
+				parameters.getAddress())) {
+			response.setError(110, "Cannot determine pickup location");
+			addFulfilmentMessage(response, "What location would you like to rent from?");
+			return;
+			
+		} else {
+			if (StringUtils.isNoneEmpty(parameters.getAirport())) {
+				Airport airport = requestConverter.convertAirport(parameters.getAirport());
+				if (airport == null) {
+					response.setError(110, "Cannot determine pickup location");
+					addFulfilmentMessage(response, "I could not find any airport named "+parameters.getAirport()+". Can you repeat it once again?");
+					return;
+				} else if (!airport.getCountry().contains("United States of America")) {
+					response.setError(111, "Pickup location currently not supported");
+					addFulfilmentMessage(response, "Pickup location currently not supported");
+				}
+			} else if (StringUtils.isBlank(parameters.getAddress())) {
+				response.setError(110, "Cannot determine pickup location");
+				addFulfilmentMessage(response, "What location would you like to rent from?");
+				return;
+			}
+		}*/
+		
+		/*if (requestConverter.convertLocation(parameters.getLocation()) == null) {
+			response.setError(110, "Cannot determine Location");
+			return;
+		}*/
+
+		/*if (StringUtils.isAllBlank(
 				parameters.getDate(),
 				parameters.getTime())) {
-			
-			if (requestConverter.convertLocation(parameters.getLocation()) == null) {
-				response.setError(110, "Cannot determine Location");
-				return;
-			}
-			
 			if (requestConverter.convertDateTime(parameters.getDate(), parameters.getTime()) == null) {
-				response.setError(111, "Invalid pickup date and/or time");
+				response.setError(120, "Invalid pickup date and/or time");
 				return;
 			}
-		}
+			
+		} else {
+			response.setError(1, "incomplete request");
+		}*/
 
 	}
 
+	private void addFulfilmentMessage(final OutputResponse response, final String messageText) {
+		if (response.getQueryResult() == null) {
+			response.setQueryResult(new QueryResult());
+		}
+		response.getQueryResult().setFulfillmentText(messageText);
+		
+		FulfillmentMessage fulfillmentMessage = new FulfillmentMessage();
+		response.getQueryResult().addFulfillmentMessage(fulfillmentMessage);
+		
+		Text text = new Text();
+		fulfillmentMessage.setText(text);
+		text.addText(messageText);
+	}
+
+	private void addFulfilmentEvent(OutputResponse response, String event) {
+		FollowupEventInput followupEvent = new FollowupEventInput();
+		followupEvent.setName(event);
+		response.setFollowupEvent(followupEvent);
+	}
+	
+	private void addAllContexts(OutputResponse response, List<OutputContext> outputContexts) {
+		if (response.getQueryResult() == null) {
+			response.setQueryResult(new QueryResult());
+		}
+		response.getQueryResult().setOutputContexts(outputContexts);
+	}
+	
 	private OutputResponse userGreetings(InputRequest request) {
 		OutputResponse response = new OutputResponse();
 		response.setQueryResult(request.getQueryResult());
