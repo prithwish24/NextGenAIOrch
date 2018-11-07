@@ -5,10 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
-@ComponentScan(basePackages = { "com.cts.product" })
+@SpringBootApplication 
+/*@ComponentScan(basePackages = { 
+		"com.cts.product", 
+		"com.cts.product.config", 
+		"com.cts.product.aiagent", 
+		"com.cts.product.rental" 
+		})*/
 public class Application {
     public static final Logger LOG = LoggerFactory.getLogger(Application.class);
 
