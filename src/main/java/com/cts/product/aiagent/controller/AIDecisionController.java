@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cts.product.aiagent.converter.RequestConverter;
-import com.cts.product.aiagent.dto.Airport;
 import com.cts.product.aiagent.dto.FollowupEventInput;
 import com.cts.product.aiagent.dto.FulfillmentMessage;
 import com.cts.product.aiagent.dto.InputRequest;
