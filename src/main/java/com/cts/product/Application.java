@@ -6,13 +6,12 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-@SpringBootApplication 
-/*@ComponentScan(basePackages = { 
+@SpringBootApplication (scanBasePackages = { 
 		"com.cts.product", 
 		"com.cts.product.config", 
 		"com.cts.product.aiagent", 
 		"com.cts.product.rental" 
-		})*/
+		})
 public class Application {
     public static final Logger LOG = LoggerFactory.getLogger(Application.class);
 
