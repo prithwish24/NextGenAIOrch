@@ -2,6 +2,7 @@ package com.cts.product.aiagent.dto;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties
@@ -9,8 +10,8 @@ public class OutputResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public enum Status {SUCCESS, ERROR};
 	
-	private ErrorType error;
-	private String status;
+	@JsonIgnore	private ErrorType error; 		// LOGGING purpose onlys
+	@JsonIgnore	private String status;
 	private String responseId;
 	private String session;
 	private QueryResult queryResult;
