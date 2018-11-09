@@ -27,6 +27,7 @@ import com.cts.product.aiagent.dto.Text;
 import com.cts.product.lrd.Location;
 import com.cts.product.lrd.LocationService;
 import com.cts.product.rental.delegate.ReservationServiceDelegate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
@@ -74,9 +75,9 @@ public class AIDecisionController {
 			}
 		} else {
 			switch (request.getQueryResult().getAction()) {
-				case "greetings":
+				/*case "greetings":
 					response = userGreetings(request);
-					break;
+					break;*/
 				case "initiateRental":
 					validateInitiateRentalData(request, response);
 					if (hasOutputError(response)) 	break;
@@ -94,6 +95,8 @@ public class AIDecisionController {
 			}
 		}
 		
+		System.out.println(new ObjectMapper().writeValueAsString(response));
+		
 		return response; 
 	}
 
@@ -103,7 +106,7 @@ public class AIDecisionController {
 		final Parameters p = rentalContext.getParameters();
 
 		// Check location
-		if (StringUtils.isAllBlank(p.getGeoCity(), p.getAddress(), p.getZipCode())) {
+		if (StringUtils.isAllBlank(p.getAirportCode(), p.getGeoCity(), p.getAddress(), p.getZipCode())) {
 			//addFulfilmentMessage(response, "From where you want to rent the vehicle?");
 			//addFulfilmentEvent(response, "");
 			return;
@@ -111,19 +114,19 @@ public class AIDecisionController {
 		
 		if (StringUtils.isAnyBlank(p.getDate(), p.getTime())) {
 			addFulfilmentMessage(response, "When do you want to pickup the vehicle?");
-			addFulfilmentEvent(response, "");
+			addFulfilmentEvent(response, "EVNT_DATETIME_CALLBACK");
 			return;
 		}
 		
 		if (StringUtils.isBlank(p.getDuration())) {
 			addFulfilmentMessage(response, "How long you need this car?");
-			addFulfilmentEvent(response, "");
+			addFulfilmentEvent(response, "EVNT_RENTDURATION_CALLBACK");
 			return;
 		}
 
 		if (StringUtils.isBlank(p.getCarclass())) {
 			addFulfilmentMessage(response, "What size of car you want? Mid-size, Standard or Full-size.");
-			addFulfilmentEvent(response, "");
+			addFulfilmentEvent(response, "EVNT_CARCLASS_CALLBACK");
 			return;
 		}
 		
@@ -193,13 +196,9 @@ public class AIDecisionController {
 	}
 
 	private void addFulfilmentMessage(final OutputResponse response, final String messageText) {
-		if (response.getQueryResult() == null) {
-			response.setQueryResult(new QueryResult());
-		}
-		response.getQueryResult().setFulfillmentText(messageText);
-		
+		response.setFulfillmentText(messageText);
 		FulfillmentMessage fulfillmentMessage = new FulfillmentMessage();
-		response.getQueryResult().addFulfillmentMessage(fulfillmentMessage);
+		response.addFulfillmentMessage(fulfillmentMessage);
 		
 		Text text = new Text();
 		fulfillmentMessage.setText(text);
@@ -209,22 +208,14 @@ public class AIDecisionController {
 	private void addFulfilmentEvent(OutputResponse response, String event) {
 		FollowupEventInput followupEvent = new FollowupEventInput();
 		followupEvent.setName(event);
+		followupEvent.setLanguageCode("en-US");
 		response.setFollowupEvent(followupEvent);
 	}
 	
 	private void addAllContexts(OutputResponse response, List<OutputContext> outputContexts) {
-		if (response.getQueryResult() == null) {
-			response.setQueryResult(new QueryResult());
-		}
-		response.getQueryResult().setOutputContexts(outputContexts);
+		response.setOutputContexts(outputContexts);
 	}
 	
-	private OutputResponse userGreetings(InputRequest request) {
-		OutputResponse response = new OutputResponse();
-		response.setQueryResult(request.getQueryResult());
-		return response;
-	}
-
 	private boolean hasOutputError (final OutputResponse response) {
 		return (response.getError().getCode() != 0);
 	}
@@ -244,20 +235,20 @@ public class AIDecisionController {
 	
 	private OutputResponse searchBranchByGPSLocation (final InputRequest request) {
 		OutputResponse response = new OutputResponse();
-		response.setQueryResult(request.getQueryResult());
+		response.setOutputContexts(request.getQueryResult().getOutputContexts());
 		return response;
 	}
 	
 	private OutputResponse findRentalBranches ( final InputRequest request ) {
 		OutputResponse response = new OutputResponse();
-		response.setQueryResult(request.getQueryResult());
+		/*response.setQueryResult(request.getQueryResult());
 		
 		response.getQueryResult().getOutputContexts().stream().forEach(ctx -> {
 			if (ctx.getName().endsWith(CARRENTAL)) {
 				Location ehiLoc = locationService.findBranchByLocation(ctx.getParameters().getPickupLocation());
 				ctx.getParameters().setBranchCode(ehiLoc.getCode());
 			}
-		});
+		});*/
 		
 		return response;
 	}
