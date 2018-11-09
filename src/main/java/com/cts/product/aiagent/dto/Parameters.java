@@ -15,6 +15,7 @@ public class Parameters {
     
     
     // Input parameters
+    @JsonProperty("airport")		private String airportCode;
     @JsonProperty("geo-city")		private String geoCity;
     @JsonProperty("zip-code")		private String zipCode;
     @JsonProperty("address")		private String address;
@@ -59,6 +60,12 @@ public class Parameters {
 	}
 	public void setGeoCity(String geoCity) {
 		this.geoCity = geoCity;
+	}
+	public String getAirportCode() {
+		return airportCode;
+	}
+	public void setAirportCode(String airportCode) {
+		this.airportCode = airportCode;
 	}
 	public String getZipCode() {
 		return zipCode;

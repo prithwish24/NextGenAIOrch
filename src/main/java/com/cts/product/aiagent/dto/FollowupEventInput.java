@@ -2,11 +2,11 @@ package com.cts.product.aiagent.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class FollowupEventInput {
-	@JsonProperty("name") 	private String name;
+	@JsonProperty("name") 			private String name;
 	@JsonProperty("languageCode") 	private String languageCode;
 	@JsonProperty("parameters") 	private String parameters;
+	
 	public String getName() {
 		return name;
 	}

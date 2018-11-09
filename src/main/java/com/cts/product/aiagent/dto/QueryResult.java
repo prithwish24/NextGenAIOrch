@@ -5,13 +5,15 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
-@JsonIgnoreProperties
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonRootName("queryResult")
 public class QueryResult {
-	@JsonProperty("action")				private String action;
-	@JsonProperty("queryText")			private String queryText;
-	@JsonProperty("languageCode")		private String languageCode;
-	@JsonProperty("fulfillmentText")	private String fulfillmentText;
+	@JsonProperty("action")					private String action;
+	@JsonProperty("queryText")				private String queryText;
+	@JsonProperty("languageCode")			private String languageCode;
+	@JsonProperty("fulfillmentText")		private String fulfillmentText;
 	
 	@JsonProperty("parameters")				private Parameter parameters;
 	@JsonProperty("outputContexts")			private List<OutputContext> outputContexts;
@@ -62,6 +64,11 @@ public class QueryResult {
 	public void setOutputContexts(List<OutputContext> outputContexts) {
 		this.outputContexts = outputContexts;
 	}
+	public void addOutputContext(OutputContext outputContext) {
+		if (this.outputContexts == null) 
+			this.outputContexts = new ArrayList<>();
+		this.outputContexts.add(outputContext);
+	}
 	public List<FulfillmentMessage> getFulfillmentMessages() {
 		return fulfillmentMessages;
 	}
@@ -69,9 +76,8 @@ public class QueryResult {
 		this.fulfillmentMessages = fulfillmentMessages;
 	}
 	public void addFulfillmentMessage(FulfillmentMessage fulfillmentMessage) {
-		if (this.fulfillmentMessages == null) {
+		if (this.fulfillmentMessages == null)
 			this.fulfillmentMessages = new ArrayList<>();
-		}
 		this.fulfillmentMessages.add(fulfillmentMessage);
 	}
 }
