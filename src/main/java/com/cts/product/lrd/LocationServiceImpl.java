@@ -1,14 +1,13 @@
 package com.cts.product.lrd;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.cts.product.aiagent.dto.Airport;
 import com.cts.product.aiagent.dto.Location;
 
 @Service
 public class LocationServiceImpl implements LocationService {
 
-	@Override
 	public com.cts.product.lrd.Location findBranchByLocation(Location location) {
 		com.cts.product.lrd.Location loc = null; 
 		// TODO  
@@ -40,6 +39,18 @@ public class LocationServiceImpl implements LocationService {
 	public String findLocationByGpsLocation(long lat, long lng) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String findBranch(Airport airport) {
+		// TODO Auto-generated method stub		
+		return "STLT01";
+	}
+
+	@Override
+	public String findBranch(String locationStr) {
+		// TODO Auto-generated method stub
+		return "STLT01";
 	}
 
 }

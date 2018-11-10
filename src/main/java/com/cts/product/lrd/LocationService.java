@@ -1,8 +1,9 @@
 package com.cts.product.lrd;
 
-import com.cts.product.aiagent.dto.Location;
+import com.cts.product.aiagent.dto.Airport;
 
 public interface LocationService {
-	com.cts.product.lrd.Location findBranchByLocation(Location location);
-	String findLocationByGpsLocation(long lat, long lng); 
+	String findLocationByGpsLocation(long lat, long lng);
+	String findBranch(Airport airport);
+	String findBranch(String locationStr);
 }

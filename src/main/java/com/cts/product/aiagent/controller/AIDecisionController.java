@@ -22,9 +22,7 @@ import com.cts.product.aiagent.dto.Intent;
 import com.cts.product.aiagent.dto.OutputContext;
 import com.cts.product.aiagent.dto.OutputResponse;
 import com.cts.product.aiagent.dto.Parameters;
-import com.cts.product.aiagent.dto.QueryResult;
 import com.cts.product.aiagent.dto.Text;
-import com.cts.product.lrd.Location;
 import com.cts.product.lrd.LocationService;
 import com.cts.product.rental.delegate.ReservationServiceDelegate;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -67,17 +65,19 @@ public class AIDecisionController {
 			switch (actionTokens[1]) {
 				case "initiate.request":
 					initiateRequest(request, response);
-					
+					break;
+				case "nameverify.request":
+					renterInfoRequest(request, response);
 					break;
 				default:
 					response = new OutputResponse();
 					response.setError(997, "Invalid 'action' parameter");
 			}
 		} else {
-			switch (request.getQueryResult().getAction()) {
-				/*case "greetings":
+			/*switch (request.getQueryResult().getAction()) {
+				case "greetings":
 					response = userGreetings(request);
-					break;*/
+					break;
 				case "initiateRental":
 					validateInitiateRentalData(request, response);
 					if (hasOutputError(response)) 	break;
@@ -92,7 +92,7 @@ public class AIDecisionController {
 				default:
 					response = new OutputResponse();
 					response.setError(997, "Invalid 'action' parameter");
-			}
+			}*/
 		}
 		
 		System.out.println(new ObjectMapper().writeValueAsString(response));
@@ -101,20 +101,37 @@ public class AIDecisionController {
 	}
 
 	
+	private void renterInfoRequest(InputRequest request, OutputResponse response) {
+		final OutputContext rentalContext = getCarRentalContext(request);
+		final Parameters p = rentalContext.getParameters();
+		if (StringUtils.isAllBlank(p.getFirstName(), p.getLastName())) {
+			addFulfilmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
+			return;
+		}
+	}
+
+
 	private void initiateRequest(final InputRequest request, final OutputResponse response) {
 		final OutputContext rentalContext = getCarRentalContext(request);
 		final Parameters p = rentalContext.getParameters();
 
 		// Check location
-		if (StringUtils.isAllBlank(p.getAirportCode(), p.getGeoCity(), p.getAddress(), p.getZipCode())) {
-			//addFulfilmentMessage(response, "From where you want to rent the vehicle?");
-			//addFulfilmentEvent(response, "");
+		if ( (p.getAirport() == null) || StringUtils.isAllBlank(p.getAddress(), p.getGeoCity(), p.getZipCode())) {
 			return;
+		} else {
+			String branchCd = findRentalBranches(p);
+			if (branchCd != null) {
+				p.setBranchCode(branchCd);
+				//response.addOutputContext(rentalContext);
+			} else {
+				addFulfilmentMessage(response, "I could not find matching location. Can you please tell me your pickup location again?");
+				return;
+			}
 		}
 		
 		if (StringUtils.isAnyBlank(p.getDate(), p.getTime())) {
-			addFulfilmentMessage(response, "When do you want to pickup the vehicle?");
-			addFulfilmentEvent(response, "EVNT_DATETIME_CALLBACK");
+			addFulfilmentMessage(response, "When do you want to rent the vehicle?");
+			addFulfilmentEvent(response, "EVNT_DATE_CALLBACK");
 			return;
 		}
 		
@@ -239,18 +256,19 @@ public class AIDecisionController {
 		return response;
 	}
 	
-	private OutputResponse findRentalBranches ( final InputRequest request ) {
-		OutputResponse response = new OutputResponse();
-		/*response.setQueryResult(request.getQueryResult());
+	private String findRentalBranches(final Parameters p) {
+		String branchCode = null;
+		if (p.getAirport() != null) {
+			branchCode = locationService.findBranch(p.getAirport());
+		} else if (p.getGeoCity() != null) {
+			branchCode = locationService.findBranch(p.getGeoCity());
+		} else if (p.getAddress() != null) {
+			branchCode = locationService.findBranch(p.getAddress());
+		} else if (p.getZipCode() != null) {
+			branchCode = locationService.findBranch(p.getZipCode());
+		}
 		
-		response.getQueryResult().getOutputContexts().stream().forEach(ctx -> {
-			if (ctx.getName().endsWith(CARRENTAL)) {
-				Location ehiLoc = locationService.findBranchByLocation(ctx.getParameters().getPickupLocation());
-				ctx.getParameters().setBranchCode(ehiLoc.getCode());
-			}
-		});*/
-		
-		return response;
+		return branchCode;
 	}
 
 	private OutputContext getCarRentalContext (final InputRequest request) {

@@ -15,7 +15,7 @@ public class Parameters {
     
     
     // Input parameters
-    @JsonProperty("airport")		private String airportCode;
+    @JsonProperty("airport")		private Airport airport;
     @JsonProperty("geo-city")		private String geoCity;
     @JsonProperty("zip-code")		private String zipCode;
     @JsonProperty("address")		private String address;
@@ -24,6 +24,8 @@ public class Parameters {
     @JsonProperty("car-class")		private String carclass;
     @JsonProperty("duration")		private String duration;
     @JsonProperty("date-period")	private String datePeriod;
+    @JsonProperty("firstname")		private String firstName;
+    @JsonProperty("lastname")		private String lastName;
     
     
     // Output parameters
@@ -61,11 +63,11 @@ public class Parameters {
 	public void setGeoCity(String geoCity) {
 		this.geoCity = geoCity;
 	}
-	public String getAirportCode() {
-		return airportCode;
+	public Airport getAirport() {
+		return airport;
 	}
-	public void setAirportCode(String airportCode) {
-		this.airportCode = airportCode;
+	public void setAirport(Airport airport) {
+		this.airport = airport;
 	}
 	public String getZipCode() {
 		return zipCode;
@@ -108,6 +110,18 @@ public class Parameters {
 	}
 	public void setDatePeriod(String datePeriod) {
 		this.datePeriod = datePeriod;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	public String getBranchCode() {
 		return branchCode;
