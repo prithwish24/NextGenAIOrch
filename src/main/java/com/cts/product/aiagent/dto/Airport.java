@@ -1,9 +1,11 @@
 package com.cts.product.aiagent.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Airport {
 	@JsonProperty("country")	private String country;
 	@JsonProperty("city")		private String city;

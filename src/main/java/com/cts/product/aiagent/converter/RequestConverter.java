@@ -15,8 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cts.product.aiagent.dto.Airport;
+import com.cts.product.aiagent.dto.FulfilmentPayload;
 import com.cts.product.aiagent.dto.Location;
 import com.cts.product.config.JacksonConfiguration;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @Component
 public final class RequestConverter {
@@ -73,4 +75,23 @@ public final class RequestConverter {
 		}
 		return null;
 	}
+
+	public <T> T convertFulfilmentPayload(String payload, Class<T> clazz) {
+		try {
+			return jacksonConfiguration.fromJson(payload, clazz);
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+		return null;
+	}
+	
+	public <T> T convertFulfilmentPayload(JsonNode payload, Class<T> clazz) {
+		try {
+			return jacksonConfiguration.fromJsonNode(payload, clazz);
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+		return null;
+	}
+
 }

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 //@JsonIgnoreProperties
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Parameters {
     @JsonProperty("geolocation")	private String geoLocation;
     @JsonProperty("localtime")	    private String localTime;
@@ -16,6 +16,7 @@ public class Parameters {
     
     // Input parameters
     @JsonProperty("airport")		private Airport airport;
+    //@JsonProperty("airport")		private String airport;
     @JsonProperty("geo-city")		private String geoCity;
     @JsonProperty("zip-code")		private String zipCode;
     @JsonProperty("address")		private String address;

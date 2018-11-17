@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.couchbase.client.deps.com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -34,4 +35,7 @@ public class JacksonConfiguration {
       return jackson2ObjectMapperBuilder().readValue(json, clazz);
     }
     
+    public <T> T fromJsonNode(final TreeNode jsonNode, final Class<T> clazz) throws IOException {
+        return jackson2ObjectMapperBuilder().treeToValue(jsonNode, clazz);
+    }
 }

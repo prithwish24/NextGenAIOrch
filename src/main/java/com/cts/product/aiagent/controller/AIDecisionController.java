@@ -1,7 +1,11 @@
 package com.cts.product.aiagent.controller;
 
 import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cts.product.aiagent.converter.RequestConverter;
+import com.cts.product.aiagent.dto.Airport;
 import com.cts.product.aiagent.dto.FollowupEventInput;
 import com.cts.product.aiagent.dto.FulfillmentMessage;
+import com.cts.product.aiagent.dto.FulfilmentPayload;
 import com.cts.product.aiagent.dto.InputRequest;
 import com.cts.product.aiagent.dto.Intent;
 import com.cts.product.aiagent.dto.OutputContext;
@@ -25,6 +31,7 @@ import com.cts.product.aiagent.dto.Parameters;
 import com.cts.product.aiagent.dto.Text;
 import com.cts.product.lrd.LocationService;
 import com.cts.product.rental.delegate.ReservationServiceDelegate;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -66,17 +73,34 @@ public class AIDecisionController {
 				case "initiate.request":
 					initiateRequest(request, response);
 					break;
+				case "locationverify.request":
+					locationVerifyRequest(request, response);
+					break;
 				case "nameverify.request":
 					renterInfoRequest(request, response);
 					break;
 				default:
 					response = new OutputResponse();
-					response.setError(997, "Invalid 'action' parameter");
+					Intent intent = request.getQueryResult().getIntent();
+					response.setError(988, formatMsg("{0} :: Matching 'action' parameter not found", intent));
 			}
-		} else {
-			/*switch (request.getQueryResult().getAction()) {
+
+		} else if (actionTokens.length == 2 && "data".equalsIgnoreCase(actionTokens[0])) {
+			switch (actionTokens[1]) {
+			case "select.carclass":
+				getDetailPricing(request, response);
+				break;
+			default:
+				response = new OutputResponse();
+				Intent intent = request.getQueryResult().getIntent();
+				response.setError(988, formatMsg("{0} :: Matching 'action' parameter not found", intent));
+			}
+			
+		}	
+		else {
+			switch (request.getQueryResult().getAction()) {
 				case "greetings":
-					response = userGreetings(request);
+					//response = userGreetings(request);
 					break;
 				case "initiateRental":
 					validateInitiateRentalData(request, response);
@@ -86,13 +110,11 @@ public class AIDecisionController {
 				case "searchBranchesFromGps":
 					response = searchBranchByGPSLocation(request);
 					break;
-				case "findRentalOffice":
-					response = findRentalBranches(request);
-					break;
 				default:
 					response = new OutputResponse();
-					response.setError(997, "Invalid 'action' parameter");
-			}*/
+					Intent intent = request.getQueryResult().getIntent();
+					response.setError(989, formatMsg("{0} :: Invalid 'action' parameter", intent));
+			}
 		}
 		
 		System.out.println(new ObjectMapper().writeValueAsString(response));
@@ -100,10 +122,66 @@ public class AIDecisionController {
 		return response; 
 	}
 
+	private void locationVerifyRequest(InputRequest request, OutputResponse response) {
+		String pmsg = null, nmsg = null;
+		JsonNode payload = getFulfilmentPayload(request.getQueryResult().getFulfillmentMessages());
+		if (payload != null) {
+			FulfilmentPayload fpayload = requestConverter.convertFulfilmentPayload(payload, FulfilmentPayload.class);
+			pmsg = fpayload.getPositive();
+			nmsg = fpayload.getNegetive();
+		}
+		
+		Parameters p = getRentalContextParams(request);
+		String branchCd = findRentalBranches(p);
+		if (branchCd != null) {
+			p.setBranchCode(branchCd);
+			if (pmsg != null) {
+				addFulfilmentMessage(response, pmsg);
+			} else {
+				addFulfilmentMessage(response, request.getQueryResult().getFulfillmentText());
+			}
+			
+		} else {
+			if (p.getAirport() != null) {
+				addFulfilmentEvent(response, "EVNT_LOC_AIRPORT_CALLBACK");
+				if (payload != null) {
+					addFulfilmentMessage(response, nmsg);
+				} else {
+					addFulfilmentMessage(response, "Can you please tell me the airport code?");				
+				}
+				
+			} else if (p.getGeoCity() != null) {
+				addFulfilmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
+				if (payload != null) {
+					addFulfilmentMessage(response, nmsg);
+				} else {
+					addFulfilmentMessage(response, "Which city you want to rent from?");				
+				}
+				
+			} else if (p.getAddress() != null) {
+				addFulfilmentEvent(response, "EVNT_LOC_ADDRESS_CALLBACK");
+				if (payload != null) {
+					addFulfilmentMessage(response, nmsg);
+				} else {
+					addFulfilmentMessage(response, "I could not find the address. Can you please tell me the address in full?");				
+				}
+				
+			} else if (p.getZipCode() != null) {
+				addFulfilmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
+				if (payload != null) {
+					addFulfilmentMessage(response, nmsg);
+				} else {
+					addFulfilmentMessage(response, "I could not find the address. Can you please tell me the address in full?");				
+				}
+				
+			}
+			
+			return;
+		}
+	}
 	
 	private void renterInfoRequest(InputRequest request, OutputResponse response) {
-		final OutputContext rentalContext = getCarRentalContext(request);
-		final Parameters p = rentalContext.getParameters();
+		final Parameters p = getRentalContextParams(request);
 		if (StringUtils.isAllBlank(p.getFirstName(), p.getLastName())) {
 			addFulfilmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
 			return;
@@ -112,11 +190,10 @@ public class AIDecisionController {
 
 
 	private void initiateRequest(final InputRequest request, final OutputResponse response) {
-		final OutputContext rentalContext = getCarRentalContext(request);
-		final Parameters p = rentalContext.getParameters();
+		final Parameters p = getRentalContextParams(request);
 
 		// Check location
-		if ( (p.getAirport() == null) || StringUtils.isAllBlank(p.getAddress(), p.getGeoCity(), p.getZipCode())) {
+		if ( p.getAirport() == null || StringUtils.isAllBlank(p.getAddress(), p.getGeoCity(), p.getZipCode())) {
 			return;
 		} else {
 			String branchCd = findRentalBranches(p);
@@ -151,12 +228,19 @@ public class AIDecisionController {
 	}
 
 	private OutputResponse getAvailableCarClasses(InputRequest request) {
-		OutputContext rentalContext = getCarRentalContext(request);
-		final Parameters parameters = rentalContext.getParameters();
-		
 		return null;
 	}
 
+	private void getDetailPricing(InputRequest request, OutputResponse response) {
+		final Parameters p = getRentalContextParams(request);
+		
+		// TODO call selectCarClass service to get price
+		
+		
+		addFulfilmentMessage(response, "Here is your rental price for this car class. Shall I continue this booking?");
+		addFulfilmentEvent(response, "EVNT_RENTERINFO_CALLBACK");
+		return;
+	}
 
 	/**
 	 * This validation will be execute at slot filling time
@@ -244,7 +328,7 @@ public class AIDecisionController {
 
 		} else if (request.getQueryResult() == null || request.getQueryResult().getAction() == null) {
 			Intent intent = request.getQueryResult().getIntent();	
-			response.setError(998, "{"+intent.getName()+"}  Action cannot be empty.");
+			response.setError(998, formatMsg("Action cannot be empty", intent)); 
 				
 		}
 		return response;
@@ -259,15 +343,19 @@ public class AIDecisionController {
 	private String findRentalBranches(final Parameters p) {
 		String branchCode = null;
 		if (p.getAirport() != null) {
-			branchCode = locationService.findBranch(p.getAirport());
+			Airport airport = p.getAirport(); //requestConverter.convertAirport(p.getAirport());
+			branchCode = locationService.findBranch(airport);
+			
 		} else if (p.getGeoCity() != null) {
 			branchCode = locationService.findBranch(p.getGeoCity());
+			
 		} else if (p.getAddress() != null) {
 			branchCode = locationService.findBranch(p.getAddress());
+			
 		} else if (p.getZipCode() != null) {
 			branchCode = locationService.findBranch(p.getZipCode());
+			
 		}
-		
 		return branchCode;
 	}
 
@@ -276,5 +364,21 @@ public class AIDecisionController {
 			.stream().filter(c -> c.getName().endsWith(CARRENTAL))
 			.findFirst().orElse(null);		
 	}
-	
+	private Parameters getRentalContextParams(final InputRequest request) {
+		final OutputContext rentalContext = getCarRentalContext(request);
+		return rentalContext.getParameters();
+	}
+	private JsonNode getFulfilmentPayload (final List<FulfillmentMessage> fulfillmentMessages) {
+		Optional<FulfillmentMessage> optional = fulfillmentMessages.stream().findFirst(); 
+		if (optional.isPresent()) {
+			return optional.get().getPayload();
+		}
+		return null;
+	}
+
+	private static String formatMsg (String template, Intent intent, String...args) {
+		String name = StringUtils.isBlank(intent.getDisplayName())?intent.getName():intent.getDisplayName();
+		String [] arr = StringUtils.split(name, '/');
+		return MessageFormat.format(template, arr[arr.length-1]);
+	}
 }
