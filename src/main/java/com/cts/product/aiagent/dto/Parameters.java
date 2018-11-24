@@ -30,7 +30,7 @@ public class Parameters {
     
     
     // Output parameters
-    @JsonProperty("branchCode")		private String branchCode;
+    @JsonProperty("pickup-branchcode")		private String branchCode;
     
     
     

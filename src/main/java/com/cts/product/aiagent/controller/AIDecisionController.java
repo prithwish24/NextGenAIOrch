@@ -67,7 +67,8 @@ public class AIDecisionController {
 			return response;
 		}
 		
-		final String [] actionTokens = StringUtils.split(request.getQueryResult().getAction(), ACTION_SPLIT_DELIM, 2);
+		final String [] actionTokens = StringUtils.split(
+				request.getQueryResult().getAction(), ACTION_SPLIT_DELIM, 2);
 		if (actionTokens.length == 2 && "decision".equalsIgnoreCase(actionTokens[0])) {
 			switch (actionTokens[1]) {
 				case "initiate.request":
@@ -141,7 +142,10 @@ public class AIDecisionController {
 				addFulfilmentMessage(response, request.getQueryResult().getFulfillmentText());
 			}
 			
-		} else {
+			addAllContexts(response, request.getQueryResult().getOutputContexts());
+			
+		} else { 
+			// When Location not found 
 			if (p.getAirport() != null) {
 				addFulfilmentEvent(response, "EVNT_LOC_AIRPORT_CALLBACK");
 				if (payload != null) {
@@ -194,6 +198,7 @@ public class AIDecisionController {
 
 		// Check location
 		if ( p.getAirport() == null || StringUtils.isAllBlank(p.getAddress(), p.getGeoCity(), p.getZipCode())) {
+			addContext(response, request.getQueryResult().getOutputContexts(), "awaiting-location");
 			return;
 		} else {
 			String branchCd = findRentalBranches(p);
@@ -202,6 +207,7 @@ public class AIDecisionController {
 				//response.addOutputContext(rentalContext);
 			} else {
 				addFulfilmentMessage(response, "I could not find matching location. Can you please tell me your pickup location again?");
+				addAllContexts(response, request.getQueryResult().getOutputContexts());
 				return;
 			}
 		}
@@ -209,22 +215,25 @@ public class AIDecisionController {
 		if (StringUtils.isAnyBlank(p.getDate(), p.getTime())) {
 			addFulfilmentMessage(response, "When do you want to rent the vehicle?");
 			addFulfilmentEvent(response, "EVNT_DATE_CALLBACK");
+			addAllContexts(response, request.getQueryResult().getOutputContexts());
 			return;
 		}
 		
 		if (StringUtils.isBlank(p.getDuration())) {
 			addFulfilmentMessage(response, "How long you need this car?");
 			addFulfilmentEvent(response, "EVNT_RENTDURATION_CALLBACK");
+			addAllContexts(response, request.getQueryResult().getOutputContexts());
 			return;
 		}
 
 		if (StringUtils.isBlank(p.getCarclass())) {
 			addFulfilmentMessage(response, "What size of car you want? Mid-size, Standard or Full-size.");
 			addFulfilmentEvent(response, "EVNT_CARCLASS_CALLBACK");
+			addAllContexts(response, request.getQueryResult().getOutputContexts());
 			return;
 		}
 		
-		addAllContexts(response, request.getQueryResult().getOutputContexts());
+		
 	}
 
 	private OutputResponse getAvailableCarClasses(InputRequest request) {
@@ -315,6 +324,13 @@ public class AIDecisionController {
 	
 	private void addAllContexts(OutputResponse response, List<OutputContext> outputContexts) {
 		response.setOutputContexts(outputContexts);
+	}
+	private void addContext(OutputResponse response, List<OutputContext> outputContexts, String context) {
+		OutputContext locCtx = outputContexts.stream().filter(ctx -> ctx.getName().endsWith(context))
+			.findFirst().orElse(null);
+		if (locCtx != null) {
+			response.addOutputContext(locCtx);
+		}
 	}
 	
 	private boolean hasOutputError (final OutputResponse response) {
