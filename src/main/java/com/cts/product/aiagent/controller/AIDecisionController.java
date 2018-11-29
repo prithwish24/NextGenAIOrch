@@ -139,9 +139,9 @@ public class AIDecisionController {
 		if (branchCd != null) {
 			p.setBranchCode(branchCd);
 			if (pmsg != null) {
-				addFulfilmentMessage(response, pmsg);
+				addFulfillmentMessage(response, pmsg);
 			} else {
-				addFulfilmentMessage(response, request.getQueryResult().getFulfillmentText());
+				addFulfillmentMessage(response, request.getQueryResult().getFulfillmentText());
 			}
 			
 			addAllContexts(response, request.getQueryResult().getOutputContexts());
@@ -149,35 +149,35 @@ public class AIDecisionController {
 		} else { 
 			// When Location not found 
 			if (p.getAirport() != null) {
-				addFulfilmentEvent(response, "EVNT_LOC_AIRPORT_CALLBACK");
+				addFulfillmentEvent(response, "EVNT_LOC_AIRPORT_CALLBACK");
 				if (payload != null) {
-					addFulfilmentMessage(response, nmsg);
+					addFulfillmentMessage(response, nmsg);
 				} else {
-					addFulfilmentMessage(response, "Can you please tell me the airport code?");				
+					addFulfillmentMessage(response, "Can you please tell me the airport code?");				
 				}
 				
 			} else if (p.getGeoCity() != null) {
-				addFulfilmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
+				addFulfillmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
 				if (payload != null) {
-					addFulfilmentMessage(response, nmsg);
+					addFulfillmentMessage(response, nmsg);
 				} else {
-					addFulfilmentMessage(response, "Which city you want to rent from?");				
+					addFulfillmentMessage(response, "Which city you want to rent from?");				
 				}
 				
 			} else if (p.getAddress() != null) {
-				addFulfilmentEvent(response, "EVNT_LOC_ADDRESS_CALLBACK");
+				addFulfillmentEvent(response, "EVNT_LOC_ADDRESS_CALLBACK");
 				if (payload != null) {
-					addFulfilmentMessage(response, nmsg);
+					addFulfillmentMessage(response, nmsg);
 				} else {
-					addFulfilmentMessage(response, "I could not find the address. Can you please tell me the address in full?");				
+					addFulfillmentMessage(response, "I could not find the address. Can you please tell me the address in full?");				
 				}
 				
 			} else if (p.getZipCode() != null) {
-				addFulfilmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
+				addFulfillmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
 				if (payload != null) {
-					addFulfilmentMessage(response, nmsg);
+					addFulfillmentMessage(response, nmsg);
 				} else {
-					addFulfilmentMessage(response, "I could not find the address. Can you please tell me the address in full?");				
+					addFulfillmentMessage(response, "I could not find the address. Can you please tell me the address in full?");				
 				}
 				
 			}
@@ -189,8 +189,8 @@ public class AIDecisionController {
 	private void renterInfoRequest(InputRequest request, OutputResponse response) {
 		final Parameters p = getRentalContextParams(request);
 		if (StringUtils.isAnyBlank(p.getFirstName(), p.getLastName())) {
-			addFulfilmentMessage(response, "Can you spell that?");
-			addFulfilmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
+			addFulfillmentMessage(response, "Can you spell that?");
+			addFulfillmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
 			return;
 		} else {
 			// call the reservation service from here ....
@@ -203,7 +203,8 @@ public class AIDecisionController {
 
 		// Check location
 		if ( p.getAirport() == null || StringUtils.isAllBlank(p.getAddress(), p.getGeoCity(), p.getZipCode())) {
-			addContext(response, request.getQueryResult().getOutputContexts(), "awaiting-location");
+			addContext(response, request, "awaiting-location");
+			addDefaultFulfillment(response, request);
 			return;
 		} else {
 			String branchCd = findRentalBranches(p);
@@ -211,29 +212,29 @@ public class AIDecisionController {
 				p.setBranchCode(branchCd);
 				//response.addOutputContext(rentalContext);
 			} else {
-				addFulfilmentMessage(response, "I could not find matching location. Can you please tell me your pickup location again?");
+				addFulfillmentMessage(response, "I could not find matching location. Can you please tell me your pickup location again?");
 				addAllContexts(response, request.getQueryResult().getOutputContexts());
 				return;
 			}
 		}
 		
 		if (StringUtils.isAnyBlank(p.getDate(), p.getTime())) {
-			addFulfilmentMessage(response, "When do you want to rent the vehicle?");
-			addFulfilmentEvent(response, "EVNT_DATE_CALLBACK");
+			addFulfillmentMessage(response, "When do you want to rent the vehicle?");
+			addFulfillmentEvent(response, "EVNT_DATE_CALLBACK");
 			addAllContexts(response, request.getQueryResult().getOutputContexts());
 			return;
 		}
 		
 		if (StringUtils.isBlank(p.getDuration())) {
-			addFulfilmentMessage(response, "How long you need this car?");
-			addFulfilmentEvent(response, "EVNT_RENTDURATION_CALLBACK");
+			addFulfillmentMessage(response, "How long you need this car?");
+			addFulfillmentEvent(response, "EVNT_RENTDURATION_CALLBACK");
 			addAllContexts(response, request.getQueryResult().getOutputContexts());
 			return;
 		}
 
 		if (StringUtils.isBlank(p.getCarclass())) {
-			addFulfilmentMessage(response, "What size of car you want? Mid-size, Standard or Full-size.");
-			addFulfilmentEvent(response, "EVNT_CARCLASS_CALLBACK");
+			addFulfillmentMessage(response, "What size of car you want? Mid-size, Standard or Full-size.");
+			addFulfillmentEvent(response, "EVNT_CARCLASS_CALLBACK");
 			addAllContexts(response, request.getQueryResult().getOutputContexts());
 			return;
 		}
@@ -251,8 +252,8 @@ public class AIDecisionController {
 		// TODO call selectCarClass service to get price
 		
 		
-		addFulfilmentMessage(response, "Here is your rental price for this car class. Shall I continue this booking?");
-		addFulfilmentEvent(response, "EVNT_RENTERINFO_CALLBACK");
+		addFulfillmentMessage(response, "Here is your rental price for this car class. Shall I continue this booking?");
+		addFulfillmentEvent(response, "EVNT_RENTERINFO_CALLBACK");
 		return;
 	}
 
@@ -310,7 +311,12 @@ public class AIDecisionController {
 
 	}
 
-	private void addFulfilmentMessage(final OutputResponse response, final String messageText) {
+	private void addDefaultFulfillment(final OutputResponse response, final InputRequest request) {
+		response.setFulfillmentMessages(request.getQueryResult().getFulfillmentMessages());
+		response.setFulfillmentText(request.getQueryResult().getFulfillmentText());
+	}
+	
+	private void addFulfillmentMessage(final OutputResponse response, final String messageText) {
 		response.setFulfillmentText(messageText);
 		FulfillmentMessage fulfillmentMessage = new FulfillmentMessage();
 		response.addFulfillmentMessage(fulfillmentMessage);
@@ -320,7 +326,7 @@ public class AIDecisionController {
 		text.addText(messageText);
 	}
 
-	private void addFulfilmentEvent(OutputResponse response, String event) {
+	private void addFulfillmentEvent(OutputResponse response, String event) {
 		FollowupEventInput followupEvent = new FollowupEventInput();
 		followupEvent.setName(event);
 		followupEvent.setLanguageCode("en-US");
@@ -330,9 +336,10 @@ public class AIDecisionController {
 	private void addAllContexts(OutputResponse response, List<OutputContext> outputContexts) {
 		response.setOutputContexts(outputContexts);
 	}
-	private void addContext(OutputResponse response, List<OutputContext> outputContexts, String context) {
-		OutputContext locCtx = outputContexts.stream().filter(ctx -> ctx.getName().endsWith(context))
-			.findFirst().orElse(null);
+	private void addContext(OutputResponse response, InputRequest request, String context) {
+		OutputContext locCtx = request.getQueryResult().getOutputContexts().stream()
+				.filter(ctx -> ctx.getName().endsWith(context))
+				.findFirst().orElse(null);
 		if (locCtx != null) {
 			response.addOutputContext(locCtx);
 		}
