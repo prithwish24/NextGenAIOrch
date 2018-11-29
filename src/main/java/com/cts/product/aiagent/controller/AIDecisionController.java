@@ -2,12 +2,12 @@ package com.cts.product.aiagent.controller;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -38,6 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping("/services")
 public class AIDecisionController {
+	private static Logger LOG = LoggerFactory.getLogger(AIDecisionController.class);
 	private static final String CARRENTAL = "carrental";
 	private static final String ACTION_SPLIT_DELIM = ".";
 
@@ -61,6 +62,7 @@ public class AIDecisionController {
 	public @ResponseBody OutputResponse defaultGateway (
 		   @RequestBody 	final InputRequest request,
 		   @RequestHeader 	final HttpHeaders headers)  throws IOException {
+		LOG.debug("Request: " + requestConverter.logRequest(request));  
 		
 		OutputResponse response = validateRequestAndTargetAction(request);
 		if (hasOutputError(response)) {
