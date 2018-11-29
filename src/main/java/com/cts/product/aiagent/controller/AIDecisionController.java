@@ -192,6 +192,8 @@ public class AIDecisionController {
 			addFulfilmentMessage(response, "Can you spell that?");
 			addFulfilmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
 			return;
+		} else {
+			// call the reservation service from here ....
 		}
 	}
 
