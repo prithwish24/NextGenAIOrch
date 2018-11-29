@@ -186,7 +186,8 @@ public class AIDecisionController {
 	
 	private void renterInfoRequest(InputRequest request, OutputResponse response) {
 		final Parameters p = getRentalContextParams(request);
-		if (StringUtils.isAllBlank(p.getFirstName(), p.getLastName())) {
+		if (StringUtils.isAnyBlank(p.getFirstName(), p.getLastName())) {
+			addFulfilmentMessage(response, "Can you spell that?");
 			addFulfilmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
 			return;
 		}
