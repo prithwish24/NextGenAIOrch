@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.cts.product.aiagent.dto.Airport;
-import com.cts.product.aiagent.dto.InputRequest;
 import com.cts.product.aiagent.dto.Location;
+import com.cts.product.aiagent.dto.Loggable;
 import com.cts.product.config.JacksonConfiguration;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -29,9 +29,9 @@ public final class RequestConverter {
 		this.jacksonConfiguration = jacksonConfiguration;
 	}
 	
-	public String logRequest (final InputRequest request) {
+	public String logRequestOrResponse (final Loggable object) {
 		try {
-			return jacksonConfiguration.toJson(request);
+			return jacksonConfiguration.toJson(object);
 		} catch (IOException e) {
 			LOG.error("Not able to print request. \n" + e.getMessage(), e);
 		}

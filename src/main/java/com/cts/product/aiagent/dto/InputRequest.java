@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties
-public class InputRequest implements Serializable {
+public class InputRequest implements Serializable, Loggable {
 	private static final long serialVersionUID = 1L;
 
 	@JsonProperty("responseId")		private String responseId;

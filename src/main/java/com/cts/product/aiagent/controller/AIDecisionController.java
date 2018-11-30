@@ -32,7 +32,6 @@ import com.cts.product.aiagent.dto.Text;
 import com.cts.product.lrd.LocationService;
 import com.cts.product.rental.delegate.ReservationServiceDelegate;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
@@ -62,7 +61,7 @@ public class AIDecisionController {
 	public @ResponseBody OutputResponse defaultGateway (
 		   @RequestBody 	final InputRequest request,
 		   @RequestHeader 	final HttpHeaders headers)  throws IOException {
-		LOG.debug("Request: " + requestConverter.logRequest(request));  
+		LOG.debug("Request :: " + requestConverter.logRequestOrResponse(request));
 		
 		OutputResponse response = validateRequestAndTargetAction(request);
 		if (hasOutputError(response)) {
@@ -100,7 +99,7 @@ public class AIDecisionController {
 			}
 			
 		}	
-		else {
+		/*else {
 			switch (request.getQueryResult().getAction()) {
 				case "greetings":
 					//response = userGreetings(request);
@@ -118,9 +117,9 @@ public class AIDecisionController {
 					Intent intent = request.getQueryResult().getIntent();
 					response.setError(989, formatMsg("{0} :: Invalid 'action' parameter", intent));
 			}
-		}
+		}*/
 		
-		System.out.println(new ObjectMapper().writeValueAsString(response));
+		LOG.debug("Response :: " + requestConverter.logRequestOrResponse(response));
 		
 		return response; 
 	}
@@ -193,6 +192,8 @@ public class AIDecisionController {
 			addFulfillmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
 			return;
 		} else {
+			addDefaultFulfillment(response, request);
+			
 			// call the reservation service from here ....
 		}
 	}
@@ -263,11 +264,11 @@ public class AIDecisionController {
 	 * @param response 
 	 * @return
 	 */
-	private void validateInitiateRentalData(final InputRequest request, final OutputResponse response) {
+	/*private void validateInitiateRentalData(final InputRequest request, final OutputResponse response) {
 		OutputContext rentalContext = getCarRentalContext(request);
 		final Parameters parameters = rentalContext.getParameters();
 		
-		/*if (StringUtils.isAllBlank(
+		if (StringUtils.isAllBlank(
 				parameters.getAirport(),
 				parameters.getAddress())) {
 			response.setError(110, "Cannot determine pickup location");
@@ -290,14 +291,14 @@ public class AIDecisionController {
 				addFulfilmentMessage(response, "What location would you like to rent from?");
 				return;
 			}
-		}*/
+		}
 		
-		/*if (requestConverter.convertLocation(parameters.getLocation()) == null) {
+		if (requestConverter.convertLocation(parameters.getLocation()) == null) {
 			response.setError(110, "Cannot determine Location");
 			return;
-		}*/
+		}
 
-		/*if (StringUtils.isAllBlank(
+		if (StringUtils.isAllBlank(
 				parameters.getDate(),
 				parameters.getTime())) {
 			if (requestConverter.convertDateTime(parameters.getDate(), parameters.getTime()) == null) {
@@ -307,9 +308,9 @@ public class AIDecisionController {
 			
 		} else {
 			response.setError(1, "incomplete request");
-		}*/
+		}
 
-	}
+	}*/
 
 	private void addDefaultFulfillment(final OutputResponse response, final InputRequest request) {
 		response.setFulfillmentMessages(request.getQueryResult().getFulfillmentMessages());
@@ -405,8 +406,11 @@ public class AIDecisionController {
 	}
 
 	private static String formatMsg (String template, Intent intent, String...args) {
-		String name = StringUtils.isBlank(intent.getDisplayName())?intent.getName():intent.getDisplayName();
-		String [] arr = StringUtils.split(name, '/');
-		return MessageFormat.format(template, arr[arr.length-1]);
+		if (intent != null) {
+			String name = StringUtils.isBlank(intent.getDisplayName())?intent.getName():intent.getDisplayName();
+			String [] arr = StringUtils.split(name, '/');
+			return MessageFormat.format(template, arr[arr.length-1]);
+		}
+		return template;
 	}
 }

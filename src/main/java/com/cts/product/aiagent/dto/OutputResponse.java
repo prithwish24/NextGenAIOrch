@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties
-public class OutputResponse implements Serializable {
+public class OutputResponse implements Serializable, Loggable {
 	private static final long serialVersionUID = 1L;
 	public enum Status {SUCCESS, ERROR};
 	
