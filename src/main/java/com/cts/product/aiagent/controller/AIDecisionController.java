@@ -70,7 +70,10 @@ public class AIDecisionController {
 		
 		final String [] actionTokens = StringUtils.split(
 				request.getQueryResult().getAction(), ACTION_SPLIT_DELIM, 2);
-		if (actionTokens.length == 2 && "decision".equalsIgnoreCase(actionTokens[0])) {
+		if (actionTokens.length == 2 && "smalltalk".equalsIgnoreCase(actionTokens[0])) {
+			addDefaultFulfillment(response, request);
+			
+		} else if (actionTokens.length == 2 && "decision".equalsIgnoreCase(actionTokens[0])) {
 			switch (actionTokens[1]) {
 				case "initiate.request":
 					initiateRequest(request, response);
