@@ -22,29 +22,26 @@ import com.cts.product.rental.dto.ai.RentalResponse;
 @RequestMapping(value = "/services/rental/{brand}/{channel}")
 public class RentalController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(RentalController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RentalController.class);
 
-	@Autowired
-	private ReservationServiceDelegate reservationServiceDelegate;
+    @Autowired
+    private ReservationServiceDelegate reservationServiceDelegate;
 
-	@RequestMapping(value = "/initiate", method = RequestMethod.POST)
-	public RentalResponse initiateReservation(
-			HttpServletRequest request, 
-			@Valid @RequestBody RentalRequest initiateResReq,
-			@PathVariable("brand") String brand, 
-			@PathVariable("channel") String channel,
-			@RequestHeader HttpHeaders headers) throws Exception {
-		LOG.info("Entering initiateReservation service");
+    @RequestMapping(value = "/initiate", method = RequestMethod.POST)
+    public RentalResponse initiateReservation(HttpServletRequest request,
+	    @Valid @RequestBody RentalRequest initiateResReq, @PathVariable("brand") String brand,
+	    @PathVariable("channel") String channel, @RequestHeader HttpHeaders headers) throws Exception {
+	LOG.info("Entering initiateReservation service");
 
-		RentalResponse response = null;
-		try {
-			response = reservationServiceDelegate.delegate(initiateResReq, brand, channel, headers);
-		} catch (Exception e) {
-			throw e;
-		}
-
-		LOG.info("Exiting from initiateReservation service");
-		return response;
+	RentalResponse response = null;
+	try {
+	    response = reservationServiceDelegate.delegate(initiateResReq, brand, channel, headers);
+	} catch (Exception e) {
+	    throw e;
 	}
+
+	LOG.info("Exiting from initiateReservation service");
+	return response;
+    }
 
 }

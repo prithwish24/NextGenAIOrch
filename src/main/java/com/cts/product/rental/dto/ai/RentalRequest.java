@@ -3,6 +3,7 @@ package com.cts.product.rental.dto.ai;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.cts.product.aiagent.dto.QueryResult;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
