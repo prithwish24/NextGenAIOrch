@@ -4,6 +4,7 @@ package com.cts.product.rental.dto.ai;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,14 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "fulfillmentText",
-    "fulfillmentMessages",
-    "source",
-    "payload",
-    "outputContexts",
-    "followupEventInput"
-})
+@JsonPropertyOrder({ "fulfillmentText", "fulfillmentMessages", "source", "payload", "outputContexts",
+	"followupEventInput" })
 public class RentalResponse {
 
     @JsonProperty("fulfillmentText")
@@ -35,76 +30,88 @@ public class RentalResponse {
     @JsonProperty("followupEventInput")
     private FollowupEventInput followupEventInput;
     @JsonIgnore
+    private String session;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("fulfillmentText")
     public String getFulfillmentText() {
-        return fulfillmentText;
+	return fulfillmentText;
     }
 
     @JsonProperty("fulfillmentText")
     public void setFulfillmentText(String fulfillmentText) {
-        this.fulfillmentText = fulfillmentText;
+	this.fulfillmentText = fulfillmentText;
     }
 
     @JsonProperty("fulfillmentMessages")
     public List<FulfillmentMessage> getFulfillmentMessages() {
-        return fulfillmentMessages;
+	return fulfillmentMessages;
     }
 
     @JsonProperty("fulfillmentMessages")
     public void setFulfillmentMessages(List<FulfillmentMessage> fulfillmentMessages) {
-        this.fulfillmentMessages = fulfillmentMessages;
+	this.fulfillmentMessages = fulfillmentMessages;
     }
 
     @JsonProperty("source")
     public String getSource() {
-        return source;
+	return source;
     }
 
     @JsonProperty("source")
     public void setSource(String source) {
-        this.source = source;
+	this.source = source;
     }
 
     @JsonProperty("payload")
     public Payload getPayload() {
-        return payload;
+	return payload;
     }
 
     @JsonProperty("payload")
     public void setPayload(Payload payload) {
-        this.payload = payload;
+	this.payload = payload;
     }
 
     @JsonProperty("outputContexts")
     public List<OutputContext> getOutputContexts() {
-        return outputContexts;
+	return outputContexts;
     }
 
     @JsonProperty("outputContexts")
     public void setOutputContexts(List<OutputContext> outputContexts) {
-        this.outputContexts = outputContexts;
+	this.outputContexts = outputContexts;
     }
 
     @JsonProperty("followupEventInput")
     public FollowupEventInput getFollowupEventInput() {
-        return followupEventInput;
+	return followupEventInput;
     }
 
     @JsonProperty("followupEventInput")
     public void setFollowupEventInput(FollowupEventInput followupEventInput) {
-        this.followupEventInput = followupEventInput;
+	this.followupEventInput = followupEventInput;
+    }
+
+    @JsonProperty("session")
+    public String getSession() {
+	return session;
+    }
+
+    @JsonProperty("session")
+    public void setSession(String session) {
+	this.session = session;
     }
 
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+	return this.additionalProperties;
     }
 
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+	this.additionalProperties.put(name, value);
     }
 
 }

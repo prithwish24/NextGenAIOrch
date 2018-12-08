@@ -10,41 +10,57 @@ import org.springframework.stereotype.Service;
 
 import com.cts.product.rental.dto.ai.RentalRequest;
 import com.cts.product.rental.dto.ai.RentalResponse;
+import com.cts.product.rental.dto.messages.CommitReservationRequest;
 import com.cts.product.rental.dto.messages.InitiateReservationRequest;
 import com.cts.product.rental.dto.messages.ReservationResponse;
+import com.cts.product.rental.dto.messages.VehicleDetailsRequest;
 import com.cts.product.rental.mapper.ReservationMapper;
 import com.cts.product.rental.service.RentalService;
 
 @Service
 public class ReservationServiceDelegate {
-	private static final Logger LOG = LoggerFactory.getLogger(ReservationServiceDelegate.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ReservationServiceDelegate.class);
 
-	@Autowired
-	private RentalService reservationService;
+    @Autowired
+    private RentalService reservationService;
 
-	public RentalResponse delegate(RentalRequest reservationRequest, String brand, String channel, HttpHeaders headers)
-			throws Exception {
-		RentalResponse rentalResponse = new RentalResponse();
-		String action = "";
-		if (reservationRequest.getQueryResult() != null && reservationRequest.getQueryResult().getAction() != null) {
-			action = reservationRequest.getQueryResult().getAction().trim();
-			LOG.debug("action : " + action);
-		} else {
-			LOG.debug("action is empty : " + action.isEmpty());
-		}
-
-		switch (action) {
-		case "initiateReservation":
-			InitiateReservationRequest initiateReservationRequest = ReservationMapper.mapRequest(reservationRequest);
-			ReservationResponse reservationResponse = reservationService.initiate(initiateReservationRequest, brand,
-					channel, headers);
-			rentalResponse = ReservationMapper.mapResponse(reservationResponse);
-			break;
-		default:
-			throw new IOException("Undefined action (" + action + ")");
-		}
-
-		LOG.debug("response: " + rentalResponse);
-		return rentalResponse;
+    public RentalResponse delegate(RentalRequest reservationRequest, String brand, String channel, HttpHeaders headers)
+	    throws Exception {
+	RentalResponse rentalResponse = new RentalResponse();
+	String action = "";
+	ReservationResponse reservationResponse = new ReservationResponse();
+	if (reservationRequest.getQueryResult() != null && reservationRequest.getQueryResult().getAction() != null) {
+	    action = reservationRequest.getQueryResult().getAction().trim();
+	    LOG.debug("action : " + action);
+	} else {
+	    LOG.debug("action is empty : " + action.isEmpty());
 	}
+
+	switch (action) {
+	case "initiateReservation":
+	    InitiateReservationRequest initiateReservationRequest = ReservationMapper
+		    .mapInitiateRequest(reservationRequest);
+	    reservationResponse = reservationService.initiate(initiateReservationRequest, brand, channel, headers);
+	    rentalResponse = ReservationMapper.mapInitiateResponse(reservationResponse);
+	    break;
+	case "selectCarClass":
+	    VehicleDetailsRequest vehicleDetailsRequest = ReservationMapper
+		    .mapSelectCarClassRequest(reservationRequest);
+	    reservationResponse = reservationService.selectCarClass(vehicleDetailsRequest, brand, channel,
+		    reservationRequest.getSession(), headers);
+	    rentalResponse = ReservationMapper.mapSelectCarClassResponse(reservationResponse);
+	    break;
+	case "commitReservation":
+	    CommitReservationRequest commitReservationRequest = ReservationMapper.mapCommitRequest(reservationRequest);
+	    reservationResponse = reservationService.commit(commitReservationRequest, brand, channel,
+		    reservationRequest.getSession(), headers);
+	    rentalResponse = ReservationMapper.mapCommitResponse(reservationResponse);
+	    break;
+	default:
+	    throw new IOException("Undefined action (" + action + ")");
+	}
+
+	LOG.debug("response: " + rentalResponse);
+	return rentalResponse;
+    }
 }

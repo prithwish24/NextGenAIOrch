@@ -40,9 +40,39 @@ public class AIDecisionService {
 	    // call the reservation service from here ....
 	    initiateReservationCall(request, response, headers);
 	    if (StringUtils.equals("Success", response.getFulfillmentText())) {
-
+		selectCarClassCall(request, response, headers);
+		if (StringUtils.equals("Success", response.getFulfillmentText())) {
+		    commitReservationCall(request, response, headers);
+		}
 	    }
 	}
+    }
+
+    private void commitReservationCall(InputRequest request, OutputResponse response, HttpHeaders headers)
+	    throws Exception {
+	request.setSession(response.getSession());
+	RentalRequest initiateResReq = new RentalRequest();
+	initiateResReq.setSession(request.getSession());
+	initiateResReq.setResponseId(request.getResponseId());
+	QueryResult queryResult = request.getQueryResult();
+	queryResult.setAction("commitReservation");
+	initiateResReq.setQueryResult(queryResult);
+	RentalResponse rentalResponse = serviceDelegate.delegate(initiateResReq, brand, channel, headers);
+	response.setFulfillmentText(rentalResponse.getFulfillmentText());
+    }
+
+    private void selectCarClassCall(InputRequest request, OutputResponse response, HttpHeaders headers)
+	    throws Exception {
+	request.setSession(response.getSession());
+	RentalRequest initiateResReq = new RentalRequest();
+	initiateResReq.setSession(request.getSession());
+	initiateResReq.setResponseId(request.getResponseId());
+	QueryResult queryResult = request.getQueryResult();
+	queryResult.setAction("selectCarClass");
+	initiateResReq.setQueryResult(queryResult);
+	RentalResponse rentalResponse = serviceDelegate.delegate(initiateResReq, brand, channel, headers);
+	response.setFulfillmentText(rentalResponse.getFulfillmentText());
+	response.setSession(rentalResponse.getSession());
     }
 
     private void initiateReservationCall(InputRequest request, OutputResponse response, HttpHeaders headers)
@@ -55,6 +85,7 @@ public class AIDecisionService {
 	initiateResReq.setQueryResult(queryResult);
 	RentalResponse rentalResponse = serviceDelegate.delegate(initiateResReq, brand, channel, headers);
 	response.setFulfillmentText(rentalResponse.getFulfillmentText());
+	response.setSession(rentalResponse.getSession());
     }
 
     private Parameters getRentalContextParams(final InputRequest request) {
