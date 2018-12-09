@@ -20,6 +20,7 @@ public class JacksonConfiguration {
     	ObjectMapper objMapper = new ObjectMapper();
     	objMapper.setSerializationInclusion(Include.NON_NULL);
     	objMapper.setSerializationInclusion(Include.NON_EMPTY);
+    	objMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
     	objMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
     	objMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     	objMapper.setDateFormat(new ISO8601DateFormat());
