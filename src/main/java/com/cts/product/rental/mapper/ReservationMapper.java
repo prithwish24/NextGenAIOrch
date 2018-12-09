@@ -33,13 +33,13 @@ public class ReservationMapper {
 	int durationAmount = params.getDuration().getAmount();
 	String durationUnit = params.getDuration().getUnit();
 	int durationInDays = 0;
-	if (StringUtils.equalsIgnoreCase("hour", durationUnit)) {
+	if (StringUtils.equalsIgnoreCase("h", durationUnit)) {
 	    durationInDays = 1;
 	} else if (StringUtils.equalsIgnoreCase("day", durationUnit)) {
 	    durationInDays = durationAmount;
-	} else if (StringUtils.equalsIgnoreCase("week", durationUnit)) {
+	} else if (StringUtils.equalsIgnoreCase("wk", durationUnit)) {
 	    durationInDays = durationAmount * 7;
-	} else if (StringUtils.equalsIgnoreCase("month", durationUnit)) {
+	} else if (StringUtils.equalsIgnoreCase("mo", durationUnit)) {
 	    durationInDays = durationAmount * 30;
 	}
 	DateTime rtrnDate = pikupDate.plusDays(durationInDays);
