@@ -26,69 +26,70 @@ import com.cts.product.rental.service.RentalService;
 
 @Service
 public class ReservationServiceDelegate {
-    private static final Logger LOG = LoggerFactory.getLogger(ReservationServiceDelegate.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ReservationServiceDelegate.class);
 
-    @Autowired
-    private RentalService<Request, Response> reservationService;
+	@Autowired
+	private RentalService<Request, Response> reservationService;
 
-    @Value(value = "${rental.baseUrl}${rental.initiateUrl}")
-    private String initiateUrl;
-    @Value(value = "${rental.baseUrl}${rental.selectCarClassUrl}")
-    private String selectCarClassUrl;
-    @Value(value = "${rental.baseUrl}${rental.commitUrl}")
-    private String commitUrl;
+	@Value(value = "${rental.baseUrl}${rental.initiateUrl}")
+	private String initiateUrl;
+	@Value(value = "${rental.baseUrl}${rental.selectCarClassUrl}")
+	private String selectCarClassUrl;
+	@Value(value = "${rental.baseUrl}${rental.commitUrl}")
+	private String commitUrl;
 
-    private List<CarClass> carClasses = new ArrayList<CarClass>();
+	private List<CarClass> carClasses = new ArrayList<CarClass>();
 
-    public RentalResponse delegate(RentalRequest reservationRequest, String brand, String channel, HttpHeaders headers)
-	    throws Exception {
-	RentalResponse rentalResponse = new RentalResponse();
-	String action = "";
-	ReservationResponse reservationResponse = new ReservationResponse();
-	if (reservationRequest.getQueryResult() != null && reservationRequest.getQueryResult().getAction() != null) {
-	    action = reservationRequest.getQueryResult().getAction().trim();
-	    LOG.debug("action : " + action);
-	} else {
-	    LOG.debug("action is empty : " + action.isEmpty());
+	public RentalResponse delegate(RentalRequest reservationRequest, String brand, String channel, HttpHeaders headers)
+			throws Exception {
+		RentalResponse rentalResponse = new RentalResponse();
+		String action = "";
+		ReservationResponse reservationResponse = new ReservationResponse();
+		if (reservationRequest.getQueryResult() != null && reservationRequest.getQueryResult().getAction() != null) {
+			action = reservationRequest.getQueryResult().getAction().trim();
+			LOG.debug("action : " + action);
+		} else {
+			LOG.debug("action is empty : " + action.isEmpty());
+		}
+
+		switch (action) {
+		case "initiateReservation":
+			InitiateReservationRequest initiateReservationRequest = ReservationMapper
+			.mapInitiateRequest(reservationRequest);
+			reservationResponse = reservationService.sendRequest(initiateReservationRequest, reservationResponse, brand,
+					channel, reservationRequest.getSession(), initiateUrl, headers);
+			rentalResponse = ReservationMapper.mapInitiateResponse(reservationResponse, carClasses);
+			carClasses.parallelStream().forEach(cc -> LOG.debug(cc.getCode()+" - "+cc.getName()+" - "+cc.getStatus()));
+			break;
+		case "selectCarClass":
+			String prefCarclass = reservationRequest.getQueryResult().getOutputContexts().get(0).getParameters()
+			.getCarclass();
+			CarClass carclass = carClasses.stream()
+					.filter(carCls -> StringUtils.equalsIgnoreCase(prefCarclass, carCls.getName())).findAny()
+					.orElse(null);
+			if (carclass != null) {
+				reservationRequest.getQueryResult().getOutputContexts().get(0).getParameters()
+				.setCarclass(carclass.getCode());
+				VehicleDetailsRequest vehicleDetailsRequest = ReservationMapper
+						.mapSelectCarClassRequest(reservationRequest);
+				reservationResponse = reservationService.sendRequest(vehicleDetailsRequest, reservationResponse, brand,
+						channel, reservationRequest.getSession(), selectCarClassUrl, headers);
+				rentalResponse = ReservationMapper.mapSelectCarClassResponse(reservationResponse);
+			} else {
+				rentalResponse = ReservationMapper.mapNoCarClassResponse();
+			}
+			break;
+		case "commitReservation":
+			CommitReservationRequest commitReservationRequest = ReservationMapper.mapCommitRequest(reservationRequest);
+			reservationResponse = reservationService.sendRequest(commitReservationRequest, reservationResponse, brand,
+					channel, reservationRequest.getSession(), commitUrl, headers);
+			rentalResponse = ReservationMapper.mapCommitResponse(reservationResponse);
+			break;
+		default:
+			throw new IOException("Undefined action (" + action + ")");
+		}
+
+		LOG.debug("response: " + rentalResponse);
+		return rentalResponse;
 	}
-
-	switch (action) {
-	case "initiateReservation":
-	    InitiateReservationRequest initiateReservationRequest = ReservationMapper
-		    .mapInitiateRequest(reservationRequest);
-	    reservationResponse = reservationService.sendRequest(initiateReservationRequest, reservationResponse, brand,
-		    channel, reservationRequest.getSession(), initiateUrl, headers);
-	    rentalResponse = ReservationMapper.mapInitiateResponse(reservationResponse, carClasses);
-	    break;
-	case "selectCarClass":
-	    String prefCarclass = reservationRequest.getQueryResult().getOutputContexts().get(0).getParameters()
-		    .getCarclass();
-	    CarClass carclass = carClasses.stream()
-		    .filter(carCls -> StringUtils.equalsIgnoreCase(prefCarclass, carCls.getName())).findAny()
-		    .orElse(null);
-	    if (carclass != null) {
-		reservationRequest.getQueryResult().getOutputContexts().get(0).getParameters()
-			.setCarclass(carclass.getCode());
-		VehicleDetailsRequest vehicleDetailsRequest = ReservationMapper
-			.mapSelectCarClassRequest(reservationRequest);
-		reservationResponse = reservationService.sendRequest(vehicleDetailsRequest, reservationResponse, brand,
-			channel, reservationRequest.getSession(), selectCarClassUrl, headers);
-		rentalResponse = ReservationMapper.mapSelectCarClassResponse(reservationResponse);
-	    } else {
-		rentalResponse = ReservationMapper.mapNoCarClassResponse();
-	    }
-	    break;
-	case "commitReservation":
-	    CommitReservationRequest commitReservationRequest = ReservationMapper.mapCommitRequest(reservationRequest);
-	    reservationResponse = reservationService.sendRequest(commitReservationRequest, reservationResponse, brand,
-		    channel, reservationRequest.getSession(), commitUrl, headers);
-	    rentalResponse = ReservationMapper.mapCommitResponse(reservationResponse);
-	    break;
-	default:
-	    throw new IOException("Undefined action (" + action + ")");
-	}
-
-	LOG.debug("response: " + rentalResponse);
-	return rentalResponse;
-    }
 }

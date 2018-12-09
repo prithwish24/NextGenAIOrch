@@ -204,7 +204,7 @@ public class AIDecisionController {
 	    return;
 	}
 
-	if (StringUtils.isBlank(p.getDuration())) {
+	if (p.getDuration() == null) {
 	    addFulfillmentMessage(response, "How long you need this car?");
 	    addFulfillmentEvent(response, "EVNT_RENTDURATION_CALLBACK");
 	    addAllContexts(response, request.getQueryResult().getOutputContexts());

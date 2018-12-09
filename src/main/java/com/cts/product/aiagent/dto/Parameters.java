@@ -23,7 +23,7 @@ public class Parameters {
     @JsonProperty("date")			private String date;
     @JsonProperty("time")			private String time;
     @JsonProperty("car-class")		private String carclass;
-    @JsonProperty("duration")		private String duration;
+    @JsonProperty("duration")		private RentDuration duration;
     @JsonProperty("date-period")	private String datePeriod;
     @JsonProperty("firstname")		private String firstName;
     @JsonProperty("lastname")		private String lastName;
@@ -100,10 +100,10 @@ public class Parameters {
 	public void setCarclass(String carclass) {
 		this.carclass = carclass;
 	}
-	public String getDuration() {
+	public RentDuration getDuration() {
 		return duration;
 	}
-	public void setDuration(String duration) {
+	public void setDuration(RentDuration duration) {
 		this.duration = duration;
 	}
 	public String getDatePeriod() {
