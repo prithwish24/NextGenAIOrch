@@ -1,5 +1,7 @@
 package com.cts.product.rental.mapper;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -13,6 +15,7 @@ import com.cts.product.rental.dto.messages.CommitReservationRequest;
 import com.cts.product.rental.dto.messages.InitiateReservationRequest;
 import com.cts.product.rental.dto.messages.ReservationResponse;
 import com.cts.product.rental.dto.messages.VehicleDetailsRequest;
+import com.cts.product.rental.dto.reservation.CarClass;
 import com.cts.product.rental.dto.reservation.DriverInfo;
 
 public class ReservationMapper {
@@ -32,6 +35,7 @@ public class ReservationMapper {
 	pickupDateTime = dtf.print(pikupDate);
 	String pickupLocationId = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters()
 		.getBranchCode();
+	pickupLocationId = "STLT61";// hard coded
 	String returnLocationId = pickupLocationId;
 	InitiateReservationRequest initiateReservationRequest = new InitiateReservationRequest();
 	initiateReservationRequest.setPickupLocationId(pickupLocationId);
@@ -41,12 +45,14 @@ public class ReservationMapper {
 	return initiateReservationRequest;
     }
 
-    public static RentalResponse mapInitiateResponse(ReservationResponse reservationResponse) {
+    public static RentalResponse mapInitiateResponse(ReservationResponse reservationResponse,
+	    List<CarClass> carClasses) {
 	RentalResponse rentalResponse = new RentalResponse();
 	rentalResponse.setSession(reservationResponse.getResSessionId());
 	rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
 		? reservationResponse.getMessages().get(0).getMessage()
 		: "Success");
+	carClasses.addAll(reservationResponse.getCarClasses());
 	return rentalResponse;
     }
 
@@ -54,7 +60,6 @@ public class ReservationMapper {
 	VehicleDetailsRequest vehicleDetailsRequest = new VehicleDetailsRequest();
 	vehicleDetailsRequest.setCarClassCode(
 		initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getCarclass());
-	vehicleDetailsRequest.setCarClassCode("CCAR");
 	return vehicleDetailsRequest;
     }
 
@@ -67,6 +72,13 @@ public class ReservationMapper {
 	return rentalResponse;
     }
 
+    public static RentalResponse mapNoCarClassResponse() {
+	RentalResponse rentalResponse = new RentalResponse();
+	rentalResponse.setFulfillmentText(
+		"Sorry. Requested car class is not available right now. Please try another car type like economy, compact, intermediate, standard, mid size, full size or premium.");
+	return rentalResponse;
+    }
+
     public static CommitReservationRequest mapCommitRequest(RentalRequest initiateAIRequest) {
 	CommitReservationRequest commitReservationRequest = new CommitReservationRequest();
 	DriverInfo driverInfo = new DriverInfo();
@@ -74,12 +86,12 @@ public class ReservationMapper {
 		initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getFirstName());
 	driverInfo.setLastName(
 		initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getLastName());
-	driverInfo.setFirstName("Jane");
-	driverInfo.setLastName("Smith");
-	driverInfo.setEmailAddress("testemail@testemailsoapuicros.com");
+	driverInfo.setFirstName("Jane");// hard coded
+	driverInfo.setLastName("Smith");// hard coded
+	driverInfo.setEmailAddress("testemail@testemailsoapuicros.com");// hard coded
 	Phone phone = new Phone();
-	phone.setPhoneNumber("3334445555");
-	phone.setPhoneType(PhoneTypeEnum.HOME);
+	phone.setPhoneNumber("3334445555");// hard coded
+	phone.setPhoneType(PhoneTypeEnum.HOME);// hard coded
 	driverInfo.setPhone(phone);
 	commitReservationRequest.setDriverInfo(driverInfo);
 	return commitReservationRequest;

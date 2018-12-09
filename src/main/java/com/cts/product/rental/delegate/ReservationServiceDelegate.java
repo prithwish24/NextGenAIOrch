@@ -1,7 +1,10 @@
 package com.cts.product.rental.delegate;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import com.cts.product.rental.dto.messages.Request;
 import com.cts.product.rental.dto.messages.ReservationResponse;
 import com.cts.product.rental.dto.messages.Response;
 import com.cts.product.rental.dto.messages.VehicleDetailsRequest;
+import com.cts.product.rental.dto.reservation.CarClass;
 import com.cts.product.rental.mapper.ReservationMapper;
 import com.cts.product.rental.service.RentalService;
 
@@ -33,6 +37,8 @@ public class ReservationServiceDelegate {
     private String selectCarClassUrl;
     @Value(value = "${rental.baseUrl}${rental.commitUrl}")
     private String commitUrl;
+
+    private List<CarClass> carClasses = new ArrayList<CarClass>();
 
     public RentalResponse delegate(RentalRequest reservationRequest, String brand, String channel, HttpHeaders headers)
 	    throws Exception {
@@ -52,14 +58,25 @@ public class ReservationServiceDelegate {
 		    .mapInitiateRequest(reservationRequest);
 	    reservationResponse = reservationService.sendRequest(initiateReservationRequest, reservationResponse, brand,
 		    channel, reservationRequest.getSession(), initiateUrl, headers);
-	    rentalResponse = ReservationMapper.mapInitiateResponse(reservationResponse);
+	    rentalResponse = ReservationMapper.mapInitiateResponse(reservationResponse, carClasses);
 	    break;
 	case "selectCarClass":
-	    VehicleDetailsRequest vehicleDetailsRequest = ReservationMapper
-		    .mapSelectCarClassRequest(reservationRequest);
-	    reservationResponse = reservationService.sendRequest(vehicleDetailsRequest, reservationResponse, brand,
-		    channel, reservationRequest.getSession(), selectCarClassUrl, headers);
-	    rentalResponse = ReservationMapper.mapSelectCarClassResponse(reservationResponse);
+	    String prefCarclass = reservationRequest.getQueryResult().getOutputContexts().get(0).getParameters()
+		    .getCarclass();
+	    CarClass carclass = carClasses.stream()
+		    .filter(carCls -> StringUtils.equalsIgnoreCase(prefCarclass, carCls.getName())).findAny()
+		    .orElse(null);
+	    if (carclass != null) {
+		reservationRequest.getQueryResult().getOutputContexts().get(0).getParameters()
+			.setCarclass(carclass.getCode());
+		VehicleDetailsRequest vehicleDetailsRequest = ReservationMapper
+			.mapSelectCarClassRequest(reservationRequest);
+		reservationResponse = reservationService.sendRequest(vehicleDetailsRequest, reservationResponse, brand,
+			channel, reservationRequest.getSession(), selectCarClassUrl, headers);
+		rentalResponse = ReservationMapper.mapSelectCarClassResponse(reservationResponse);
+	    } else {
+		rentalResponse = ReservationMapper.mapNoCarClassResponse();
+	    }
 	    break;
 	case "commitReservation":
 	    CommitReservationRequest commitReservationRequest = ReservationMapper.mapCommitRequest(reservationRequest);
