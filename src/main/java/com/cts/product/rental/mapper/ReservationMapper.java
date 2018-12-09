@@ -94,15 +94,15 @@ public class ReservationMapper {
     public static CommitReservationRequest mapCommitRequest(RentalRequest initiateAIRequest) {
 	CommitReservationRequest commitReservationRequest = new CommitReservationRequest();
 	DriverInfo driverInfo = new DriverInfo();
-	driverInfo.setFirstName(
-		initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getFirstName());
-	driverInfo.setLastName(
-		initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getLastName());
-	driverInfo.setFirstName("Jane");// hard coded
-	driverInfo.setLastName("Smith");// hard coded
-	driverInfo.setEmailAddress("testemail@testemailsoapuicros.com");// hard coded
+	Parameters p = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters();
+	driverInfo.setFirstName(p.getFirstName());
+	driverInfo.setLastName(p.getLastName());
+	//driverInfo.setFirstName("Jane");// hard coded
+	//driverInfo.setLastName("Smith");// hard coded
+	String email = p.getFirstName()+p.getLastName()+"@mailinator.com";
+	driverInfo.setEmailAddress(email); // hard coded
 	Phone phone = new Phone();
-	phone.setPhoneNumber("3334445555");// hard coded
+	phone.setPhoneNumber("3145125555");// hard coded
 	phone.setPhoneType(PhoneTypeEnum.HOME);// hard coded
 	driverInfo.setPhone(phone);
 	commitReservationRequest.setDriverInfo(driverInfo);
@@ -111,10 +111,15 @@ public class ReservationMapper {
 
     public static RentalResponse mapCommitResponse(ReservationResponse reservationResponse) {
 	RentalResponse rentalResponse = new RentalResponse();
-	rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
+	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
+		rentalResponse.setConfNumber(reservationResponse.getConfirmationNumber());
+	} else {
+		rentalResponse.setFulfillmentText(reservationResponse.getMessages().get(0).getMessage()); 
+	}
+	/*rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
 		? reservationResponse.getMessages().get(0).getMessage()
 		: "Your reservation number is " + reservationResponse.getConfirmationNumber()
-			+ ". Thank you for choosing Enterprise car rental. Have a great day.");
+			+ ". Thank you for choosing Enterprise car rental. Have a great day.");*/
 	return rentalResponse;
     }
 }

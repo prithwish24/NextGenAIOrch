@@ -58,7 +58,13 @@ public class AIDecisionService {
 	queryResult.setAction("commitReservation");
 	initiateResReq.setQueryResult(queryResult);
 	RentalResponse rentalResponse = serviceDelegate.delegate(initiateResReq, brand, channel, headers);
-	response.setFulfillmentText(rentalResponse.getFulfillmentText());
+	if (StringUtils.isBlank(rentalResponse.getConfNumber())) {
+		response.setFulfillmentText(rentalResponse.getFulfillmentText());		
+	} else {
+		String ffText = queryResult.getFulfillmentText();
+		ffText = StringUtils.replaceFirst(ffText, "{confnumber}", rentalResponse.getConfNumber());
+		response.setFulfillmentText(ffText);
+	}
     }
 
     private void selectCarClassCall(InputRequest request, OutputResponse response, HttpHeaders headers)

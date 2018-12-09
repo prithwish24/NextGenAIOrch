@@ -32,6 +32,8 @@ public class RentalResponse {
     @JsonIgnore
     private String session;
     @JsonIgnore
+    private String confNumber;
+    @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("fulfillmentText")
@@ -114,4 +116,13 @@ public class RentalResponse {
 	this.additionalProperties.put(name, value);
     }
 
+	public String getConfNumber() {
+		return confNumber;
+	}
+
+	public void setConfNumber(String confNumber) {
+		this.confNumber = confNumber;
+	}
+
+    
 }
