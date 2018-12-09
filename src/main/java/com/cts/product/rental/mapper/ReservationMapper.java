@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import com.cts.product.aiagent.dto.Parameters;
@@ -21,6 +23,7 @@ import com.cts.product.rental.dto.reservation.CarClass;
 import com.cts.product.rental.dto.reservation.DriverInfo;
 
 public class ReservationMapper {
+	static final Logger LOG = LoggerFactory.getLogger(ReservationMapper.class);
 
     public static InitiateReservationRequest mapInitiateRequest(RentalRequest initiateAIRequest) {
 	Parameters params = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters();
@@ -61,10 +64,18 @@ public class ReservationMapper {
 	    List<CarClass> carClasses) {
 	RentalResponse rentalResponse = new RentalResponse();
 	rentalResponse.setSession(reservationResponse.getResSessionId());
-	rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
+	/*rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
 		? reservationResponse.getMessages().get(0).getMessage()
 		: "Success");
-	carClasses.addAll(reservationResponse.getCarClasses());
+	carClasses.addAll(reservationResponse.getCarClasses());*/
+	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
+		rentalResponse.setFulfillmentText("Success");
+		carClasses.addAll(reservationResponse.getCarClasses());
+	} else {
+		reservationResponse.getMessages().stream().forEach(em -> {
+			LOG.error("ERROR :: "+ em.getPriority()+" | "+em.getCode()+" | "+em.getMessage());
+		});
+	}
 	return rentalResponse;
     }
 
@@ -78,9 +89,16 @@ public class ReservationMapper {
     public static RentalResponse mapSelectCarClassResponse(ReservationResponse reservationResponse) {
 	RentalResponse rentalResponse = new RentalResponse();
 	rentalResponse.setSession(reservationResponse.getResSessionId());
-	rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
+	/*rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
 		? reservationResponse.getMessages().get(0).getMessage()
-		: "Success");
+		: "Success");*/
+	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
+		rentalResponse.setFulfillmentText("Success");
+	} else {
+		reservationResponse.getMessages().parallelStream().forEach(em -> {
+			LOG.error("ERROR :: "+ em.getPriority()+" | "+em.getCode()+" | "+em.getMessage());
+		});
+	}
 	return rentalResponse;
     }
 
@@ -114,7 +132,9 @@ public class ReservationMapper {
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
 		rentalResponse.setConfNumber(reservationResponse.getConfirmationNumber());
 	} else {
-		rentalResponse.setFulfillmentText(reservationResponse.getMessages().get(0).getMessage()); 
+		reservationResponse.getMessages().parallelStream().forEach(em -> {
+			LOG.error("ERROR :: "+ em.getPriority()+" | "+em.getCode()+" | "+em.getMessage());
+		}); 
 	}
 	/*rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
 		? reservationResponse.getMessages().get(0).getMessage()
