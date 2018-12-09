@@ -2,6 +2,7 @@ package com.cts.product.rental.mapper;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -27,9 +28,21 @@ public class ReservationMapper {
 	pickuptime = pickuptime.substring(pickuptime.indexOf("T"), (pickuptime.indexOf(":") + 3));
 	String pickupDateTime = pickupdate + pickuptime;
 	DateTime pikupDate = new DateTime(pickupDateTime);
-	Integer duration = Integer
-		.parseInt(initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getDuration());
-	DateTime rtrnDate = pikupDate.plusDays(duration);
+	int durationAmount = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getDuration()
+		.getAmount();
+	String durationUnit = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters()
+		.getDuration().getUnit();
+	int durationInDays = 0;
+	if (StringUtils.equalsIgnoreCase("hour", durationUnit)) {
+	    durationInDays = 1;
+	} else if (StringUtils.equalsIgnoreCase("day", durationUnit)) {
+	    durationInDays = durationAmount;
+	} else if (StringUtils.equalsIgnoreCase("week", durationUnit)) {
+	    durationInDays = durationAmount * 7;
+	} else if (StringUtils.equalsIgnoreCase("month", durationUnit)) {
+	    durationInDays = durationAmount * 30;
+	}
+	DateTime rtrnDate = pikupDate.plusDays(durationInDays);
 	DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
 	String returnDateTime = dtf.print(rtrnDate);
 	pickupDateTime = dtf.print(pikupDate);
@@ -101,7 +114,8 @@ public class ReservationMapper {
 	RentalResponse rentalResponse = new RentalResponse();
 	rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
 		? reservationResponse.getMessages().get(0).getMessage()
-		: "Your reservation number is " + reservationResponse.getConfirmationNumber());
+		: "Your reservation number is " + reservationResponse.getConfirmationNumber()
+			+ ". Thank you for choosing Enterprise car rental. Have a great day.");
 	return rentalResponse;
     }
 }
