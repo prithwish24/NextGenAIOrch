@@ -66,7 +66,7 @@ public class ReservationServiceDelegate {
 	    String prefCarclass = reservationRequest.getQueryResult().getOutputContexts().get(0).getParameters()
 		    .getCarclass();
 	    CarClass carclass = carClasses.stream()
-		    .filter(carCls -> StringUtils.equalsIgnoreCase(prefCarclass, carCls.getName())).findAny()
+		    .filter(carCls -> StringUtils.equalsIgnoreCase(prefCarclass, carCls.getCode())).findAny()
 		    .orElse(null);
 	    if (carclass != null) {
 		reservationRequest.getQueryResult().getOutputContexts().get(0).getParameters()
