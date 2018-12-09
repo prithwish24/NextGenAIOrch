@@ -8,6 +8,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.util.CollectionUtils;
 
+import com.cts.product.aiagent.dto.Parameters;
 import com.cts.product.rental.dto.ai.RentalRequest;
 import com.cts.product.rental.dto.ai.RentalResponse;
 import com.cts.product.rental.dto.common.Phone;
@@ -22,16 +23,15 @@ import com.cts.product.rental.dto.reservation.DriverInfo;
 public class ReservationMapper {
 
     public static InitiateReservationRequest mapInitiateRequest(RentalRequest initiateAIRequest) {
-	String pickupdate = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getDate();
+	Parameters params = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters();
+	String pickupdate = params.getDate();
 	pickupdate = pickupdate.substring(0, pickupdate.indexOf("T"));
-	String pickuptime = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getTime();
+	String pickuptime = params.getTime();
 	pickuptime = pickuptime.substring(pickuptime.indexOf("T"), (pickuptime.indexOf(":") + 3));
 	String pickupDateTime = pickupdate + pickuptime;
 	DateTime pikupDate = new DateTime(pickupDateTime);
-	int durationAmount = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getDuration()
-		.getAmount();
-	String durationUnit = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters()
-		.getDuration().getUnit();
+	int durationAmount = params.getDuration().getAmount();
+	String durationUnit = params.getDuration().getUnit();
 	int durationInDays = 0;
 	if (StringUtils.equalsIgnoreCase("hour", durationUnit)) {
 	    durationInDays = 1;
@@ -46,9 +46,8 @@ public class ReservationMapper {
 	DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
 	String returnDateTime = dtf.print(rtrnDate);
 	pickupDateTime = dtf.print(pikupDate);
-	String pickupLocationId = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters()
-		.getBranchCode();
-	pickupLocationId = "STLT61";// hard coded
+	String pickupLocationId = params.getBranchCode();
+	//pickupLocationId = "STLT61";// hard coded
 	String returnLocationId = pickupLocationId;
 	InitiateReservationRequest initiateReservationRequest = new InitiateReservationRequest();
 	initiateReservationRequest.setPickupLocationId(pickupLocationId);

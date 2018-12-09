@@ -44,13 +44,13 @@ public class LocationServiceImpl implements LocationService {
 	@Override
 	public String findBranch(Airport airport) {
 		// TODO Auto-generated method stub		
-		return "STLT01";
+		return "STLT61";
 	}
 
 	@Override
 	public String findBranch(String locationStr) {
 		// TODO Auto-generated method stub
-		return "STLT01";
+		return "STLT61";
 	}
 
 }
