@@ -23,7 +23,7 @@ import com.cts.product.rental.dto.reservation.CarClass;
 import com.cts.product.rental.dto.reservation.DriverInfo;
 
 public class ReservationMapper {
-	static final Logger LOG = LoggerFactory.getLogger(ReservationMapper.class);
+    static final Logger LOG = LoggerFactory.getLogger(ReservationMapper.class);
 
     public static InitiateReservationRequest mapInitiateRequest(RentalRequest initiateAIRequest) {
 	Parameters params = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters();
@@ -50,7 +50,6 @@ public class ReservationMapper {
 	String returnDateTime = dtf.print(rtrnDate);
 	pickupDateTime = dtf.print(pikupDate);
 	String pickupLocationId = params.getBranchCode();
-	//pickupLocationId = "STLT61";// hard coded
 	String returnLocationId = pickupLocationId;
 	InitiateReservationRequest initiateReservationRequest = new InitiateReservationRequest();
 	initiateReservationRequest.setPickupLocationId(pickupLocationId);
@@ -64,17 +63,13 @@ public class ReservationMapper {
 	    List<CarClass> carClasses) {
 	RentalResponse rentalResponse = new RentalResponse();
 	rentalResponse.setSession(reservationResponse.getResSessionId());
-	/*rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
-		? reservationResponse.getMessages().get(0).getMessage()
-		: "Success");
-	carClasses.addAll(reservationResponse.getCarClasses());*/
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
-		rentalResponse.setFulfillmentText("Success");
-		carClasses.addAll(reservationResponse.getCarClasses());
+	    rentalResponse.setFulfillmentText("Success");
+	    carClasses.addAll(reservationResponse.getCarClasses());
 	} else {
-		reservationResponse.getMessages().stream().forEach(em -> {
-			LOG.error("ERROR :: "+ em.getPriority()+" | "+em.getCode()+" | "+em.getMessage());
-		});
+	    reservationResponse.getMessages().stream().forEach(em -> {
+		LOG.error("ERROR :: " + em.getPriority() + " | " + em.getCode() + " | " + em.getMessage());
+	    });
 	}
 	return rentalResponse;
     }
@@ -89,15 +84,12 @@ public class ReservationMapper {
     public static RentalResponse mapSelectCarClassResponse(ReservationResponse reservationResponse) {
 	RentalResponse rentalResponse = new RentalResponse();
 	rentalResponse.setSession(reservationResponse.getResSessionId());
-	/*rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
-		? reservationResponse.getMessages().get(0).getMessage()
-		: "Success");*/
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
-		rentalResponse.setFulfillmentText("Success");
+	    rentalResponse.setFulfillmentText("Success");
 	} else {
-		reservationResponse.getMessages().parallelStream().forEach(em -> {
-			LOG.error("ERROR :: "+ em.getPriority()+" | "+em.getCode()+" | "+em.getMessage());
-		});
+	    reservationResponse.getMessages().parallelStream().forEach(em -> {
+		LOG.error("ERROR :: " + em.getPriority() + " | " + em.getCode() + " | " + em.getMessage());
+	    });
 	}
 	return rentalResponse;
     }
@@ -115,9 +107,9 @@ public class ReservationMapper {
 	Parameters p = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters();
 	driverInfo.setFirstName(p.getFirstName());
 	driverInfo.setLastName(p.getLastName());
-	//driverInfo.setFirstName("Jane");// hard coded
-	//driverInfo.setLastName("Smith");// hard coded
-	String email = p.getFirstName()+p.getLastName()+"@mailinator.com";
+	// driverInfo.setFirstName("Jane");// hard coded
+	// driverInfo.setLastName("Smith");// hard coded
+	String email = p.getFirstName() + p.getLastName() + "@mailinator.com";
 	driverInfo.setEmailAddress(email); // hard coded
 	Phone phone = new Phone();
 	phone.setPhoneNumber("3145125555");// hard coded
@@ -130,16 +122,15 @@ public class ReservationMapper {
     public static RentalResponse mapCommitResponse(ReservationResponse reservationResponse) {
 	RentalResponse rentalResponse = new RentalResponse();
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
-		rentalResponse.setConfNumber(reservationResponse.getConfirmationNumber());
+	    rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
+		    ? reservationResponse.getMessages().get(0).getMessage()
+		    : "Your reservation number is " + reservationResponse.getConfirmationNumber()
+			    + ". Thank you for choosing Enterprise car rental. Have a great day.");
 	} else {
-		reservationResponse.getMessages().parallelStream().forEach(em -> {
-			LOG.error("ERROR :: "+ em.getPriority()+" | "+em.getCode()+" | "+em.getMessage());
-		}); 
+	    reservationResponse.getMessages().parallelStream().forEach(em -> {
+		LOG.error("ERROR :: " + em.getPriority() + " | " + em.getCode() + " | " + em.getMessage());
+	    });
 	}
-	/*rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
-		? reservationResponse.getMessages().get(0).getMessage()
-		: "Your reservation number is " + reservationResponse.getConfirmationNumber()
-			+ ". Thank you for choosing Enterprise car rental. Have a great day.");*/
 	return rentalResponse;
     }
 }
