@@ -64,7 +64,6 @@ public class ReservationMapper {
 	RentalResponse rentalResponse = new RentalResponse();
 	rentalResponse.setSession(reservationResponse.getResSessionId());
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
-		LOG.debug("reservationResponse.getMessages() is blank");
 		rentalResponse.setFulfillmentText("Success");
 	    carClasses.addAll(reservationResponse.getCarClasses());
 	} else {
@@ -123,6 +122,7 @@ public class ReservationMapper {
     public static RentalResponse mapCommitResponse(ReservationResponse reservationResponse) {
 	RentalResponse rentalResponse = new RentalResponse();
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
+		rentalResponse.setConfNumber(reservationResponse.getConfirmationNumber()); // this will be high priority
 	    rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
 		    ? reservationResponse.getMessages().get(0).getMessage()
 		    : "Your reservation number is " + reservationResponse.getConfirmationNumber()

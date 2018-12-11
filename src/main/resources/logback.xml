@@ -39,7 +39,7 @@
 		<appender-ref ref="FILE" />
 		<appender-ref ref="STDOUT" />
 	</logger>
-	<logger name="com.cts.product.util.RestTemplateBuilder" level="DEBUG" additivity="false">
+	<logger name="com.cts.product.util.RestTemplateBuilder" level="INFO" additivity="false">
 		<appender-ref ref="FILE" />
 		<appender-ref ref="STDOUT" />
 	</logger> 

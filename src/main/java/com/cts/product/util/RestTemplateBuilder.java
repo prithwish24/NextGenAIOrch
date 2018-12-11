@@ -27,7 +27,7 @@ public class RestTemplateBuilder {
 
 	public static RestTemplate getRestTemplate() {
 		RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
-		//restTemplate.setInterceptors(Collections.singletonList(new LoggingInterceptor()));
+		restTemplate.setInterceptors(Collections.singletonList(new LoggingInterceptor()));
 		List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
 		MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
 		ObjectMapper objMapper = getObjectMapper();
@@ -58,9 +58,9 @@ public class RestTemplateBuilder {
 		}
 		
 		private void logRequest(HttpRequest request, byte[] body) throws IOException {
+			log.info("===========================request begin================================================");
+	        log.info("URI         : {}", request.getURI());
 	        if (log.isDebugEnabled()) {
-	            log.debug("===========================request begin================================================");
-	            log.debug("URI         : {}", request.getURI());
 	            log.debug("Method      : {}", request.getMethod());
 	            log.debug("Headers     : {}", request.getHeaders());
 	            log.debug("Request body: {}", new String(body, "UTF-8"));
@@ -69,10 +69,10 @@ public class RestTemplateBuilder {
 	    }
 	 
 	    private void logResponse(ClientHttpResponse response) throws IOException {
-	        if (log.isDebugEnabled()) {
-	            log.debug("============================response begin==========================================");
-	            log.debug("Status code  : {}", response.getStatusCode());
-	            log.debug("Status text  : {}", response.getStatusText());
+            log.info("============================response begin==========================================");
+            log.info("Status code  : {}", response.getStatusCode());
+            log.info("Status text  : {}", response.getStatusText());
+            if (log.isDebugEnabled()) {
 	            log.debug("Headers      : {}", response.getHeaders());
 	            log.debug("Response body: {}", StreamUtils.copyToString(response.getBody(), Charset.defaultCharset()));
 	            log.debug("=======================response end=================================================");

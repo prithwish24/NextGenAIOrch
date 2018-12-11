@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-import com.cts.product.rental.mapper.ReservationMapper;
 import com.cts.product.util.ErrorBuilder;
 import com.cts.product.util.HeaderBuilder;
 import com.cts.product.util.RestTemplateBuilder;
@@ -32,14 +31,13 @@ public class RentalServiceImpl<T, S> implements RentalService<T, S> {
 	try {
 	    result = (ResponseEntity<S>) restTemplate.exchange(url, HttpMethod.POST, entity, response.getClass(), brand,
 		    channel, resSessionId);
-	    LOG.debug("--------------->>>>>>>> \n"+ (result != null?result.getBody():null));
 	    response = (S) result.getBody();
 	} catch (HttpStatusCodeException e) {
-		LOG.error("error ffrom service 1"+e.getMessage(), e);
+		LOG.error(e.getMessage(), e);
 	    ObjectMapper objectMapper = RestTemplateBuilder.getObjectMapper();
 	    response = (S) objectMapper.readValue(e.getResponseBodyAsString(), response.getClass());
 	} catch (Exception e) {
-		LOG.error("error ffrom service 2"+e.getMessage(), e);
+		LOG.error(e.getMessage(), e);
 		return (S) ErrorBuilder.getRentalError();
 	}
 	return response;
