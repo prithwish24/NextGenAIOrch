@@ -60,7 +60,7 @@ public class ReservationServiceDelegate {
 	    reservationResponse = reservationService.sendRequest(initiateReservationRequest, reservationResponse, brand,
 		    channel, reservationRequest.getSession(), initiateUrl, headers);
 	    rentalResponse = ReservationMapper.mapInitiateResponse(reservationResponse, carClasses);
-	    carClasses.parallelStream()
+	    carClasses.stream()
 		    .forEach(cc -> LOG.debug(cc.getCode() + " - " + cc.getName() + " - " + cc.getStatus()));
 	    break;
 	case "selectCarClass":

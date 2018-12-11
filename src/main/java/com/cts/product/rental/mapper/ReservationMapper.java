@@ -64,7 +64,8 @@ public class ReservationMapper {
 	RentalResponse rentalResponse = new RentalResponse();
 	rentalResponse.setSession(reservationResponse.getResSessionId());
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
-	    rentalResponse.setFulfillmentText("Success");
+		LOG.debug("reservationResponse.getMessages() is blank");
+		rentalResponse.setFulfillmentText("Success");
 	    carClasses.addAll(reservationResponse.getCarClasses());
 	} else {
 	    reservationResponse.getMessages().stream().forEach(em -> {
@@ -87,7 +88,7 @@ public class ReservationMapper {
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
 	    rentalResponse.setFulfillmentText("Success");
 	} else {
-	    reservationResponse.getMessages().parallelStream().forEach(em -> {
+	    reservationResponse.getMessages().stream().forEach(em -> {
 		LOG.error("ERROR :: " + em.getPriority() + " | " + em.getCode() + " | " + em.getMessage());
 	    });
 	}
@@ -127,7 +128,7 @@ public class ReservationMapper {
 		    : "Your reservation number is " + reservationResponse.getConfirmationNumber()
 			    + ". Thank you for choosing Enterprise car rental. Have a great day.");
 	} else {
-	    reservationResponse.getMessages().parallelStream().forEach(em -> {
+	    reservationResponse.getMessages().stream().forEach(em -> {
 		LOG.error("ERROR :: " + em.getPriority() + " | " + em.getCode() + " | " + em.getMessage());
 	    });
 	}

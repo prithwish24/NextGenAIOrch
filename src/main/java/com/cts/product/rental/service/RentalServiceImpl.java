@@ -28,12 +28,17 @@ public class RentalServiceImpl<T, S> implements RentalService<T, S> {
 	try {
 	    result = (ResponseEntity<S>) restTemplate.exchange(url, HttpMethod.POST, entity, response.getClass(), brand,
 		    channel, resSessionId);
+	    System.out.println("--------------->>>>>>>> \n"+ (result != null?result.getBody():null));
 	    response = (S) result.getBody();
 	} catch (HttpStatusCodeException e) {
+		System.err.println("error ffrom service 1");
+		e.printStackTrace();
 	    ObjectMapper objectMapper = RestTemplateBuilder.getObjectMapper();
 	    response = (S) objectMapper.readValue(e.getResponseBodyAsString(), response.getClass());
 	} catch (Exception e) {
-	    return (S) ErrorBuilder.getRentalError();
+		System.err.println("error ffrom service 2");
+		e.printStackTrace();
+		return (S) ErrorBuilder.getRentalError();
 	}
 	return response;
     }
