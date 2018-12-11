@@ -20,6 +20,12 @@ public class HeaderBuilder {
 	if (httpHeaders.containsKey(HttpHeaders.ACCEPT_ENCODING)) {
 	    httpHeaders.remove("accept-encoding");
 	}
+	if (httpHeaders.containsKey(HttpHeaders.ACCEPT_CHARSET)) {
+	    httpHeaders.remove("accept-charset");
+	}
+	if (httpHeaders.containsKey(HttpHeaders.AUTHORIZATION)) {
+	    httpHeaders.remove("authorization");
+	}
 	return httpHeaders;
     }
 }
