@@ -27,7 +27,7 @@ public class RestTemplateBuilder {
 
 	public static RestTemplate getRestTemplate() {
 		RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
-		restTemplate.setInterceptors(Collections.singletonList(new LoggingInterceptor()));
+		//restTemplate.setInterceptors(Collections.singletonList(new LoggingInterceptor()));
 		List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
 		MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
 		ObjectMapper objMapper = getObjectMapper();
@@ -46,7 +46,7 @@ public class RestTemplateBuilder {
 	
 	
 	static class LoggingInterceptor implements ClientHttpRequestInterceptor {
-		static final Logger log = LoggerFactory.getLogger(RestTemplateBuilder.class);
+		static final Logger log = LoggerFactory.getLogger("com.cts.product.util.RestTemplateBuilder.LoggingInterceptor");
 		
 		@Override
 		public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
