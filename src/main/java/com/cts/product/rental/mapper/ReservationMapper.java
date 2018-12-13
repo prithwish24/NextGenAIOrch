@@ -64,7 +64,7 @@ public class ReservationMapper {
 	RentalResponse rentalResponse = new RentalResponse();
 	rentalResponse.setSession(reservationResponse.getResSessionId());
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
-		rentalResponse.setFulfillmentText("Success");
+	    rentalResponse.setFulfillmentText("Success");
 	    carClasses.addAll(reservationResponse.getCarClasses());
 	} else {
 	    reservationResponse.getMessages().stream().forEach(em -> {
@@ -85,7 +85,11 @@ public class ReservationMapper {
 	RentalResponse rentalResponse = new RentalResponse();
 	rentalResponse.setSession(reservationResponse.getResSessionId());
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
-	    rentalResponse.setFulfillmentText("Success");
+	    rentalResponse.setFulfillmentText("Total charge is "
+		    + reservationResponse.getCarClassDetails().getVehicleRates().get(0).getPriceSummary()
+			    .getTotalCharged()
+		    + " " + reservationResponse.getCarClassDetails().getVehicleRates().get(0).getPriceSummary()
+			    .getEstimatedTotalView().getCode());
 	} else {
 	    reservationResponse.getMessages().stream().forEach(em -> {
 		LOG.error("ERROR :: " + em.getPriority() + " | " + em.getCode() + " | " + em.getMessage());
@@ -122,7 +126,7 @@ public class ReservationMapper {
     public static RentalResponse mapCommitResponse(ReservationResponse reservationResponse) {
 	RentalResponse rentalResponse = new RentalResponse();
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
-		rentalResponse.setConfNumber(reservationResponse.getConfirmationNumber()); // this will be high priority
+	    rentalResponse.setConfNumber(reservationResponse.getConfirmationNumber()); // this will be high priority
 	    rentalResponse.setFulfillmentText(!CollectionUtils.isEmpty(reservationResponse.getMessages())
 		    ? reservationResponse.getMessages().get(0).getMessage()
 		    : "Your reservation number is " + reservationResponse.getConfirmationNumber()

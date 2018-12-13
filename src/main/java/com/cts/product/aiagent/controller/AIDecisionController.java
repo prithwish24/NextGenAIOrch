@@ -77,7 +77,10 @@ public class AIDecisionController {
 		locationVerifyRequest(request, response);
 		break;
 	    case "nameverify.request":
-		aIDecisionService.renterInfoRequest(request, response, headers);
+		aIDecisionService.rentalInfoRequest(request, response, headers);
+		break;
+	    case "confirmation.request":
+		aIDecisionService.commitRental(request, response, headers);
 		break;
 	    default:
 		response = new OutputResponse();

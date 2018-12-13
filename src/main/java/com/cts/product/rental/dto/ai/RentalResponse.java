@@ -116,13 +116,11 @@ public class RentalResponse {
 	this.additionalProperties.put(name, value);
     }
 
-	public String getConfNumber() {
-		return confNumber;
-	}
+    public String getConfNumber() {
+	return confNumber;
+    }
 
-	public void setConfNumber(String confNumber) {
-		this.confNumber = confNumber;
-	}
-
-    
+    public void setConfNumber(String confNumber) {
+	this.confNumber = confNumber;
+    }
 }

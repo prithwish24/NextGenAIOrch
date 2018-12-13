@@ -29,7 +29,7 @@ public class AIDecisionService {
 
     private static final String brand = "ENTERPRISE";
 
-    public void renterInfoRequest(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
+    public void rentalInfoRequest(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
 	final Parameters p = getRentalContextParams(request);
 	if (StringUtils.isAnyBlank(p.getFirstName(), p.getLastName())) {
 	    addFulfillmentMessage(response, "Can you spell that?");
@@ -41,16 +41,26 @@ public class AIDecisionService {
 	    initiateReservationCall(request, response, headers);
 	    if (StringUtils.equals("Success", response.getFulfillmentText())) {
 		selectCarClassCall(request, response, headers);
-		if (StringUtils.equals("Success", response.getFulfillmentText())) {
-		    commitReservationCall(request, response, headers);
-		}
 	    }
+	}
+    }
+
+    public void commitRental(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
+	final Parameters p = getRentalContextParams(request);
+	if (StringUtils.isAnyBlank(p.getFirstName(), p.getLastName())) {
+	    addFulfillmentMessage(response, "Can you spell that?");
+	    addFulfillmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
+	    return;
+	} else {
+	    addDefaultFulfillment(response, request);
+	    // call the reservation service from here ....
+	    commitReservationCall(request, response, headers);
 	}
     }
 
     private void commitReservationCall(InputRequest request, OutputResponse response, HttpHeaders headers)
 	    throws Exception {
-	request.setSession(response.getSession());
+	request.setSession(request.getSession());
 	RentalRequest initiateResReq = new RentalRequest();
 	initiateResReq.setSession(request.getSession());
 	initiateResReq.setResponseId(request.getResponseId());
@@ -59,11 +69,11 @@ public class AIDecisionService {
 	initiateResReq.setQueryResult(queryResult);
 	RentalResponse rentalResponse = serviceDelegate.delegate(initiateResReq, brand, channel, headers);
 	if (StringUtils.isBlank(rentalResponse.getConfNumber())) {
-		response.setFulfillmentText(rentalResponse.getFulfillmentText());		
+	    response.setFulfillmentText(rentalResponse.getFulfillmentText());
 	} else {
-		String ffText = queryResult.getFulfillmentText();
-		ffText = StringUtils.replaceFirst(ffText, "{confnumber}", rentalResponse.getConfNumber());
-		response.setFulfillmentText(ffText);
+	    String ffText = queryResult.getFulfillmentText();
+	    ffText = ffText.replace("{confnumber}", rentalResponse.getConfNumber());
+	    response.setFulfillmentText(ffText);
 	}
     }
 
