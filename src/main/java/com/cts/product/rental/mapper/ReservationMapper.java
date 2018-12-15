@@ -85,11 +85,11 @@ public class ReservationMapper {
 	RentalResponse rentalResponse = new RentalResponse();
 	rentalResponse.setSession(reservationResponse.getResSessionId());
 	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
-	    rentalResponse.setFulfillmentText("Total charge is "
+	    rentalResponse.setFulfillmentText("Okey. Your total charge is "
 		    + reservationResponse.getCarClassDetails().getVehicleRates().get(0).getPriceSummary()
 			    .getTotalCharged()
 		    + " " + reservationResponse.getCarClassDetails().getVehicleRates().get(0).getPriceSummary()
-			    .getEstimatedTotalView().getCode());
+			    .getEstimatedTotalView().getCode()+". Can I get your name please?");
 	} else {
 	    reservationResponse.getMessages().stream().forEach(em -> {
 		LOG.error("ERROR :: " + em.getPriority() + " | " + em.getCode() + " | " + em.getMessage());

@@ -1,12 +1,17 @@
 package com.cts.product.aiagent.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
+import com.cts.product.aiagent.converter.RequestConverter;
 import com.cts.product.aiagent.dto.FollowupEventInput;
 import com.cts.product.aiagent.dto.FulfillmentMessage;
+import com.cts.product.aiagent.dto.FulfilmentPayload;
 import com.cts.product.aiagent.dto.InputRequest;
 import com.cts.product.aiagent.dto.OutputContext;
 import com.cts.product.aiagent.dto.OutputResponse;
@@ -16,12 +21,15 @@ import com.cts.product.aiagent.dto.Text;
 import com.cts.product.rental.delegate.ReservationServiceDelegate;
 import com.cts.product.rental.dto.ai.RentalRequest;
 import com.cts.product.rental.dto.ai.RentalResponse;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @Service
 public class AIDecisionService {
 
     @Autowired
     private ReservationServiceDelegate serviceDelegate;
+    @Autowired
+    private RequestConverter requestConverter;
 
     private static final String CARRENTAL = "carrental";
 
@@ -30,7 +38,38 @@ public class AIDecisionService {
     private static final String brand = "ENTERPRISE";
 
     public void rentalInfoRequest(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
-	final Parameters p = getRentalContextParams(request);
+    	String success = null, fail = null, noFirstName = null, noLastName = null;
+    	JsonNode payload = getFulfilmentPayload(request.getQueryResult().getFulfillmentMessages());
+    	if (payload != null) {
+    	    FulfilmentPayload fpayload = requestConverter.convertFulfilmentPayload(payload, FulfilmentPayload.class);
+    	    success = fpayload.getPositive();
+    	    fail 	= fpayload.getNegetive();
+    	    noFirstName = fpayload.getNoFirstname();
+    	    noLastName = fpayload.getNoLastname();
+    	}
+    	
+    	Parameters p = getRentalContextParams(request);
+    	if (StringUtils.isAllBlank(p.getFirstName(), p.getLastName())) {
+    		addFulfillmentMessage(response, fail);
+    	    addFulfillmentEvent(response, "EVNT_RENTERINFO_CALLBACK");
+    	    
+    	} else if (StringUtils.isBlank(p.getFirstName())) {
+    		addFulfillmentMessage(response, noFirstName);
+    	    addFulfillmentEvent(response, "EVNT_RENTER_FIRSTNAME_CALLBACK");
+    	    
+    	} else if (StringUtils.isBlank(p.getLastName())) {
+    		addFulfillmentMessage(response, noLastName);
+    	    addFulfillmentEvent(response, "EVNT_RENTER_LASTNAME_CALLBACK");
+    	    
+    	} else {
+    		initiateReservationCall(request, response, headers);
+    		if (StringUtils.equals("Success", response.getFulfillmentText())) {
+    			addFulfillmentEvent(response, "EVNT_RENTER_PHONE_CALLBACK");
+    			addFulfillmentMessage(response, success);
+    		}
+    	}
+    	
+	/*final Parameters p = getRentalContextParams(request);
 	if (StringUtils.isAnyBlank(p.getFirstName(), p.getLastName())) {
 	    addFulfillmentMessage(response, "Can you spell that?");
 	    addFulfillmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
@@ -42,9 +81,25 @@ public class AIDecisionService {
 	    if (StringUtils.equals("Success", response.getFulfillmentText())) {
 		selectCarClassCall(request, response, headers);
 	    }
-	}
+	}*/
     }
 
+
+	public void selectRentalCarClass(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
+		/*String pmsg = null, nmsg = null;
+    	JsonNode payload = getFulfilmentPayload(request.getQueryResult().getFulfillmentMessages());
+    	if (payload != null) {
+    	    FulfilmentPayload fpayload = requestConverter.convertFulfilmentPayload(payload, FulfilmentPayload.class);
+    	    pmsg = fpayload.getPositive();
+    	    nmsg = fpayload.getNegetive();
+    	}*/
+    	initiateReservationCall(request, response, headers);
+    	if (StringUtils.equals("Success", response.getFulfillmentText())) {
+    		selectCarClassCall(request, response, headers);
+    	}
+    	//addFulfillmentEvent(response, "EVNT_RENTERINFO_CALLBACK");
+	}
+    
     public void commitRental(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
 	final Parameters p = getRentalContextParams(request);
 	if (StringUtils.isAnyBlank(p.getFirstName(), p.getLastName())) {
@@ -134,5 +189,13 @@ public class AIDecisionService {
     private OutputContext getCarRentalContext(final InputRequest request) {
 	return request.getQueryResult().getOutputContexts().stream().filter(c -> c.getName().endsWith(CARRENTAL))
 		.findFirst().orElse(null);
+    }
+
+    private JsonNode getFulfilmentPayload(final List<FulfillmentMessage> fulfillmentMessages) {
+	Optional<FulfillmentMessage> optional = fulfillmentMessages.stream().findFirst();
+	if (optional.isPresent()) {
+	    return optional.get().getPayload();
+	}
+	return null;
     }
 }

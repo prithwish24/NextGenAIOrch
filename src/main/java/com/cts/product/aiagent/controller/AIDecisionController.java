@@ -76,6 +76,10 @@ public class AIDecisionController {
 	    case "locationverify.request":
 		locationVerifyRequest(request, response);
 		break;
+	    case "carclassverify.request":
+	    	aIDecisionService.selectRentalCarClass(request, response, headers);
+	    	addAllContexts(response, response.getOutputContexts());
+	    	break;
 	    case "nameverify.request":
 		aIDecisionService.rentalInfoRequest(request, response, headers);
 		break;
@@ -100,23 +104,13 @@ public class AIDecisionController {
 	    }
 
 	}
-	/*
-	 * else { switch (request.getQueryResult().getAction()) { case "greetings":
-	 * //response = userGreetings(request); break; case "initiateRental":
-	 * validateInitiateRentalData(request, response); if (hasOutputError(response))
-	 * break; response = getAvailableCarClasses(request); break; case
-	 * "searchBranchesFromGps": response = searchBranchByGPSLocation(request);
-	 * break; default: response = new OutputResponse(); Intent intent =
-	 * request.getQueryResult().getIntent(); response.setError(989,
-	 * formatMsg("{0} :: Invalid 'action' parameter", intent)); } }
-	 */
 
 	LOG.debug("Response :: " + requestConverter.logRequestOrResponse(response));
 
 	return response;
     }
 
-    private void locationVerifyRequest(InputRequest request, OutputResponse response) {
+	private void locationVerifyRequest(InputRequest request, OutputResponse response) {
 	String pmsg = null, nmsg = null;
 	JsonNode payload = getFulfilmentPayload(request.getQueryResult().getFulfillmentMessages());
 	if (payload != null) {
@@ -223,9 +217,6 @@ public class AIDecisionController {
 
     }
 
-    private OutputResponse getAvailableCarClasses(InputRequest request) {
-	return null;
-    }
 
     private void getDetailPricing(InputRequest request, OutputResponse response) {
 	final Parameters p = getRentalContextParams(request);
@@ -237,50 +228,6 @@ public class AIDecisionController {
 	return;
     }
 
-    /**
-     * This validation will be execute at slot filling time
-     * 
-     * @param request
-     * @param response
-     * @return
-     */
-    /*
-     * private void validateInitiateRentalData(final InputRequest request, final
-     * OutputResponse response) { OutputContext rentalContext =
-     * getCarRentalContext(request); final Parameters parameters =
-     * rentalContext.getParameters();
-     * 
-     * if (StringUtils.isAllBlank( parameters.getAirport(),
-     * parameters.getAddress())) { response.setError(110,
-     * "Cannot determine pickup location"); addFulfilmentMessage(response,
-     * "What location would you like to rent from?"); return;
-     * 
-     * } else { if (StringUtils.isNoneEmpty(parameters.getAirport())) { Airport
-     * airport = requestConverter.convertAirport(parameters.getAirport()); if
-     * (airport == null) { response.setError(110,
-     * "Cannot determine pickup location"); addFulfilmentMessage(response,
-     * "I could not find any airport named "+parameters.getAirport()
-     * +". Can you repeat it once again?"); return; } else if
-     * (!airport.getCountry().contains("United States of America")) {
-     * response.setError(111, "Pickup location currently not supported");
-     * addFulfilmentMessage(response, "Pickup location currently not supported"); }
-     * } else if (StringUtils.isBlank(parameters.getAddress())) {
-     * response.setError(110, "Cannot determine pickup location");
-     * addFulfilmentMessage(response, "What location would you like to rent from?");
-     * return; } }
-     * 
-     * if (requestConverter.convertLocation(parameters.getLocation()) == null) {
-     * response.setError(110, "Cannot determine Location"); return; }
-     * 
-     * if (StringUtils.isAllBlank( parameters.getDate(), parameters.getTime())) { if
-     * (requestConverter.convertDateTime(parameters.getDate(), parameters.getTime())
-     * == null) { response.setError(120, "Invalid pickup date and/or time"); return;
-     * }
-     * 
-     * } else { response.setError(1, "incomplete request"); }
-     * 
-     * }
-     */
 
     private void addDefaultFulfillment(final OutputResponse response, final InputRequest request) {
 	response.setFulfillmentMessages(request.getQueryResult().getFulfillmentMessages());
