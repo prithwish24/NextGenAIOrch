@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import com.cts.product.aiagent.dto.Parameters;
-import com.cts.product.rental.dto.ai.RentalRequest;
 import com.cts.product.rental.dto.ai.RentalResponse;
 import com.cts.product.rental.dto.common.Phone;
 import com.cts.product.rental.dto.common.enums.PhoneTypeEnum;
@@ -25,8 +24,8 @@ import com.cts.product.rental.dto.reservation.DriverInfo;
 public class ReservationMapper {
     static final Logger LOG = LoggerFactory.getLogger(ReservationMapper.class);
 
-    public static InitiateReservationRequest mapInitiateRequest(RentalRequest initiateAIRequest) {
-	Parameters params = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters();
+    public static InitiateReservationRequest mapInitiateRequest (final Parameters params) {
+	//Parameters params = parameters.getQueryResult().getOutputContexts().get(0).getParameters();
 	String pickupdate = params.getDate();
 	pickupdate = pickupdate.substring(0, pickupdate.indexOf("T"));
 	String pickuptime = params.getTime();
@@ -74,10 +73,9 @@ public class ReservationMapper {
 	return rentalResponse;
     }
 
-    public static VehicleDetailsRequest mapSelectCarClassRequest(RentalRequest initiateAIRequest) {
+    public static VehicleDetailsRequest mapSelectCarClassRequest(final Parameters params) {
 	VehicleDetailsRequest vehicleDetailsRequest = new VehicleDetailsRequest();
-	vehicleDetailsRequest.setCarClassCode(
-		initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters().getCarclass());
+	vehicleDetailsRequest.setCarClassCode(params.getCarclass());
 	return vehicleDetailsRequest;
     }
 
@@ -105,15 +103,15 @@ public class ReservationMapper {
 	return rentalResponse;
     }
 
-    public static CommitReservationRequest mapCommitRequest(RentalRequest initiateAIRequest) {
+    public static CommitReservationRequest mapCommitRequest(final Parameters params) {
 	CommitReservationRequest commitReservationRequest = new CommitReservationRequest();
 	DriverInfo driverInfo = new DriverInfo();
-	Parameters p = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters();
-	driverInfo.setFirstName(p.getFirstName());
-	driverInfo.setLastName(p.getLastName());
+	//Parameters p = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters();
+	driverInfo.setFirstName(params.getFirstName());
+	driverInfo.setLastName(params.getLastName());
 	// driverInfo.setFirstName("Jane");// hard coded
 	// driverInfo.setLastName("Smith");// hard coded
-	String email = p.getFirstName() + p.getLastName() + "@mailinator.com";
+	String email = params.getFirstName() + params.getLastName() + "@mailinator.com";
 	driverInfo.setEmailAddress(email); // hard coded
 	Phone phone = new Phone();
 	phone.setPhoneNumber("3145125555");// hard coded
