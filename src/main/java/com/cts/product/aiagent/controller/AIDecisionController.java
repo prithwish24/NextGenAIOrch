@@ -78,7 +78,7 @@ public class AIDecisionController {
 		break;
 	    case "carclassverify.request":
 	    	aIDecisionService.selectRentalCarClass(request, response, headers);
-	    	addAllContexts(response, response.getOutputContexts());
+	    	addAllContexts(response, request.getQueryResult().getOutputContexts());
 	    	break;
 	    case "nameverify.request":
 		aIDecisionService.rentalInfoRequest(request, response, headers);
