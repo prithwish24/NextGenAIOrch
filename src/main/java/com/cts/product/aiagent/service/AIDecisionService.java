@@ -38,28 +38,28 @@ public class AIDecisionService {
     private static final String brand = "ENTERPRISE";
 
     public void rentalInfoRequest(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
-    	String success = null, fail = null, noFirstName = null, noLastName = null;
+    	String success = null, fail = null; //, noFirstName = null, noLastName = null;
     	JsonNode payload = getFulfilmentPayload(request.getQueryResult().getFulfillmentMessages());
     	if (payload != null) {
     	    FulfilmentPayload fpayload = requestConverter.convertFulfilmentPayload(payload, FulfilmentPayload.class);
     	    success = fpayload.getPositive();
     	    fail 	= fpayload.getNegetive();
-    	    noFirstName = fpayload.getNoFirstname();
-    	    noLastName = fpayload.getNoLastname();
+    	    //noFirstName = fpayload.getNoFirstname();
+    	    //noLastName = fpayload.getNoLastname();
     	}
     	
     	Parameters p = getRentalContextParams(request);
-    	if (StringUtils.isAllBlank(p.getFirstName(), p.getLastName())) {
+    	if (StringUtils.isAnyBlank(p.getFirstName(), p.getLastName())) {
     		addFulfillmentMessage(response, fail);
-    	    addFulfillmentEvent(response, "EVNT_RENTERINFO_CALLBACK");
+    	    addFulfillmentEvent(response, "EVNT_RENTER_FIRSTNAME_CALLBACK");
     	    
-    	} else if (StringUtils.isBlank(p.getFirstName())) {
+    	/*} else if (StringUtils.isBlank(p.getFirstName())) {
     		addFulfillmentMessage(response, noFirstName);
     	    addFulfillmentEvent(response, "EVNT_RENTER_FIRSTNAME_CALLBACK");
     	    
     	} else if (StringUtils.isBlank(p.getLastName())) {
     		addFulfillmentMessage(response, noLastName);
-    	    addFulfillmentEvent(response, "EVNT_RENTER_LASTNAME_CALLBACK");
+    	    addFulfillmentEvent(response, "EVNT_RENTER_LASTNAME_CALLBACK");*/
     	    
     	} else {
     		initiateReservationCall(request, response, headers);
