@@ -96,7 +96,7 @@ public class AIDecisionController {
 		response.setError(988, formatMsg("{0} :: Matching 'action' parameter not found", intent));
 	    }
 
-	} else if (actionTokens.length == 2 && "data".equalsIgnoreCase(actionTokens[0])) {
+	} /*else if (actionTokens.length == 2 && "data".equalsIgnoreCase(actionTokens[0])) {
 	    switch (actionTokens[1]) {
 	    case "select.carclass":
 		getDetailPricing(request, response);
@@ -107,7 +107,7 @@ public class AIDecisionController {
 		response.setError(988, formatMsg("{0} :: Matching 'action' parameter not found", intent));
 	    }
 
-	}
+	}*/
 
 	LOG.debug("Response :: " + requestConverter.logRequestOrResponse(response));
 
@@ -222,7 +222,7 @@ public class AIDecisionController {
     }
 
 
-    private void getDetailPricing(InputRequest request, OutputResponse response) {
+    /*private void getDetailPricing(InputRequest request, OutputResponse response) {
 	final Parameters p = getRentalContextParams(request);
 
 	// TODO call selectCarClass service to get price
@@ -230,7 +230,7 @@ public class AIDecisionController {
 	addFulfillmentMessage(response, "Here is your rental price for this car class. Shall I continue this booking?");
 	addFulfillmentEvent(response, "EVNT_RENTERINFO_CALLBACK");
 	return;
-    }
+    }*/
 
 
     private void addDefaultFulfillment(final OutputResponse response, final InputRequest request) {
@@ -284,11 +284,11 @@ public class AIDecisionController {
 	return response;
     }
 
-    private OutputResponse searchBranchByGPSLocation(final InputRequest request) {
+    /*private OutputResponse searchBranchByGPSLocation(final InputRequest request) {
 	OutputResponse response = new OutputResponse();
 	response.setOutputContexts(request.getQueryResult().getOutputContexts());
 	return response;
-    }
+    }*/
 
     private String findRentalBranches(final Parameters p) {
 	String branchCode = null;

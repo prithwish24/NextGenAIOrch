@@ -210,5 +210,10 @@ public class AIDecisionService {
 
 	public void initiateReseration(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
 		initiateReservationCall(request, response, headers); 
+		if (StringUtils.equals("Success", response.getFulfillmentText())) {
+			addDefaultFulfillment(response, request);
+		} else {
+			addFulfillmentMessage(response, "I am sorry. Currently our system is down. Please try again later.");
+		}
 	}
 }
