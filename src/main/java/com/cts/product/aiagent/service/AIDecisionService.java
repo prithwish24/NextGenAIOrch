@@ -70,11 +70,11 @@ public class AIDecisionService {
     	    addFulfillmentEvent(response, "EVNT_RENTER_LASTNAME_CALLBACK");*/
     	    
     	} else {
-    		initiateReservationCall(request, response, headers);
-    		if (StringUtils.equals("Success", response.getFulfillmentText())) {
+    		//initiateReservationCall(request, response, headers);
+    		//if (StringUtils.equals("Success", response.getFulfillmentText())) {
     			addFulfillmentEvent(response, "EVNT_RENTER_PHONE_CALLBACK");
     			addFulfillmentMessage(response, success);
-    		}
+    		//}
     	}
     	
 	/*final Parameters p = getRentalContextParams(request);
@@ -101,7 +101,7 @@ public class AIDecisionService {
     	    pmsg = fpayload.getPositive();
     	    nmsg = fpayload.getNegetive();
     	}*/
-    	initiateReservationCall(request, response, headers);
+    	//initiateReservationCall(request, response, headers);
     	if (StringUtils.equals("Success", response.getFulfillmentText())) {
     		selectCarClassCall(request, response, headers);
     	}
@@ -206,4 +206,9 @@ public class AIDecisionService {
 	}
 	return null;
     }
+
+
+	public void initiateReseration(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
+		initiateReservationCall(request, response, headers); 
+	}
 }

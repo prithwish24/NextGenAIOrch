@@ -76,6 +76,10 @@ public class AIDecisionController {
 	    case "locationverify.request":
 		locationVerifyRequest(request, response);
 		break;
+	    case "startreservation.request":
+	    	aIDecisionService.initiateReseration(request, response, headers);
+	    	addAllContexts(response, request.getQueryResult().getOutputContexts());
+	    	break;
 	    case "carclassverify.request":
 	    	aIDecisionService.selectRentalCarClass(request, response, headers);
 	    	addAllContexts(response, request.getQueryResult().getOutputContexts());
