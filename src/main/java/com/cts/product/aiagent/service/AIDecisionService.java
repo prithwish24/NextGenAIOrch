@@ -53,6 +53,14 @@ public class AIDecisionService {
     		addFulfillmentMessage(response, fail);
     	    addFulfillmentEvent(response, "EVNT_RENTER_FIRSTNAME_CALLBACK");
     	    
+    	    // Add contexts. Replace renter-info context to firstname context
+    	    OutputContext carRentalContext = getContext(request, CARRENTAL);
+    	    OutputContext renterInfoContext = getContext(request, "awaiting-renter-info");
+    	    renterInfoContext.setName("awaiting-firstname");
+    	    response.addOutputContext(renterInfoContext);
+    	    response.addOutputContext(carRentalContext);
+    	    
+    	    
     	/*} else if (StringUtils.isBlank(p.getFirstName())) {
     		addFulfillmentMessage(response, noFirstName);
     	    addFulfillmentEvent(response, "EVNT_RENTER_FIRSTNAME_CALLBACK");
@@ -160,7 +168,7 @@ public class AIDecisionService {
     }
 
     private Parameters getRentalContextParams(final InputRequest request) {
-	final OutputContext rentalContext = getCarRentalContext(request);
+	final OutputContext rentalContext = getContext(request, CARRENTAL);
 	return rentalContext.getParameters();
     }
 
@@ -186,8 +194,8 @@ public class AIDecisionService {
 	response.setFollowupEvent(followupEvent);
     }
 
-    private OutputContext getCarRentalContext(final InputRequest request) {
-	return request.getQueryResult().getOutputContexts().stream().filter(c -> c.getName().endsWith(CARRENTAL))
+    private OutputContext getContext(final InputRequest request, final String conext) {
+	return request.getQueryResult().getOutputContexts().stream().filter(c -> c.getName().endsWith(conext))
 		.findFirst().orElse(null);
     }
 
