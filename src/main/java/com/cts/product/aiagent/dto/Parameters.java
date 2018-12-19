@@ -25,8 +25,10 @@ public class Parameters {
     @JsonProperty("car-class")		private String carclass;
     @JsonProperty("duration")		private RentDuration duration;
     @JsonProperty("date-period")	private String datePeriod;
-    @JsonProperty("firstname")		private String firstName;
-    @JsonProperty("lastname")		private String lastName;
+    @JsonProperty("firstname")		private ComplexName firstName;
+    @JsonProperty("lastname")		private ComplexName lastName;
+    @JsonProperty("fullname")		private String fullName;
+    @JsonProperty("phone-number")	private String phoneNumber;
     
     
     // Output parameters
@@ -112,17 +114,29 @@ public class Parameters {
 	public void setDatePeriod(String datePeriod) {
 		this.datePeriod = datePeriod;
 	}
-	public String getFirstName() {
+	public ComplexName getFirstName() {
 		return firstName;
 	}
-	public void setFirstName(String firstName) {
+	public void setFirstName(ComplexName firstName) {
 		this.firstName = firstName;
 	}
-	public String getLastName() {
+	public ComplexName getLastName() {
 		return lastName;
 	}
-	public void setLastName(String lastName) {
+	public void setLastName(ComplexName lastName) {
 		this.lastName = lastName;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	public String getBranchCode() {
 		return branchCode;

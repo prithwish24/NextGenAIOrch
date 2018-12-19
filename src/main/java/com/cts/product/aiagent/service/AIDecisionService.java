@@ -1,43 +1,34 @@
 package com.cts.product.aiagent.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
-import com.cts.product.aiagent.converter.RequestConverter;
-import com.cts.product.aiagent.dto.FollowupEventInput;
 import com.cts.product.aiagent.dto.FulfillmentMessage;
-import com.cts.product.aiagent.dto.FulfilmentPayload;
 import com.cts.product.aiagent.dto.InputRequest;
-import com.cts.product.aiagent.dto.OutputContext;
 import com.cts.product.aiagent.dto.OutputResponse;
-import com.cts.product.aiagent.dto.Parameters;
 import com.cts.product.aiagent.dto.QueryResult;
 import com.cts.product.aiagent.dto.Text;
 import com.cts.product.rental.delegate.ReservationServiceDelegate;
 import com.cts.product.rental.dto.ai.RentalRequest;
 import com.cts.product.rental.dto.ai.RentalResponse;
-import com.fasterxml.jackson.databind.JsonNode;
 
 @Service
 public class AIDecisionService {
 
     @Autowired
     private ReservationServiceDelegate serviceDelegate;
-    @Autowired
-    private RequestConverter requestConverter;
+    //@Autowired
+    //private RequestConverter requestConverter;
 
-    private static final String CARRENTAL = "carrental";
+    //private static final String CARRENTAL = "carrental";
 
     private static final String channel = "MOBILE";
 
     private static final String brand = "ENTERPRISE";
 
-    public void rentalInfoRequest(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
+    /*public void rentalInfoRequest(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
     	String success = null, fail = null; //, noFirstName = null, noLastName = null;
     	JsonNode payload = getFulfilmentPayload(request.getQueryResult().getFulfillmentMessages());
     	if (payload != null) {
@@ -46,6 +37,8 @@ public class AIDecisionService {
     	    fail 	= fpayload.getNegetive();
     	    //noFirstName = fpayload.getNoFirstname();
     	    //noLastName = fpayload.getNoLastname();
+    	} else {
+    		fail = request.getQueryResult().getFulfillmentText();
     	}
     	
     	Parameters p = getRentalContextParams(request);
@@ -60,37 +53,15 @@ public class AIDecisionService {
     	    response.addOutputContext(renterInfoContext);
     	    response.addOutputContext(carRentalContext);
     	    
-    	    
-    	/*} else if (StringUtils.isBlank(p.getFirstName())) {
-    		addFulfillmentMessage(response, noFirstName);
-    	    addFulfillmentEvent(response, "EVNT_RENTER_FIRSTNAME_CALLBACK");
-    	    
-    	} else if (StringUtils.isBlank(p.getLastName())) {
-    		addFulfillmentMessage(response, noLastName);
-    	    addFulfillmentEvent(response, "EVNT_RENTER_LASTNAME_CALLBACK");*/
-    	    
     	} else {
     		//initiateReservationCall(request, response, headers);
     		//if (StringUtils.equals("Success", response.getFulfillmentText())) {
     			addFulfillmentEvent(response, "EVNT_RENTER_PHONE_CALLBACK");
     			addFulfillmentMessage(response, success);
+    			response.setOutputContexts(request.getQueryResult().getOutputContexts());
     		//}
     	}
-    	
-	/*final Parameters p = getRentalContextParams(request);
-	if (StringUtils.isAnyBlank(p.getFirstName(), p.getLastName())) {
-	    addFulfillmentMessage(response, "Can you spell that?");
-	    addFulfillmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
-	    return;
-	} else {
-	    addDefaultFulfillment(response, request);
-	    // call the reservation service from here ....
-	    initiateReservationCall(request, response, headers);
-	    if (StringUtils.equals("Success", response.getFulfillmentText())) {
-		selectCarClassCall(request, response, headers);
-	    }
-	}*/
-    }
+    }*/
 
 
 	public void selectRentalCarClass(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
@@ -108,9 +79,9 @@ public class AIDecisionService {
     	//addFulfillmentEvent(response, "EVNT_RENTERINFO_CALLBACK");
 	}
     
-    public void commitRental(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
-	final Parameters p = getRentalContextParams(request);
-	if (StringUtils.isAnyBlank(p.getFirstName(), p.getLastName())) {
+	public void commitRental(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {
+		//final Parameters p = getRentalContextParams(request);
+		/*if (StringUtils.isAnyBlank(p.getFirstName(), p.getLastName())) {
 	    addFulfillmentMessage(response, "Can you spell that?");
 	    addFulfillmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
 	    return;
@@ -118,8 +89,11 @@ public class AIDecisionService {
 	    addDefaultFulfillment(response, request);
 	    // call the reservation service from here ....
 	    commitReservationCall(request, response, headers);
+	}*/
+
+		commitReservationCall(request, response, headers);
+
 	}
-    }
 
     private void commitReservationCall(InputRequest request, OutputResponse response, HttpHeaders headers)
 	    throws Exception {
@@ -167,10 +141,10 @@ public class AIDecisionService {
 	response.setSession(rentalResponse.getSession());
     }
 
-    private Parameters getRentalContextParams(final InputRequest request) {
+    /*private Parameters getRentalContextParams(final InputRequest request) {
 	final OutputContext rentalContext = getContext(request, CARRENTAL);
 	return rentalContext.getParameters();
-    }
+    }*/
 
     private void addDefaultFulfillment(final OutputResponse response, final InputRequest request) {
 	response.setFulfillmentMessages(request.getQueryResult().getFulfillmentMessages());
@@ -187,7 +161,7 @@ public class AIDecisionService {
 	text.addText(messageText);
     }
 
-    private void addFulfillmentEvent(OutputResponse response, String event) {
+    /*private void addFulfillmentEvent(OutputResponse response, String event) {
 	FollowupEventInput followupEvent = new FollowupEventInput();
 	followupEvent.setName(event);
 	followupEvent.setLanguageCode("en-US");
@@ -205,7 +179,7 @@ public class AIDecisionService {
 	    return optional.get().getPayload();
 	}
 	return null;
-    }
+    }*/
 
 
 	public void initiateReseration(InputRequest request, OutputResponse response, HttpHeaders headers) throws Exception {

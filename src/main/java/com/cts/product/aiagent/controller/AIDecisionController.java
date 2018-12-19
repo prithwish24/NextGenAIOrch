@@ -84,9 +84,9 @@ public class AIDecisionController {
 	    	aIDecisionService.selectRentalCarClass(request, response, headers);
 	    	addAllContexts(response, request.getQueryResult().getOutputContexts());
 	    	break;
-	    case "nameverify.request":
+	    /*case "nameverify.request":
 		aIDecisionService.rentalInfoRequest(request, response, headers);
-		break;
+		break;*/
 	    case "confirmation.request":
 		aIDecisionService.commitRental(request, response, headers);
 		break;

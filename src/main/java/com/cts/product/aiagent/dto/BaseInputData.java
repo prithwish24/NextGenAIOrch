@@ -17,7 +17,7 @@ public abstract class BaseInputData {
 	@JsonProperty("queryText")		private String queryText;
 	
 	@JsonProperty("intent")					private Intent intent;
-	@JsonProperty("parameters")				private Parameter parameters;
+	//@JsonProperty("parameters")				private Parameter parameters;
 	@JsonProperty("outputContexts")			private List<OutputContext> outputContexts;
 	@JsonProperty("fulfillmentMessages")	private List<FulfillmentMessage> fulfillmentMessages;
 	//private String sentimentAnalysisResult;
@@ -75,12 +75,12 @@ public abstract class BaseInputData {
 	public void setIntent(Intent intent) {
 		this.intent = intent;
 	}
-	public Parameter getParameters() {
+	/*public Parameter getParameters() {
 		return parameters;
 	}
 	public void setParameters(Parameter parameters) {
 		this.parameters = parameters;
-	}
+	}*/
 	public List<OutputContext> getOutputContexts() {
 		return outputContexts;
 	}

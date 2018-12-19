@@ -15,7 +15,7 @@ public class QueryResult {
 	@JsonProperty("languageCode")			private String languageCode;
 	@JsonProperty("fulfillmentText")		private String fulfillmentText;
 	
-	@JsonProperty("parameters")				private Parameter parameters;
+	//@JsonProperty("parameters")				private Parameter parameters;
 	@JsonProperty("outputContexts")			private List<OutputContext> outputContexts;
 	@JsonProperty("fulfillmentMessages")	private List<FulfillmentMessage> fulfillmentMessages;
 	@JsonProperty("intent")					private Intent intent;
@@ -52,12 +52,12 @@ public class QueryResult {
 	public void setFulfillmentText(String fulfillmentText) {
 		this.fulfillmentText = fulfillmentText;
 	}
-	public Parameter getParameters() {
+	/*public Parameter getParameters() {
 		return parameters;
 	}
 	public void setParameters(Parameter parameters) {
 		this.parameters = parameters;
-	}
+	}*/
 	public List<OutputContext> getOutputContexts() {
 		return outputContexts;
 	}

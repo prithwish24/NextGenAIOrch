@@ -80,20 +80,20 @@ public class ReservationMapper {
     }
 
     public static RentalResponse mapSelectCarClassResponse(ReservationResponse reservationResponse) {
-	RentalResponse rentalResponse = new RentalResponse();
-	rentalResponse.setSession(reservationResponse.getResSessionId());
-	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
-	    rentalResponse.setFulfillmentText("Okey. Your total charge is "
-		    + reservationResponse.getCarClassDetails().getVehicleRates().get(0).getPriceSummary()
-			    .getTotalCharged()
-		    + " " + reservationResponse.getCarClassDetails().getVehicleRates().get(0).getPriceSummary()
-			    .getEstimatedTotalView().getCode()+". Can I get your name please?");
-	} else {
-	    reservationResponse.getMessages().stream().forEach(em -> {
-		LOG.error("ERROR :: " + em.getPriority() + " | " + em.getCode() + " | " + em.getMessage());
-	    });
-	}
-	return rentalResponse;
+    	RentalResponse rentalResponse = new RentalResponse();
+    	rentalResponse.setSession(reservationResponse.getResSessionId());
+    	if (CollectionUtils.isEmpty(reservationResponse.getMessages())) {
+    		rentalResponse.setFulfillmentText("Okey. Your total charge is "
+    				+ reservationResponse.getCarClassDetails().getVehicleRates().get(0).getPriceSummary()
+    				.getTotalCharged()
+    				+ " " + reservationResponse.getCarClassDetails().getVehicleRates().get(0).getPriceSummary()
+    				.getEstimatedTotalView().getCode()+". Can I get your name please?");
+    	} else {
+    		reservationResponse.getMessages().stream().forEach(em -> {
+    			LOG.error("ERROR :: " + em.getPriority() + " | " + em.getCode() + " | " + em.getMessage());
+    		});
+    	}
+    	return rentalResponse;
     }
 
     public static RentalResponse mapNoCarClassResponse() {
@@ -104,21 +104,32 @@ public class ReservationMapper {
     }
 
     public static CommitReservationRequest mapCommitRequest(final Parameters params) {
-	CommitReservationRequest commitReservationRequest = new CommitReservationRequest();
-	DriverInfo driverInfo = new DriverInfo();
-	//Parameters p = initiateAIRequest.getQueryResult().getOutputContexts().get(0).getParameters();
-	driverInfo.setFirstName(params.getFirstName());
-	driverInfo.setLastName(params.getLastName());
-	// driverInfo.setFirstName("Jane");// hard coded
-	// driverInfo.setLastName("Smith");// hard coded
-	String email = params.getFirstName() + params.getLastName() + "@mailinator.com";
-	driverInfo.setEmailAddress(email); // hard coded
-	Phone phone = new Phone();
-	phone.setPhoneNumber("3145125555");// hard coded
-	phone.setPhoneType(PhoneTypeEnum.HOME);// hard coded
-	driverInfo.setPhone(phone);
-	commitReservationRequest.setDriverInfo(driverInfo);
-	return commitReservationRequest;
+    	CommitReservationRequest commitReservationRequest = new CommitReservationRequest();
+    	String driverFirstName = "Guest", driverLastName = " ";
+    	if (params.getFirstName() != null && params.getLastName() != null) {
+    		driverFirstName = params.getFirstName().getGivenName()!=null?params.getFirstName().getGivenName():" ";
+    		driverLastName = params.getLastName().getLastName()!=null?params.getLastName().getLastName():" ";
+
+    	} else if (StringUtils.isNotBlank(params.getFullName())) {
+    		String[] split = params.getFullName().split(" ");
+    		if (split.length > 1) {
+    			driverLastName = split[split.length-1];
+    			driverFirstName = StringUtils.join(split, " ", 0, split.length-2);
+    		} else {
+    			driverFirstName = params.getFullName();
+    		}
+    	}
+    	DriverInfo driverInfo = new DriverInfo();
+    	driverInfo.setFirstName(driverFirstName);
+    	driverInfo.setLastName(driverLastName);
+    	String email = driverFirstName+"."+driverLastName + "@mailinator.com";
+    	driverInfo.setEmailAddress(email); // hard coded
+    	Phone phone = new Phone();
+    	phone.setPhoneNumber(params.getPhoneNumber());
+    	phone.setPhoneType(PhoneTypeEnum.HOME); 
+    	driverInfo.setPhone(phone);
+    	commitReservationRequest.setDriverInfo(driverInfo);
+    	return commitReservationRequest;
     }
 
     public static RentalResponse mapCommitResponse(ReservationResponse reservationResponse) {
