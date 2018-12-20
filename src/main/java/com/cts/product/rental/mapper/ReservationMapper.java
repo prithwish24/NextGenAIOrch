@@ -25,8 +25,6 @@ public class ReservationMapper {
     static final Logger LOG = LoggerFactory.getLogger(ReservationMapper.class);
 
     public static InitiateReservationRequest mapInitiateRequest(final Parameters params) {
-	// Parameters params =
-	// parameters.getQueryResult().getOutputContexts().get(0).getParameters();
 	String pickupdate = params.getDate();
 	pickupdate = pickupdate.substring(0, pickupdate.indexOf("T"));
 	String pickuptime = params.getTime();

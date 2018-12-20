@@ -77,18 +77,15 @@ public class AIDecisionController {
 		locationVerifyRequest(request, response);
 		break;
 	    case "startreservation.request":
-	    	aIDecisionService.initiateReseration(request, response, headers);
-	    	addAllContexts(response, request.getQueryResult().getOutputContexts());
-	    	break;
+		aIDecisionService.initiateReseration(request, response, headers);
+		addAllContexts(response, request.getQueryResult().getOutputContexts());
+		break;
 	    case "carclassverify.request":
-	    	aIDecisionService.selectRentalCarClass(request, response, headers);
-	    	addAllContexts(response, request.getQueryResult().getOutputContexts());
-	    	break;
-	    /*case "nameverify.request":
-		aIDecisionService.rentalInfoRequest(request, response, headers);
-		break;*/
+		aIDecisionService.selectCarClassCall(request, response, headers);
+		addAllContexts(response, request.getQueryResult().getOutputContexts());
+		break;
 	    case "confirmation.request":
-		aIDecisionService.commitRental(request, response, headers);
+		aIDecisionService.commitReservationCall(request, response, headers);
 		break;
 	    default:
 		response = new OutputResponse();
@@ -96,25 +93,14 @@ public class AIDecisionController {
 		response.setError(988, formatMsg("{0} :: Matching 'action' parameter not found", intent));
 	    }
 
-	} /*else if (actionTokens.length == 2 && "data".equalsIgnoreCase(actionTokens[0])) {
-	    switch (actionTokens[1]) {
-	    case "select.carclass":
-		getDetailPricing(request, response);
-		break;
-	    default:
-		response = new OutputResponse();
-		Intent intent = request.getQueryResult().getIntent();
-		response.setError(988, formatMsg("{0} :: Matching 'action' parameter not found", intent));
-	    }
-
-	}*/
+	}
 
 	LOG.debug("Response :: " + requestConverter.logRequestOrResponse(response));
 
 	return response;
     }
 
-	private void locationVerifyRequest(InputRequest request, OutputResponse response) {
+    private void locationVerifyRequest(InputRequest request, OutputResponse response) {
 	String pmsg = null, nmsg = null;
 	JsonNode payload = getFulfilmentPayload(request.getQueryResult().getFulfillmentMessages());
 	if (payload != null) {
@@ -221,18 +207,6 @@ public class AIDecisionController {
 
     }
 
-
-    /*private void getDetailPricing(InputRequest request, OutputResponse response) {
-	final Parameters p = getRentalContextParams(request);
-
-	// TODO call selectCarClass service to get price
-
-	addFulfillmentMessage(response, "Here is your rental price for this car class. Shall I continue this booking?");
-	addFulfillmentEvent(response, "EVNT_RENTERINFO_CALLBACK");
-	return;
-    }*/
-
-
     private void addDefaultFulfillment(final OutputResponse response, final InputRequest request) {
 	response.setFulfillmentMessages(request.getQueryResult().getFulfillmentMessages());
 	response.setFulfillmentText(request.getQueryResult().getFulfillmentText());
@@ -283,12 +257,6 @@ public class AIDecisionController {
 	}
 	return response;
     }
-
-    /*private OutputResponse searchBranchByGPSLocation(final InputRequest request) {
-	OutputResponse response = new OutputResponse();
-	response.setOutputContexts(request.getQueryResult().getOutputContexts());
-	return response;
-    }*/
 
     private String findRentalBranches(final Parameters p) {
 	String branchCode = null;
