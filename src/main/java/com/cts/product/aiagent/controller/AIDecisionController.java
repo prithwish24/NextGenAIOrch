@@ -79,6 +79,7 @@ public class AIDecisionController {
 	    case "startreservation.request":
 		aIDecisionService.initiateReseration(request, response, headers);
 		addAllContexts(response, request.getQueryResult().getOutputContexts());
+		updateSessionIdInCarRentalContext(response.getSession(), request.getQueryResult().getOutputContexts());
 		break;
 	    case "carclassverify.request":
 		aIDecisionService.selectCarClassCall(request, response, headers);
@@ -100,6 +101,14 @@ public class AIDecisionController {
 	return response;
     }
 
+    private void updateSessionIdInCarRentalContext(String sessionId, List<OutputContext> outputContexts) {
+    	outputContexts.stream().forEach(c -> {
+    		if (c.getName().endsWith(CARRENTAL)) {
+    			c.getParameters().setGboSessionId(sessionId);
+    		}
+    	});
+	}
+    
     private void locationVerifyRequest(InputRequest request, OutputResponse response) {
 	String pmsg = null, nmsg = null;
 	JsonNode payload = getFulfilmentPayload(request.getQueryResult().getFulfillmentMessages());

@@ -65,8 +65,6 @@ public class ReservationServiceDelegate {
 	    reservationResponse = reservationService.sendRequest(initiateReservationRequest, reservationResponse, brand,
 		    channel, reservationRequest.getSession(), initiateUrl, headers);
 	    rentalResponse = ReservationMapper.mapInitiateResponse(reservationResponse, carClasses);
-	    p.setGboSessionId(reservationResponse.getResSessionId()); // GBO sessionId from initiate() call 
-	    
 	    carClasses.stream().forEach(cc -> LOG.debug(cc.getCode() + " - " + cc.getName() + " - " + cc.getStatus()));
 	    break;
 	case "selectCarClass":
@@ -78,7 +76,7 @@ public class ReservationServiceDelegate {
 		p.setCarclass(carclass.getCode());
 		VehicleDetailsRequest vehicleDetailsRequest = ReservationMapper.mapSelectCarClassRequest(p);
 		reservationResponse = reservationService.sendRequest(vehicleDetailsRequest, reservationResponse, brand,
-			channel, reservationRequest.getSession(), selectCarClassUrl, headers);
+			channel, p.getGboSessionId(), selectCarClassUrl, headers);
 		rentalResponse = ReservationMapper.mapSelectCarClassResponse(reservationResponse);
 	    } else {
 		rentalResponse = ReservationMapper.mapNoCarClassResponse();
@@ -87,7 +85,7 @@ public class ReservationServiceDelegate {
 	case "commitReservation":
 	    CommitReservationRequest commitReservationRequest = ReservationMapper.mapCommitRequest(p);
 	    reservationResponse = reservationService.sendRequest(commitReservationRequest, reservationResponse, brand,
-		    channel, reservationRequest.getSession(), commitUrl, headers);
+		    channel, p.getGboSessionId(), commitUrl, headers);
 	    rentalResponse = ReservationMapper.mapCommitResponse(reservationResponse);
 	    break;
 	default:
