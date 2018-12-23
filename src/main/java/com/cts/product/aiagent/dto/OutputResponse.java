@@ -20,7 +20,8 @@ public class OutputResponse implements Serializable, Loggable {
     private ErrorType error; // LOGGING purpose onlys
     @JsonIgnore
     private String status;
-    @JsonProperty("session")
+    //@JsonProperty("session")
+    @JsonIgnore
     private String session;
 
     @JsonProperty("fulfillmentText")
