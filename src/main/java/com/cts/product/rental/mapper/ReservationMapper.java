@@ -114,7 +114,7 @@ public class ReservationMapper {
 	    String[] split = params.getFullName().split(" ");
 	    if (split.length > 1) {
 		driverLastName = split[split.length - 1];
-		driverFirstName = StringUtils.join(split, " ", 0, split.length - 2);
+		driverFirstName = StringUtils.join(split, " ", 0, split.length - 1);
 	    } else {
 		driverFirstName = params.getFullName();
 	    }
