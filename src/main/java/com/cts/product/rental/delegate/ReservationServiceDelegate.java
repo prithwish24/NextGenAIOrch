@@ -65,6 +65,8 @@ public class ReservationServiceDelegate {
 	    reservationResponse = reservationService.sendRequest(initiateReservationRequest, reservationResponse, brand,
 		    channel, reservationRequest.getSession(), initiateUrl, headers);
 	    rentalResponse = ReservationMapper.mapInitiateResponse(reservationResponse, carClasses);
+	    p.setGboSessionId(reservationResponse.getResSessionId()); // GBO sessionId from initiate() call 
+	    
 	    carClasses.stream().forEach(cc -> LOG.debug(cc.getCode() + " - " + cc.getName() + " - " + cc.getStatus()));
 	    break;
 	case "selectCarClass":

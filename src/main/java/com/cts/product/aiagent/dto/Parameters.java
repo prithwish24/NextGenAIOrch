@@ -45,6 +45,8 @@ public class Parameters {
     // Output parameters
     @JsonProperty("pickup-branchcode")
     private String branchCode;
+    @JsonProperty("gbo-sessionid")
+    private String gboSessionId;
 
     public String getGeoLocation() {
 	return geoLocation;
@@ -189,4 +191,13 @@ public class Parameters {
     public void setBranchCode(String branchCode) {
 	this.branchCode = branchCode;
     }
+
+	public String getGboSessionId() {
+	return gboSessionId;
+	}
+
+	public void setGboSessionId(String gboSessionId) {
+	this.gboSessionId = gboSessionId;
+	}
+    
 }
