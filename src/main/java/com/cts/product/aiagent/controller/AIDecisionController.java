@@ -86,6 +86,10 @@ public class AIDecisionController {
 		addAllContexts(response, request.getQueryResult().getOutputContexts());
 		break;
 	    case "confirmation.request":
+	    bookingConfirmationRequest(request, response);
+	    addAllContexts(response, request.getQueryResult().getOutputContexts());
+	    break;
+	    case "reserve.request":
 		aIDecisionService.commitReservationCall(request, response, headers);
 		break;
 	    default:
@@ -101,7 +105,20 @@ public class AIDecisionController {
 	return response;
     }
 
-    private void updateSessionIdInCarRentalContext(String sessionId, List<OutputContext> outputContexts) {
+    private void bookingConfirmationRequest(InputRequest request, OutputResponse response) {
+    	String ffText = request.getQueryResult().getFulfillmentText();
+    	Parameters params = getRentalContextParams(request); 
+    	if (params != null) {
+    		if (params.getFirstName() != null) {
+    			ffText = ffText.replace("rentername", params.getFirstName().getGivenName());
+    		} else {
+    			ffText = ffText.replace("rentername", params.getFullName());
+    		}
+    	}
+	    response.setFulfillmentText(ffText);
+	}
+
+	private void updateSessionIdInCarRentalContext(String sessionId, List<OutputContext> outputContexts) {
     	outputContexts.stream().forEach(c -> {
     		if (c.getName().endsWith(CARRENTAL)) {
     			c.getParameters().setGboSessionId(sessionId);

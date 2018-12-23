@@ -60,7 +60,7 @@ public class ReservationServiceDelegate {
 
 	switch (action) {
 	case "initiateReservation":
-	    carClasses.clear();
+	    //carClasses.clear();
 	    InitiateReservationRequest initiateReservationRequest = ReservationMapper.mapInitiateRequest(p);
 	    reservationResponse = reservationService.sendRequest(initiateReservationRequest, reservationResponse, brand,
 		    channel, reservationRequest.getSession(), initiateUrl, headers);
