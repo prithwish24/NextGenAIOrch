@@ -5,12 +5,12 @@
 // Generated on: 2018.07.19 at 07:18:08 PM IST 
 //
 
-
 package com.cts.product.profile.dto.messages;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -26,14 +26,18 @@ import com.cts.product.profile.dto.profiles.Profile;
 import com.cts.product.profile.dto.profiles.SecurityQuestion;
 import com.cts.product.profile.dto.profiles.TermsAndConditions;
 
-
 /**
- * <p>The login response</p>
- * 			
+ * <p>
+ * The login response
+ * </p>
  * 
- * <p>Java class for ProfileResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for ProfileResponse complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="ProfileResponse"&gt;
@@ -58,21 +62,10 @@ import com.cts.product.profile.dto.profiles.TermsAndConditions;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ProfileResponse", propOrder = {
-    "profile",
-    "contactProfile",
-    "addressProfile",
-    "licenseProfile",
-    "citizenshipProfiles",
-    "paymentProfile",
-    "securityQuestion",
-    "preference",
-    "termsAndConditions"
-})
-public class ProfileResponse
-    extends Response
-    implements Serializable
-{
+@XmlType(name = "ProfileResponse", propOrder = { "profile", "contactProfile", "addressProfile", "licenseProfile",
+	"citizenshipProfiles", "paymentProfile", "securityQuestion", "preference", "termsAndConditions",
+	"subscription" })
+public class ProfileResponse extends Response implements Serializable {
 
     @XmlElement(required = true)
     protected Profile profile;
@@ -92,226 +85,212 @@ public class ProfileResponse
     protected ExtendedPreference preference;
     @XmlElement(required = true)
     protected TermsAndConditions termsAndConditions;
+    @XmlElement(required = true)
+    protected Subscription subscription;
 
     /**
      * Gets the value of the profile property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Profile }
-     *     
+     * @return possible object is {@link Profile }
+     * 
      */
     public Profile getProfile() {
-        return profile;
+	return profile;
     }
 
     /**
      * Sets the value of the profile property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Profile }
-     *     
+     *            allowed object is {@link Profile }
+     * 
      */
     public void setProfile(Profile value) {
-        this.profile = value;
+	this.profile = value;
     }
 
     /**
      * Gets the value of the contactProfile property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ContactProfile }
-     *     
+     * @return possible object is {@link ContactProfile }
+     * 
      */
     public ContactProfile getContactProfile() {
-        return contactProfile;
+	return contactProfile;
     }
 
     /**
      * Sets the value of the contactProfile property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ContactProfile }
-     *     
+     *            allowed object is {@link ContactProfile }
+     * 
      */
     public void setContactProfile(ContactProfile value) {
-        this.contactProfile = value;
+	this.contactProfile = value;
     }
 
     /**
      * Gets the value of the addressProfile property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
+     * @return possible object is {@link Address }
+     * 
      */
     public Address getAddressProfile() {
-        return addressProfile;
+	return addressProfile;
     }
 
     /**
      * Sets the value of the addressProfile property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
+     *            allowed object is {@link Address }
+     * 
      */
     public void setAddressProfile(Address value) {
-        this.addressProfile = value;
+	this.addressProfile = value;
     }
 
     /**
      * Gets the value of the licenseProfile property.
      * 
-     * @return
-     *     possible object is
-     *     {@link LicenseProfile }
-     *     
+     * @return possible object is {@link LicenseProfile }
+     * 
      */
     public LicenseProfile getLicenseProfile() {
-        return licenseProfile;
+	return licenseProfile;
     }
 
     /**
      * Sets the value of the licenseProfile property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link LicenseProfile }
-     *     
+     *            allowed object is {@link LicenseProfile }
+     * 
      */
     public void setLicenseProfile(LicenseProfile value) {
-        this.licenseProfile = value;
+	this.licenseProfile = value;
     }
 
     /**
      * Gets the value of the citizenshipProfiles property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the citizenshipProfiles property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the citizenshipProfiles property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getCitizenshipProfiles().add(newItem);
+     * getCitizenshipProfiles().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link LegalId }
+     * Objects of the following type(s) are allowed in the list {@link LegalId }
      * 
      * 
      */
     public List<LegalId> getCitizenshipProfiles() {
-        if (citizenshipProfiles == null) {
-            citizenshipProfiles = new ArrayList<LegalId>();
-        }
-        return this.citizenshipProfiles;
+	if (citizenshipProfiles == null) {
+	    citizenshipProfiles = new ArrayList<LegalId>();
+	}
+	return this.citizenshipProfiles;
     }
 
     /**
      * Gets the value of the paymentProfile property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PaymentProfile }
-     *     
+     * @return possible object is {@link PaymentProfile }
+     * 
      */
     public PaymentProfile getPaymentProfile() {
-        return paymentProfile;
+	return paymentProfile;
     }
 
     /**
      * Sets the value of the paymentProfile property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link PaymentProfile }
-     *     
+     *            allowed object is {@link PaymentProfile }
+     * 
      */
     public void setPaymentProfile(PaymentProfile value) {
-        this.paymentProfile = value;
+	this.paymentProfile = value;
     }
 
     /**
      * Gets the value of the securityQuestion property.
      * 
-     * @return
-     *     possible object is
-     *     {@link SecurityQuestion }
-     *     
+     * @return possible object is {@link SecurityQuestion }
+     * 
      */
     public SecurityQuestion getSecurityQuestion() {
-        return securityQuestion;
+	return securityQuestion;
     }
 
     /**
      * Sets the value of the securityQuestion property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link SecurityQuestion }
-     *     
+     *            allowed object is {@link SecurityQuestion }
+     * 
      */
     public void setSecurityQuestion(SecurityQuestion value) {
-        this.securityQuestion = value;
+	this.securityQuestion = value;
     }
 
     /**
      * Gets the value of the preference property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ExtendedPreference }
-     *     
+     * @return possible object is {@link ExtendedPreference }
+     * 
      */
     public ExtendedPreference getPreference() {
-        return preference;
+	return preference;
     }
 
     /**
      * Sets the value of the preference property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ExtendedPreference }
-     *     
+     *            allowed object is {@link ExtendedPreference }
+     * 
      */
     public void setPreference(ExtendedPreference value) {
-        this.preference = value;
+	this.preference = value;
     }
 
     /**
      * Gets the value of the termsAndConditions property.
      * 
-     * @return
-     *     possible object is
-     *     {@link TermsAndConditions }
-     *     
+     * @return possible object is {@link TermsAndConditions }
+     * 
      */
     public TermsAndConditions getTermsAndConditions() {
-        return termsAndConditions;
+	return termsAndConditions;
     }
 
     /**
      * Sets the value of the termsAndConditions property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link TermsAndConditions }
-     *     
+     *            allowed object is {@link TermsAndConditions }
+     * 
      */
     public void setTermsAndConditions(TermsAndConditions value) {
-        this.termsAndConditions = value;
+	this.termsAndConditions = value;
+    }
+
+    public Subscription getSubscription() {
+	return subscription;
+    }
+
+    public void setSubscription(Subscription subscription) {
+	this.subscription = subscription;
     }
 
 }

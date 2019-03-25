@@ -5,18 +5,19 @@
 // Generated on: 2018.12.07 at 06:05:25 PM IST 
 //
 
-
 package com.cts.product.rental.dto.messages;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
 import com.cts.product.rental.dto.common.Coupon;
 import com.cts.product.rental.dto.common.LevelOfService;
 import com.cts.product.rental.dto.common.Mra;
@@ -54,11 +55,13 @@ import com.cts.product.rental.dto.user.PaymentMethod;
 import com.cts.product.rental.dto.user.ProfileDetails;
 import com.cts.product.rental.dto.vehicle.VehicleFilter;
 
-
 /**
- * <p>Java class for ReservationResponse complex type.
+ * <p>
+ * Java class for ReservationResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="ReservationResponse"&gt;
@@ -164,102 +167,27 @@ import com.cts.product.rental.dto.vehicle.VehicleFilter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ReservationResponse", propOrder = {
-    "resSessionId",
-    "pickupLocation",
-    "returnLocation",
-    "pickupTime",
-    "returnTime",
-    "paymentMethods",
-    "afterHoursReturn",
-    "longTermRental",
-    "additionalInfoRequiredBeforeRates",
-    "contractNumber",
-    "renterAge",
-    "contractHasAdditionalBenefits",
-    "businessLeisureGenericDisclaimer",
-    "termsAndConditionsDocumentPath",
-    "driverInfo",
-    "carClasses",
-    "carClassesFilters",
-    "airlineInfo",
-    "excludedExtras",
-    "additionalInformation",
-    "selectedPaymentMethod",
-    "cancellationDetails",
-    "billingAccount",
-    "alternativePickupLocations",
-    "alternativeReturnLocations",
-    "carClassDetails",
-    "confirmationNumber",
-    "ticketNumber",
-    "reservationStatus",
-    "upgradeVehiclePossible",
-    "upgradeCarClassDetails",
-    "extrasNoLongerAvailableAfterUpgrades",
-    "contractDetails",
-    "reservationEligibility",
-    "policies",
-    "deliveryAllowed",
-    "collectionAllowed",
-    "afterHoursReturnSelected",
-    "afterHoursPickupSelected",
-    "doNotRentIndicator",
-    "vehicleLogistics",
-    "prepaySelected",
-    "cancelRebook",
-    "ePlusPointsUsed",
-    "eplusPointsEarned",
-    "redemptionDayCount",
-    "eplusTotalAvailablePoints",
-    "europeanUnionCountry",
-    "payments",
-    "travelPurpose",
-    "prefillDeepLinkUrl",
-    "rulesOfTheRoadUrl",
-    "onRequestCarClassSelected",
-    "prepayPolicies",
-    "rentalChecklists",
-    "keyFactsPolicies",
-    "signatureAccount",
-    "partnerRewardProgram",
-    "protectionsRequiredAtCounter",
-    "protectionsRequiredAtCounterText",
-    "licenseeName",
-    "visitDomainUrl",
-    "blockAssociateProfile",
-    "deliveryCollection",
-    "iataNumber",
-    "blockModifyPickupLocation",
-    "collectNewPaymentCardInModify",
-    "prepayPaymentProcessor",
-    "blockPartnerRewards",
-    "rewardType",
-    "pickupReservation",
-    "levelOfService",
-    "currencyConversionDisclaimerText",
-    "priorityServiceAvailableAtLocation",
-    "mra",
-    "analyticData",
-    "coupons",
-    "bookingAgent",
-    "travelAdmin",
-    "travelAgent",
-    "modificationConstraints",
-    "profileDetails",
-    "numberOfAdditionalDriversAllowed",
-    "additionalDrivers",
-    "remainingDaysForPickUp",
-    "reservationSubStatus",
-    "links",
-    "vriEligible",
-    "onRequestAfterHours",
-    "oneClickDefaultCarClass"
-})
-public class ReservationResponse
-    extends Response
-    implements Serializable
-{
+@XmlType(name = "ReservationResponse", propOrder = { "resSessionId", "pickupLocation", "returnLocation", "pickupTime",
+	"returnTime", "paymentMethods", "afterHoursReturn", "longTermRental", "additionalInfoRequiredBeforeRates",
+	"contractNumber", "renterAge", "contractHasAdditionalBenefits", "businessLeisureGenericDisclaimer",
+	"termsAndConditionsDocumentPath", "driverInfo", "carClasses", "carClassesFilters", "airlineInfo",
+	"excludedExtras", "additionalInformation", "selectedPaymentMethod", "cancellationDetails", "billingAccount",
+	"alternativePickupLocations", "alternativeReturnLocations", "carClassDetails", "confirmationNumber",
+	"ticketNumber", "reservationStatus", "upgradeVehiclePossible", "upgradeCarClassDetails",
+	"extrasNoLongerAvailableAfterUpgrades", "contractDetails", "reservationEligibility", "policies",
+	"deliveryAllowed", "collectionAllowed", "afterHoursReturnSelected", "afterHoursPickupSelected",
+	"doNotRentIndicator", "vehicleLogistics", "prepaySelected", "cancelRebook", "ePlusPointsUsed",
+	"eplusPointsEarned", "redemptionDayCount", "eplusTotalAvailablePoints", "europeanUnionCountry", "payments",
+	"travelPurpose", "prefillDeepLinkUrl", "rulesOfTheRoadUrl", "onRequestCarClassSelected", "prepayPolicies",
+	"rentalChecklists", "keyFactsPolicies", "signatureAccount", "partnerRewardProgram",
+	"protectionsRequiredAtCounter", "protectionsRequiredAtCounterText", "licenseeName", "visitDomainUrl",
+	"blockAssociateProfile", "deliveryCollection", "iataNumber", "blockModifyPickupLocation",
+	"collectNewPaymentCardInModify", "prepayPaymentProcessor", "blockPartnerRewards", "rewardType",
+	"pickupReservation", "levelOfService", "currencyConversionDisclaimerText", "priorityServiceAvailableAtLocation",
+	"mra", "analyticData", "coupons", "bookingAgent", "travelAdmin", "travelAgent", "modificationConstraints",
+	"profileDetails", "numberOfAdditionalDriversAllowed", "additionalDrivers", "remainingDaysForPickUp",
+	"reservationSubStatus", "links", "vriEligible", "onRequestAfterHours", "oneClickDefaultCarClass" })
+public class ReservationResponse extends Response implements Serializable {
 
     @XmlElement(namespace = "http://com.cts.product.rental.dto.reservation/", required = true)
     protected String resSessionId;
@@ -271,6 +199,8 @@ public class ReservationResponse
     protected String pickupTime;
     @XmlElement(namespace = "http://com.cts.product.rental.dto.reservation/", required = true)
     protected String returnTime;
+    @XmlElement(namespace = "http://com.cts.product.rental.dto.reservation/", required = true)
+    protected String createdTime;
     protected List<PaymentMethod> paymentMethods;
     @XmlElement(namespace = "http://com.cts.product.rental.dto.reservation/", required = true, type = Boolean.class, nillable = true)
     protected Boolean afterHoursReturn;
@@ -421,270 +351,262 @@ public class ReservationResponse
     /**
      * Gets the value of the resSessionId property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getResSessionId() {
-        return resSessionId;
+	return resSessionId;
     }
 
     /**
      * Sets the value of the resSessionId property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setResSessionId(String value) {
-        this.resSessionId = value;
+	this.resSessionId = value;
     }
 
     /**
      * Gets the value of the pickupLocation property.
      * 
-     * @return
-     *     possible object is
-     *     {@link LocationDetail }
-     *     
+     * @return possible object is {@link LocationDetail }
+     * 
      */
     public LocationDetail getPickupLocation() {
-        return pickupLocation;
+	return pickupLocation;
     }
 
     /**
      * Sets the value of the pickupLocation property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link LocationDetail }
-     *     
+     *            allowed object is {@link LocationDetail }
+     * 
      */
     public void setPickupLocation(LocationDetail value) {
-        this.pickupLocation = value;
+	this.pickupLocation = value;
     }
 
     /**
      * Gets the value of the returnLocation property.
      * 
-     * @return
-     *     possible object is
-     *     {@link LocationDetail }
-     *     
+     * @return possible object is {@link LocationDetail }
+     * 
      */
     public LocationDetail getReturnLocation() {
-        return returnLocation;
+	return returnLocation;
     }
 
     /**
      * Sets the value of the returnLocation property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link LocationDetail }
-     *     
+     *            allowed object is {@link LocationDetail }
+     * 
      */
     public void setReturnLocation(LocationDetail value) {
-        this.returnLocation = value;
+	this.returnLocation = value;
     }
 
     /**
      * Gets the value of the pickupTime property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getPickupTime() {
-        return pickupTime;
+	return pickupTime;
     }
 
     /**
      * Sets the value of the pickupTime property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setPickupTime(String value) {
-        this.pickupTime = value;
+	this.pickupTime = value;
     }
 
     /**
      * Gets the value of the returnTime property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getReturnTime() {
-        return returnTime;
+	return returnTime;
     }
 
     /**
      * Sets the value of the returnTime property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setReturnTime(String value) {
-        this.returnTime = value;
+	this.returnTime = value;
+    }
+
+    /**
+     * Gets the value of the createdTime property.
+     * 
+     * @return possible object is {@link String }
+     * 
+     */
+    public String getCreatedTime() {
+	return createdTime;
+    }
+
+    /**
+     * Sets the value of the createdTime property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     * 
+     */
+    public void setCreatedTime(String value) {
+	this.createdTime = value;
     }
 
     /**
      * Gets the value of the paymentMethods property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the paymentMethods property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the paymentMethods property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getPaymentMethods().add(newItem);
+     * getPaymentMethods().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link PaymentMethod }
+     * Objects of the following type(s) are allowed in the list {@link PaymentMethod
+     * }
      * 
      * 
      */
     public List<PaymentMethod> getPaymentMethods() {
-        if (paymentMethods == null) {
-            paymentMethods = new ArrayList<PaymentMethod>();
-        }
-        return this.paymentMethods;
+	if (paymentMethods == null) {
+	    paymentMethods = new ArrayList<PaymentMethod>();
+	}
+	return this.paymentMethods;
     }
 
     /**
      * Gets the value of the afterHoursReturn property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getAfterHoursReturn() {
-        return afterHoursReturn;
+	return afterHoursReturn;
     }
 
     /**
      * Sets the value of the afterHoursReturn property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setAfterHoursReturn(Boolean value) {
-        this.afterHoursReturn = value;
+	this.afterHoursReturn = value;
     }
 
     /**
      * Gets the value of the longTermRental property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getLongTermRental() {
-        return longTermRental;
+	return longTermRental;
     }
 
     /**
      * Sets the value of the longTermRental property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setLongTermRental(Boolean value) {
-        this.longTermRental = value;
+	this.longTermRental = value;
     }
 
     /**
      * Gets the value of the additionalInfoRequiredBeforeRates property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getAdditionalInfoRequiredBeforeRates() {
-        return additionalInfoRequiredBeforeRates;
+	return additionalInfoRequiredBeforeRates;
     }
 
     /**
      * Sets the value of the additionalInfoRequiredBeforeRates property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setAdditionalInfoRequiredBeforeRates(Boolean value) {
-        this.additionalInfoRequiredBeforeRates = value;
+	this.additionalInfoRequiredBeforeRates = value;
     }
 
     /**
      * Gets the value of the contractNumber property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getContractNumber() {
-        return contractNumber;
+	return contractNumber;
     }
 
     /**
      * Sets the value of the contractNumber property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setContractNumber(String value) {
-        this.contractNumber = value;
+	this.contractNumber = value;
     }
 
     /**
      * Gets the value of the renterAge property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
+     * @return possible object is {@link Integer }
+     * 
      */
     public Integer getRenterAge() {
-        return renterAge;
+	return renterAge;
     }
 
     /**
      * Sets the value of the renterAge property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
+     *            allowed object is {@link Integer }
+     * 
      */
     public void setRenterAge(Integer value) {
-        this.renterAge = value;
+	this.renterAge = value;
     }
 
     /**
@@ -692,7 +614,7 @@ public class ReservationResponse
      * 
      */
     public boolean isContractHasAdditionalBenefits() {
-        return contractHasAdditionalBenefits;
+	return contractHasAdditionalBenefits;
     }
 
     /**
@@ -700,205 +622,195 @@ public class ReservationResponse
      * 
      */
     public void setContractHasAdditionalBenefits(boolean value) {
-        this.contractHasAdditionalBenefits = value;
+	this.contractHasAdditionalBenefits = value;
     }
 
     /**
      * Gets the value of the businessLeisureGenericDisclaimer property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getBusinessLeisureGenericDisclaimer() {
-        return businessLeisureGenericDisclaimer;
+	return businessLeisureGenericDisclaimer;
     }
 
     /**
      * Sets the value of the businessLeisureGenericDisclaimer property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setBusinessLeisureGenericDisclaimer(String value) {
-        this.businessLeisureGenericDisclaimer = value;
+	this.businessLeisureGenericDisclaimer = value;
     }
 
     /**
      * Gets the value of the termsAndConditionsDocumentPath property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getTermsAndConditionsDocumentPath() {
-        return termsAndConditionsDocumentPath;
+	return termsAndConditionsDocumentPath;
     }
 
     /**
      * Sets the value of the termsAndConditionsDocumentPath property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setTermsAndConditionsDocumentPath(String value) {
-        this.termsAndConditionsDocumentPath = value;
+	this.termsAndConditionsDocumentPath = value;
     }
 
     /**
      * Gets the value of the driverInfo property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ExtendedDriverInfo }
-     *     
+     * @return possible object is {@link ExtendedDriverInfo }
+     * 
      */
     public ExtendedDriverInfo getDriverInfo() {
-        return driverInfo;
+	return driverInfo;
     }
 
     /**
      * Sets the value of the driverInfo property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ExtendedDriverInfo }
-     *     
+     *            allowed object is {@link ExtendedDriverInfo }
+     * 
      */
     public void setDriverInfo(ExtendedDriverInfo value) {
-        this.driverInfo = value;
+	this.driverInfo = value;
     }
 
     /**
      * Gets the value of the carClasses property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the carClasses property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the carClasses property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getCarClasses().add(newItem);
+     * getCarClasses().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CarClass }
+     * Objects of the following type(s) are allowed in the list {@link CarClass }
      * 
      * 
      */
     public List<CarClass> getCarClasses() {
-        if (carClasses == null) {
-            carClasses = new ArrayList<CarClass>();
-        }
-        return this.carClasses;
+	if (carClasses == null) {
+	    carClasses = new ArrayList<CarClass>();
+	}
+	return this.carClasses;
     }
 
     /**
      * Gets the value of the carClassesFilters property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the carClassesFilters property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the carClassesFilters property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getCarClassesFilters().add(newItem);
+     * getCarClassesFilters().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link VehicleFilter }
+     * Objects of the following type(s) are allowed in the list {@link VehicleFilter
+     * }
      * 
      * 
      */
     public List<VehicleFilter> getCarClassesFilters() {
-        if (carClassesFilters == null) {
-            carClassesFilters = new ArrayList<VehicleFilter>();
-        }
-        return this.carClassesFilters;
+	if (carClassesFilters == null) {
+	    carClassesFilters = new ArrayList<VehicleFilter>();
+	}
+	return this.carClassesFilters;
     }
 
     /**
      * Gets the value of the airlineInfo property.
      * 
-     * @return
-     *     possible object is
-     *     {@link AirlineInformation }
-     *     
+     * @return possible object is {@link AirlineInformation }
+     * 
      */
     public AirlineInformation getAirlineInfo() {
-        return airlineInfo;
+	return airlineInfo;
     }
 
     /**
      * Sets the value of the airlineInfo property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link AirlineInformation }
-     *     
+     *            allowed object is {@link AirlineInformation }
+     * 
      */
     public void setAirlineInfo(AirlineInformation value) {
-        this.airlineInfo = value;
+	this.airlineInfo = value;
     }
 
     /**
      * Gets the value of the excludedExtras property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the excludedExtras property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the excludedExtras property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getExcludedExtras().add(newItem);
+     * getExcludedExtras().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link String }
      * 
      * 
      */
     public List<String> getExcludedExtras() {
-        if (excludedExtras == null) {
-            excludedExtras = new ArrayList<String>();
-        }
-        return this.excludedExtras;
+	if (excludedExtras == null) {
+	    excludedExtras = new ArrayList<String>();
+	}
+	return this.excludedExtras;
     }
 
     /**
      * Gets the value of the additionalInformation property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the additionalInformation property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the additionalInformation property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getAdditionalInformation().add(newItem);
+     * getAdditionalInformation().add(newItem);
      * </pre>
      * 
      * 
@@ -909,236 +821,215 @@ public class ReservationResponse
      * 
      */
     public List<AdditionalInformationData> getAdditionalInformation() {
-        if (additionalInformation == null) {
-            additionalInformation = new ArrayList<AdditionalInformationData>();
-        }
-        return this.additionalInformation;
+	if (additionalInformation == null) {
+	    additionalInformation = new ArrayList<AdditionalInformationData>();
+	}
+	return this.additionalInformation;
     }
 
     /**
      * Gets the value of the selectedPaymentMethod property.
      * 
-     * @return
-     *     possible object is
-     *     {@link SelectedPaymentMethod }
-     *     
+     * @return possible object is {@link SelectedPaymentMethod }
+     * 
      */
     public SelectedPaymentMethod getSelectedPaymentMethod() {
-        return selectedPaymentMethod;
+	return selectedPaymentMethod;
     }
 
     /**
      * Sets the value of the selectedPaymentMethod property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link SelectedPaymentMethod }
-     *     
+     *            allowed object is {@link SelectedPaymentMethod }
+     * 
      */
     public void setSelectedPaymentMethod(SelectedPaymentMethod value) {
-        this.selectedPaymentMethod = value;
+	this.selectedPaymentMethod = value;
     }
 
     /**
      * Gets the value of the cancellationDetails property.
      * 
-     * @return
-     *     possible object is
-     *     {@link CancellationDetails }
-     *     
+     * @return possible object is {@link CancellationDetails }
+     * 
      */
     public CancellationDetails getCancellationDetails() {
-        return cancellationDetails;
+	return cancellationDetails;
     }
 
     /**
      * Sets the value of the cancellationDetails property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link CancellationDetails }
-     *     
+     *            allowed object is {@link CancellationDetails }
+     * 
      */
     public void setCancellationDetails(CancellationDetails value) {
-        this.cancellationDetails = value;
+	this.cancellationDetails = value;
     }
 
     /**
      * Gets the value of the billingAccount property.
      * 
-     * @return
-     *     possible object is
-     *     {@link BillingAccount }
-     *     
+     * @return possible object is {@link BillingAccount }
+     * 
      */
     public BillingAccount getBillingAccount() {
-        return billingAccount;
+	return billingAccount;
     }
 
     /**
      * Sets the value of the billingAccount property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link BillingAccount }
-     *     
+     *            allowed object is {@link BillingAccount }
+     * 
      */
     public void setBillingAccount(BillingAccount value) {
-        this.billingAccount = value;
+	this.billingAccount = value;
     }
 
     /**
      * Gets the value of the alternativePickupLocations property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the alternativePickupLocations property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the alternativePickupLocations property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getAlternativePickupLocations().add(newItem);
+     * getAlternativePickupLocations().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Location }
+     * Objects of the following type(s) are allowed in the list {@link Location }
      * 
      * 
      */
     public List<Location> getAlternativePickupLocations() {
-        if (alternativePickupLocations == null) {
-            alternativePickupLocations = new ArrayList<Location>();
-        }
-        return this.alternativePickupLocations;
+	if (alternativePickupLocations == null) {
+	    alternativePickupLocations = new ArrayList<Location>();
+	}
+	return this.alternativePickupLocations;
     }
 
     /**
      * Gets the value of the alternativeReturnLocations property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the alternativeReturnLocations property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the alternativeReturnLocations property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getAlternativeReturnLocations().add(newItem);
+     * getAlternativeReturnLocations().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Location }
+     * Objects of the following type(s) are allowed in the list {@link Location }
      * 
      * 
      */
     public List<Location> getAlternativeReturnLocations() {
-        if (alternativeReturnLocations == null) {
-            alternativeReturnLocations = new ArrayList<Location>();
-        }
-        return this.alternativeReturnLocations;
+	if (alternativeReturnLocations == null) {
+	    alternativeReturnLocations = new ArrayList<Location>();
+	}
+	return this.alternativeReturnLocations;
     }
 
     /**
      * Gets the value of the carClassDetails property.
      * 
-     * @return
-     *     possible object is
-     *     {@link CarClassDetails }
-     *     
+     * @return possible object is {@link CarClassDetails }
+     * 
      */
     public CarClassDetails getCarClassDetails() {
-        return carClassDetails;
+	return carClassDetails;
     }
 
     /**
      * Sets the value of the carClassDetails property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link CarClassDetails }
-     *     
+     *            allowed object is {@link CarClassDetails }
+     * 
      */
     public void setCarClassDetails(CarClassDetails value) {
-        this.carClassDetails = value;
+	this.carClassDetails = value;
     }
 
     /**
      * Gets the value of the confirmationNumber property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getConfirmationNumber() {
-        return confirmationNumber;
+	return confirmationNumber;
     }
 
     /**
      * Sets the value of the confirmationNumber property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setConfirmationNumber(String value) {
-        this.confirmationNumber = value;
+	this.confirmationNumber = value;
     }
 
     /**
      * Gets the value of the ticketNumber property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getTicketNumber() {
-        return ticketNumber;
+	return ticketNumber;
     }
 
     /**
      * Sets the value of the ticketNumber property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setTicketNumber(String value) {
-        this.ticketNumber = value;
+	this.ticketNumber = value;
     }
 
     /**
      * Gets the value of the reservationStatus property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getReservationStatus() {
-        return reservationStatus;
+	return reservationStatus;
     }
 
     /**
      * Sets the value of the reservationStatus property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setReservationStatus(String value) {
-        this.reservationStatus = value;
+	this.reservationStatus = value;
     }
 
     /**
@@ -1146,7 +1037,7 @@ public class ReservationResponse
      * 
      */
     public boolean isUpgradeVehiclePossible() {
-        return upgradeVehiclePossible;
+	return upgradeVehiclePossible;
     }
 
     /**
@@ -1154,22 +1045,23 @@ public class ReservationResponse
      * 
      */
     public void setUpgradeVehiclePossible(boolean value) {
-        this.upgradeVehiclePossible = value;
+	this.upgradeVehiclePossible = value;
     }
 
     /**
      * Gets the value of the upgradeCarClassDetails property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the upgradeCarClassDetails property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the upgradeCarClassDetails property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getUpgradeCarClassDetails().add(newItem);
+     * getUpgradeCarClassDetails().add(newItem);
      * </pre>
      * 
      * 
@@ -1180,25 +1072,26 @@ public class ReservationResponse
      * 
      */
     public List<CarClassDetails> getUpgradeCarClassDetails() {
-        if (upgradeCarClassDetails == null) {
-            upgradeCarClassDetails = new ArrayList<CarClassDetails>();
-        }
-        return this.upgradeCarClassDetails;
+	if (upgradeCarClassDetails == null) {
+	    upgradeCarClassDetails = new ArrayList<CarClassDetails>();
+	}
+	return this.upgradeCarClassDetails;
     }
 
     /**
      * Gets the value of the extrasNoLongerAvailableAfterUpgrades property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the extrasNoLongerAvailableAfterUpgrades property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the extrasNoLongerAvailableAfterUpgrades property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getExtrasNoLongerAvailableAfterUpgrades().add(newItem);
+     * getExtrasNoLongerAvailableAfterUpgrades().add(newItem);
      * </pre>
      * 
      * 
@@ -1209,87 +1102,81 @@ public class ReservationResponse
      * 
      */
     public List<BaseExtraContent> getExtrasNoLongerAvailableAfterUpgrades() {
-        if (extrasNoLongerAvailableAfterUpgrades == null) {
-            extrasNoLongerAvailableAfterUpgrades = new ArrayList<BaseExtraContent>();
-        }
-        return this.extrasNoLongerAvailableAfterUpgrades;
+	if (extrasNoLongerAvailableAfterUpgrades == null) {
+	    extrasNoLongerAvailableAfterUpgrades = new ArrayList<BaseExtraContent>();
+	}
+	return this.extrasNoLongerAvailableAfterUpgrades;
     }
 
     /**
      * Gets the value of the contractDetails property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ContractDetails }
-     *     
+     * @return possible object is {@link ContractDetails }
+     * 
      */
     public ContractDetails getContractDetails() {
-        return contractDetails;
+	return contractDetails;
     }
 
     /**
      * Sets the value of the contractDetails property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ContractDetails }
-     *     
+     *            allowed object is {@link ContractDetails }
+     * 
      */
     public void setContractDetails(ContractDetails value) {
-        this.contractDetails = value;
+	this.contractDetails = value;
     }
 
     /**
      * Gets the value of the reservationEligibility property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ReservationEligibility }
-     *     
+     * @return possible object is {@link ReservationEligibility }
+     * 
      */
     public ReservationEligibility getReservationEligibility() {
-        return reservationEligibility;
+	return reservationEligibility;
     }
 
     /**
      * Sets the value of the reservationEligibility property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ReservationEligibility }
-     *     
+     *            allowed object is {@link ReservationEligibility }
+     * 
      */
     public void setReservationEligibility(ReservationEligibility value) {
-        this.reservationEligibility = value;
+	this.reservationEligibility = value;
     }
 
     /**
      * Gets the value of the policies property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the policies property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the policies property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getPolicies().add(newItem);
+     * getPolicies().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Policy }
+     * Objects of the following type(s) are allowed in the list {@link Policy }
      * 
      * 
      */
     public List<Policy> getPolicies() {
-        if (policies == null) {
-            policies = new ArrayList<Policy>();
-        }
-        return this.policies;
+	if (policies == null) {
+	    policies = new ArrayList<Policy>();
+	}
+	return this.policies;
     }
 
     /**
@@ -1297,7 +1184,7 @@ public class ReservationResponse
      * 
      */
     public boolean isDeliveryAllowed() {
-        return deliveryAllowed;
+	return deliveryAllowed;
     }
 
     /**
@@ -1305,7 +1192,7 @@ public class ReservationResponse
      * 
      */
     public void setDeliveryAllowed(boolean value) {
-        this.deliveryAllowed = value;
+	this.deliveryAllowed = value;
     }
 
     /**
@@ -1313,7 +1200,7 @@ public class ReservationResponse
      * 
      */
     public boolean isCollectionAllowed() {
-        return collectionAllowed;
+	return collectionAllowed;
     }
 
     /**
@@ -1321,7 +1208,7 @@ public class ReservationResponse
      * 
      */
     public void setCollectionAllowed(boolean value) {
-        this.collectionAllowed = value;
+	this.collectionAllowed = value;
     }
 
     /**
@@ -1329,7 +1216,7 @@ public class ReservationResponse
      * 
      */
     public boolean isAfterHoursReturnSelected() {
-        return afterHoursReturnSelected;
+	return afterHoursReturnSelected;
     }
 
     /**
@@ -1337,7 +1224,7 @@ public class ReservationResponse
      * 
      */
     public void setAfterHoursReturnSelected(boolean value) {
-        this.afterHoursReturnSelected = value;
+	this.afterHoursReturnSelected = value;
     }
 
     /**
@@ -1345,7 +1232,7 @@ public class ReservationResponse
      * 
      */
     public boolean isAfterHoursPickupSelected() {
-        return afterHoursPickupSelected;
+	return afterHoursPickupSelected;
     }
 
     /**
@@ -1353,7 +1240,7 @@ public class ReservationResponse
      * 
      */
     public void setAfterHoursPickupSelected(boolean value) {
-        this.afterHoursPickupSelected = value;
+	this.afterHoursPickupSelected = value;
     }
 
     /**
@@ -1361,7 +1248,7 @@ public class ReservationResponse
      * 
      */
     public boolean isDoNotRentIndicator() {
-        return doNotRentIndicator;
+	return doNotRentIndicator;
     }
 
     /**
@@ -1369,31 +1256,28 @@ public class ReservationResponse
      * 
      */
     public void setDoNotRentIndicator(boolean value) {
-        this.doNotRentIndicator = value;
+	this.doNotRentIndicator = value;
     }
 
     /**
      * Gets the value of the vehicleLogistics property.
      * 
-     * @return
-     *     possible object is
-     *     {@link VehicleLogistics }
-     *     
+     * @return possible object is {@link VehicleLogistics }
+     * 
      */
     public VehicleLogistics getVehicleLogistics() {
-        return vehicleLogistics;
+	return vehicleLogistics;
     }
 
     /**
      * Sets the value of the vehicleLogistics property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link VehicleLogistics }
-     *     
+     *            allowed object is {@link VehicleLogistics }
+     * 
      */
     public void setVehicleLogistics(VehicleLogistics value) {
-        this.vehicleLogistics = value;
+	this.vehicleLogistics = value;
     }
 
     /**
@@ -1401,7 +1285,7 @@ public class ReservationResponse
      * 
      */
     public boolean isPrepaySelected() {
-        return prepaySelected;
+	return prepaySelected;
     }
 
     /**
@@ -1409,7 +1293,7 @@ public class ReservationResponse
      * 
      */
     public void setPrepaySelected(boolean value) {
-        this.prepaySelected = value;
+	this.prepaySelected = value;
     }
 
     /**
@@ -1417,7 +1301,7 @@ public class ReservationResponse
      * 
      */
     public boolean isCancelRebook() {
-        return cancelRebook;
+	return cancelRebook;
     }
 
     /**
@@ -1425,103 +1309,91 @@ public class ReservationResponse
      * 
      */
     public void setCancelRebook(boolean value) {
-        this.cancelRebook = value;
+	this.cancelRebook = value;
     }
 
     /**
      * Gets the value of the ePlusPointsUsed property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
+     * @return possible object is {@link Integer }
+     * 
      */
     public Integer getEPlusPointsUsed() {
-        return ePlusPointsUsed;
+	return ePlusPointsUsed;
     }
 
     /**
      * Sets the value of the ePlusPointsUsed property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
+     *            allowed object is {@link Integer }
+     * 
      */
     public void setEPlusPointsUsed(Integer value) {
-        this.ePlusPointsUsed = value;
+	this.ePlusPointsUsed = value;
     }
 
     /**
      * Gets the value of the eplusPointsEarned property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
+     * @return possible object is {@link Integer }
+     * 
      */
     public Integer getEplusPointsEarned() {
-        return eplusPointsEarned;
+	return eplusPointsEarned;
     }
 
     /**
      * Sets the value of the eplusPointsEarned property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
+     *            allowed object is {@link Integer }
+     * 
      */
     public void setEplusPointsEarned(Integer value) {
-        this.eplusPointsEarned = value;
+	this.eplusPointsEarned = value;
     }
 
     /**
      * Gets the value of the redemptionDayCount property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
+     * @return possible object is {@link Integer }
+     * 
      */
     public Integer getRedemptionDayCount() {
-        return redemptionDayCount;
+	return redemptionDayCount;
     }
 
     /**
      * Sets the value of the redemptionDayCount property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
+     *            allowed object is {@link Integer }
+     * 
      */
     public void setRedemptionDayCount(Integer value) {
-        this.redemptionDayCount = value;
+	this.redemptionDayCount = value;
     }
 
     /**
      * Gets the value of the eplusTotalAvailablePoints property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
+     * @return possible object is {@link Integer }
+     * 
      */
     public Integer getEplusTotalAvailablePoints() {
-        return eplusTotalAvailablePoints;
+	return eplusTotalAvailablePoints;
     }
 
     /**
      * Sets the value of the eplusTotalAvailablePoints property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
+     *            allowed object is {@link Integer }
+     * 
      */
     public void setEplusTotalAvailablePoints(Integer value) {
-        this.eplusTotalAvailablePoints = value;
+	this.eplusTotalAvailablePoints = value;
     }
 
     /**
@@ -1529,7 +1401,7 @@ public class ReservationResponse
      * 
      */
     public boolean isEuropeanUnionCountry() {
-        return europeanUnionCountry;
+	return europeanUnionCountry;
     }
 
     /**
@@ -1537,108 +1409,99 @@ public class ReservationResponse
      * 
      */
     public void setEuropeanUnionCountry(boolean value) {
-        this.europeanUnionCountry = value;
+	this.europeanUnionCountry = value;
     }
 
     /**
      * Gets the value of the payments property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the payments property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the payments property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getPayments().add(newItem);
+     * getPayments().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Payment }
+     * Objects of the following type(s) are allowed in the list {@link Payment }
      * 
      * 
      */
     public List<Payment> getPayments() {
-        if (payments == null) {
-            payments = new ArrayList<Payment>();
-        }
-        return this.payments;
+	if (payments == null) {
+	    payments = new ArrayList<Payment>();
+	}
+	return this.payments;
     }
 
     /**
      * Gets the value of the travelPurpose property.
      * 
-     * @return
-     *     possible object is
-     *     {@link TravelPurposeEnum }
-     *     
+     * @return possible object is {@link TravelPurposeEnum }
+     * 
      */
     public TravelPurposeEnum getTravelPurpose() {
-        return travelPurpose;
+	return travelPurpose;
     }
 
     /**
      * Sets the value of the travelPurpose property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link TravelPurposeEnum }
-     *     
+     *            allowed object is {@link TravelPurposeEnum }
+     * 
      */
     public void setTravelPurpose(TravelPurposeEnum value) {
-        this.travelPurpose = value;
+	this.travelPurpose = value;
     }
 
     /**
      * Gets the value of the prefillDeepLinkUrl property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getPrefillDeepLinkUrl() {
-        return prefillDeepLinkUrl;
+	return prefillDeepLinkUrl;
     }
 
     /**
      * Sets the value of the prefillDeepLinkUrl property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setPrefillDeepLinkUrl(String value) {
-        this.prefillDeepLinkUrl = value;
+	this.prefillDeepLinkUrl = value;
     }
 
     /**
      * Gets the value of the rulesOfTheRoadUrl property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getRulesOfTheRoadUrl() {
-        return rulesOfTheRoadUrl;
+	return rulesOfTheRoadUrl;
     }
 
     /**
      * Sets the value of the rulesOfTheRoadUrl property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setRulesOfTheRoadUrl(String value) {
-        this.rulesOfTheRoadUrl = value;
+	this.rulesOfTheRoadUrl = value;
     }
 
     /**
@@ -1646,7 +1509,7 @@ public class ReservationResponse
      * 
      */
     public boolean isOnRequestCarClassSelected() {
-        return onRequestCarClassSelected;
+	return onRequestCarClassSelected;
     }
 
     /**
@@ -1654,89 +1517,86 @@ public class ReservationResponse
      * 
      */
     public void setOnRequestCarClassSelected(boolean value) {
-        this.onRequestCarClassSelected = value;
+	this.onRequestCarClassSelected = value;
     }
 
     /**
      * Gets the value of the prepayPolicies property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PrepayPolicies }
-     *     
+     * @return possible object is {@link PrepayPolicies }
+     * 
      */
     public PrepayPolicies getPrepayPolicies() {
-        return prepayPolicies;
+	return prepayPolicies;
     }
 
     /**
      * Sets the value of the prepayPolicies property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link PrepayPolicies }
-     *     
+     *            allowed object is {@link PrepayPolicies }
+     * 
      */
     public void setPrepayPolicies(PrepayPolicies value) {
-        this.prepayPolicies = value;
+	this.prepayPolicies = value;
     }
 
     /**
      * Gets the value of the rentalChecklists property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the rentalChecklists property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the rentalChecklists property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getRentalChecklists().add(newItem);
+     * getRentalChecklists().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link String }
      * 
      * 
      */
     public List<String> getRentalChecklists() {
-        if (rentalChecklists == null) {
-            rentalChecklists = new ArrayList<String>();
-        }
-        return this.rentalChecklists;
+	if (rentalChecklists == null) {
+	    rentalChecklists = new ArrayList<String>();
+	}
+	return this.rentalChecklists;
     }
 
     /**
      * Gets the value of the keyFactsPolicies property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the keyFactsPolicies property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the keyFactsPolicies property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getKeyFactsPolicies().add(newItem);
+     * getKeyFactsPolicies().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Policy }
+     * Objects of the following type(s) are allowed in the list {@link Policy }
      * 
      * 
      */
     public List<Policy> getKeyFactsPolicies() {
-        if (keyFactsPolicies == null) {
-            keyFactsPolicies = new ArrayList<Policy>();
-        }
-        return this.keyFactsPolicies;
+	if (keyFactsPolicies == null) {
+	    keyFactsPolicies = new ArrayList<Policy>();
+	}
+	return this.keyFactsPolicies;
     }
 
     /**
@@ -1744,7 +1604,7 @@ public class ReservationResponse
      * 
      */
     public boolean isSignatureAccount() {
-        return signatureAccount;
+	return signatureAccount;
     }
 
     /**
@@ -1752,132 +1612,120 @@ public class ReservationResponse
      * 
      */
     public void setSignatureAccount(boolean value) {
-        this.signatureAccount = value;
+	this.signatureAccount = value;
     }
 
     /**
      * Gets the value of the partnerRewardProgram property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PartnerRewardProgramDetail }
-     *     
+     * @return possible object is {@link PartnerRewardProgramDetail }
+     * 
      */
     public PartnerRewardProgramDetail getPartnerRewardProgram() {
-        return partnerRewardProgram;
+	return partnerRewardProgram;
     }
 
     /**
      * Sets the value of the partnerRewardProgram property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link PartnerRewardProgramDetail }
-     *     
+     *            allowed object is {@link PartnerRewardProgramDetail }
+     * 
      */
     public void setPartnerRewardProgram(PartnerRewardProgramDetail value) {
-        this.partnerRewardProgram = value;
+	this.partnerRewardProgram = value;
     }
 
     /**
      * Gets the value of the protectionsRequiredAtCounter property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the protectionsRequiredAtCounter property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the protectionsRequiredAtCounter property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getProtectionsRequiredAtCounter().add(newItem);
+     * getProtectionsRequiredAtCounter().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link String }
      * 
      * 
      */
     public List<String> getProtectionsRequiredAtCounter() {
-        if (protectionsRequiredAtCounter == null) {
-            protectionsRequiredAtCounter = new ArrayList<String>();
-        }
-        return this.protectionsRequiredAtCounter;
+	if (protectionsRequiredAtCounter == null) {
+	    protectionsRequiredAtCounter = new ArrayList<String>();
+	}
+	return this.protectionsRequiredAtCounter;
     }
 
     /**
      * Gets the value of the protectionsRequiredAtCounterText property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getProtectionsRequiredAtCounterText() {
-        return protectionsRequiredAtCounterText;
+	return protectionsRequiredAtCounterText;
     }
 
     /**
      * Sets the value of the protectionsRequiredAtCounterText property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setProtectionsRequiredAtCounterText(String value) {
-        this.protectionsRequiredAtCounterText = value;
+	this.protectionsRequiredAtCounterText = value;
     }
 
     /**
      * Gets the value of the licenseeName property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getLicenseeName() {
-        return licenseeName;
+	return licenseeName;
     }
 
     /**
      * Sets the value of the licenseeName property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setLicenseeName(String value) {
-        this.licenseeName = value;
+	this.licenseeName = value;
     }
 
     /**
      * Gets the value of the visitDomainUrl property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getVisitDomainUrl() {
-        return visitDomainUrl;
+	return visitDomainUrl;
     }
 
     /**
      * Sets the value of the visitDomainUrl property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setVisitDomainUrl(String value) {
-        this.visitDomainUrl = value;
+	this.visitDomainUrl = value;
     }
 
     /**
@@ -1885,7 +1733,7 @@ public class ReservationResponse
      * 
      */
     public boolean isBlockAssociateProfile() {
-        return blockAssociateProfile;
+	return blockAssociateProfile;
     }
 
     /**
@@ -1893,55 +1741,49 @@ public class ReservationResponse
      * 
      */
     public void setBlockAssociateProfile(boolean value) {
-        this.blockAssociateProfile = value;
+	this.blockAssociateProfile = value;
     }
 
     /**
      * Gets the value of the deliveryCollection property.
      * 
-     * @return
-     *     possible object is
-     *     {@link DeliveryCollectionDetails }
-     *     
+     * @return possible object is {@link DeliveryCollectionDetails }
+     * 
      */
     public DeliveryCollectionDetails getDeliveryCollection() {
-        return deliveryCollection;
+	return deliveryCollection;
     }
 
     /**
      * Sets the value of the deliveryCollection property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link DeliveryCollectionDetails }
-     *     
+     *            allowed object is {@link DeliveryCollectionDetails }
+     * 
      */
     public void setDeliveryCollection(DeliveryCollectionDetails value) {
-        this.deliveryCollection = value;
+	this.deliveryCollection = value;
     }
 
     /**
      * Gets the value of the iataNumber property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getIataNumber() {
-        return iataNumber;
+	return iataNumber;
     }
 
     /**
      * Sets the value of the iataNumber property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setIataNumber(String value) {
-        this.iataNumber = value;
+	this.iataNumber = value;
     }
 
     /**
@@ -1949,7 +1791,7 @@ public class ReservationResponse
      * 
      */
     public boolean isBlockModifyPickupLocation() {
-        return blockModifyPickupLocation;
+	return blockModifyPickupLocation;
     }
 
     /**
@@ -1957,396 +1799,351 @@ public class ReservationResponse
      * 
      */
     public void setBlockModifyPickupLocation(boolean value) {
-        this.blockModifyPickupLocation = value;
+	this.blockModifyPickupLocation = value;
     }
 
     /**
      * Gets the value of the collectNewPaymentCardInModify property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getCollectNewPaymentCardInModify() {
-        return collectNewPaymentCardInModify;
+	return collectNewPaymentCardInModify;
     }
 
     /**
      * Sets the value of the collectNewPaymentCardInModify property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setCollectNewPaymentCardInModify(Boolean value) {
-        this.collectNewPaymentCardInModify = value;
+	this.collectNewPaymentCardInModify = value;
     }
 
     /**
      * Gets the value of the prepayPaymentProcessor property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PaymentProcessorEnum }
-     *     
+     * @return possible object is {@link PaymentProcessorEnum }
+     * 
      */
     public PaymentProcessorEnum getPrepayPaymentProcessor() {
-        return prepayPaymentProcessor;
+	return prepayPaymentProcessor;
     }
 
     /**
      * Sets the value of the prepayPaymentProcessor property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link PaymentProcessorEnum }
-     *     
+     *            allowed object is {@link PaymentProcessorEnum }
+     * 
      */
     public void setPrepayPaymentProcessor(PaymentProcessorEnum value) {
-        this.prepayPaymentProcessor = value;
+	this.prepayPaymentProcessor = value;
     }
 
     /**
      * Gets the value of the blockPartnerRewards property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getBlockPartnerRewards() {
-        return blockPartnerRewards;
+	return blockPartnerRewards;
     }
 
     /**
      * Sets the value of the blockPartnerRewards property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setBlockPartnerRewards(Boolean value) {
-        this.blockPartnerRewards = value;
+	this.blockPartnerRewards = value;
     }
 
     /**
      * Gets the value of the rewardType property.
      * 
-     * @return
-     *     possible object is
-     *     {@link RewardType }
-     *     
+     * @return possible object is {@link RewardType }
+     * 
      */
     public RewardType getRewardType() {
-        return rewardType;
+	return rewardType;
     }
 
     /**
      * Sets the value of the rewardType property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link RewardType }
-     *     
+     *            allowed object is {@link RewardType }
+     * 
      */
     public void setRewardType(RewardType value) {
-        this.rewardType = value;
+	this.rewardType = value;
     }
 
     /**
      * Gets the value of the pickupReservation property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getPickupReservation() {
-        return pickupReservation;
+	return pickupReservation;
     }
 
     /**
      * Sets the value of the pickupReservation property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setPickupReservation(Boolean value) {
-        this.pickupReservation = value;
+	this.pickupReservation = value;
     }
 
     /**
      * Gets the value of the levelOfService property.
      * 
-     * @return
-     *     possible object is
-     *     {@link LevelOfService }
-     *     
+     * @return possible object is {@link LevelOfService }
+     * 
      */
     public LevelOfService getLevelOfService() {
-        return levelOfService;
+	return levelOfService;
     }
 
     /**
      * Sets the value of the levelOfService property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link LevelOfService }
-     *     
+     *            allowed object is {@link LevelOfService }
+     * 
      */
     public void setLevelOfService(LevelOfService value) {
-        this.levelOfService = value;
+	this.levelOfService = value;
     }
 
     /**
      * Gets the value of the currencyConversionDisclaimerText property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getCurrencyConversionDisclaimerText() {
-        return currencyConversionDisclaimerText;
+	return currencyConversionDisclaimerText;
     }
 
     /**
      * Sets the value of the currencyConversionDisclaimerText property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setCurrencyConversionDisclaimerText(String value) {
-        this.currencyConversionDisclaimerText = value;
+	this.currencyConversionDisclaimerText = value;
     }
 
     /**
      * Gets the value of the priorityServiceAvailableAtLocation property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getPriorityServiceAvailableAtLocation() {
-        return priorityServiceAvailableAtLocation;
+	return priorityServiceAvailableAtLocation;
     }
 
     /**
      * Sets the value of the priorityServiceAvailableAtLocation property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setPriorityServiceAvailableAtLocation(Boolean value) {
-        this.priorityServiceAvailableAtLocation = value;
+	this.priorityServiceAvailableAtLocation = value;
     }
 
     /**
      * Gets the value of the mra property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Mra }
-     *     
+     * @return possible object is {@link Mra }
+     * 
      */
     public Mra getMra() {
-        return mra;
+	return mra;
     }
 
     /**
      * Sets the value of the mra property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Mra }
-     *     
+     *            allowed object is {@link Mra }
+     * 
      */
     public void setMra(Mra value) {
-        this.mra = value;
+	this.mra = value;
     }
 
     /**
      * Gets the value of the analyticData property.
      * 
-     * @return
-     *     possible object is
-     *     {@link AnalyticData }
-     *     
+     * @return possible object is {@link AnalyticData }
+     * 
      */
     public AnalyticData getAnalyticData() {
-        return analyticData;
+	return analyticData;
     }
 
     /**
      * Sets the value of the analyticData property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link AnalyticData }
-     *     
+     *            allowed object is {@link AnalyticData }
+     * 
      */
     public void setAnalyticData(AnalyticData value) {
-        this.analyticData = value;
+	this.analyticData = value;
     }
 
     /**
      * Gets the value of the coupons property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the coupons property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the coupons property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getCoupons().add(newItem);
+     * getCoupons().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Coupon }
+     * Objects of the following type(s) are allowed in the list {@link Coupon }
      * 
      * 
      */
     public List<Coupon> getCoupons() {
-        if (coupons == null) {
-            coupons = new ArrayList<Coupon>();
-        }
-        return this.coupons;
+	if (coupons == null) {
+	    coupons = new ArrayList<Coupon>();
+	}
+	return this.coupons;
     }
 
     /**
      * Gets the value of the bookingAgent property.
      * 
-     * @return
-     *     possible object is
-     *     {@link BookingAgent }
-     *     
+     * @return possible object is {@link BookingAgent }
+     * 
      */
     public BookingAgent getBookingAgent() {
-        return bookingAgent;
+	return bookingAgent;
     }
 
     /**
      * Sets the value of the bookingAgent property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link BookingAgent }
-     *     
+     *            allowed object is {@link BookingAgent }
+     * 
      */
     public void setBookingAgent(BookingAgent value) {
-        this.bookingAgent = value;
+	this.bookingAgent = value;
     }
 
     /**
      * Gets the value of the travelAdmin property.
      * 
-     * @return
-     *     possible object is
-     *     {@link TravelAdmin }
-     *     
+     * @return possible object is {@link TravelAdmin }
+     * 
      */
     public TravelAdmin getTravelAdmin() {
-        return travelAdmin;
+	return travelAdmin;
     }
 
     /**
      * Sets the value of the travelAdmin property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link TravelAdmin }
-     *     
+     *            allowed object is {@link TravelAdmin }
+     * 
      */
     public void setTravelAdmin(TravelAdmin value) {
-        this.travelAdmin = value;
+	this.travelAdmin = value;
     }
 
     /**
      * Gets the value of the travelAgent property.
      * 
-     * @return
-     *     possible object is
-     *     {@link TravelAgent }
-     *     
+     * @return possible object is {@link TravelAgent }
+     * 
      */
     public TravelAgent getTravelAgent() {
-        return travelAgent;
+	return travelAgent;
     }
 
     /**
      * Sets the value of the travelAgent property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link TravelAgent }
-     *     
+     *            allowed object is {@link TravelAgent }
+     * 
      */
     public void setTravelAgent(TravelAgent value) {
-        this.travelAgent = value;
+	this.travelAgent = value;
     }
 
     /**
      * Gets the value of the modificationConstraints property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ModificationConstraints }
-     *     
+     * @return possible object is {@link ModificationConstraints }
+     * 
      */
     public ModificationConstraints getModificationConstraints() {
-        return modificationConstraints;
+	return modificationConstraints;
     }
 
     /**
      * Sets the value of the modificationConstraints property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ModificationConstraints }
-     *     
+     *            allowed object is {@link ModificationConstraints }
+     * 
      */
     public void setModificationConstraints(ModificationConstraints value) {
-        this.modificationConstraints = value;
+	this.modificationConstraints = value;
     }
 
     /**
      * Gets the value of the profileDetails property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ProfileDetails }
-     *     
+     * @return possible object is {@link ProfileDetails }
+     * 
      */
     public ProfileDetails getProfileDetails() {
-        return profileDetails;
+	return profileDetails;
     }
 
     /**
      * Sets the value of the profileDetails property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ProfileDetails }
-     *     
+     *            allowed object is {@link ProfileDetails }
+     * 
      */
     public void setProfileDetails(ProfileDetails value) {
-        this.profileDetails = value;
+	this.profileDetails = value;
     }
 
     /**
@@ -2354,7 +2151,7 @@ public class ReservationResponse
      * 
      */
     public int getNumberOfAdditionalDriversAllowed() {
-        return numberOfAdditionalDriversAllowed;
+	return numberOfAdditionalDriversAllowed;
     }
 
     /**
@@ -2362,22 +2159,23 @@ public class ReservationResponse
      * 
      */
     public void setNumberOfAdditionalDriversAllowed(int value) {
-        this.numberOfAdditionalDriversAllowed = value;
+	this.numberOfAdditionalDriversAllowed = value;
     }
 
     /**
      * Gets the value of the additionalDrivers property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the additionalDrivers property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the additionalDrivers property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getAdditionalDrivers().add(newItem);
+     * getAdditionalDrivers().add(newItem);
      * </pre>
      * 
      * 
@@ -2388,73 +2186,68 @@ public class ReservationResponse
      * 
      */
     public List<AdditionalDriver> getAdditionalDrivers() {
-        if (additionalDrivers == null) {
-            additionalDrivers = new ArrayList<AdditionalDriver>();
-        }
-        return this.additionalDrivers;
+	if (additionalDrivers == null) {
+	    additionalDrivers = new ArrayList<AdditionalDriver>();
+	}
+	return this.additionalDrivers;
     }
 
     /**
      * Gets the value of the remainingDaysForPickUp property.
      * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
+     * @return possible object is {@link BigInteger }
+     * 
      */
     public BigInteger getRemainingDaysForPickUp() {
-        return remainingDaysForPickUp;
+	return remainingDaysForPickUp;
     }
 
     /**
      * Sets the value of the remainingDaysForPickUp property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
+     *            allowed object is {@link BigInteger }
+     * 
      */
     public void setRemainingDaysForPickUp(BigInteger value) {
-        this.remainingDaysForPickUp = value;
+	this.remainingDaysForPickUp = value;
     }
 
     /**
      * Gets the value of the reservationSubStatus property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ReservationSubStatus }
-     *     
+     * @return possible object is {@link ReservationSubStatus }
+     * 
      */
     public ReservationSubStatus getReservationSubStatus() {
-        return reservationSubStatus;
+	return reservationSubStatus;
     }
 
     /**
      * Sets the value of the reservationSubStatus property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link ReservationSubStatus }
-     *     
+     *            allowed object is {@link ReservationSubStatus }
+     * 
      */
     public void setReservationSubStatus(ReservationSubStatus value) {
-        this.reservationSubStatus = value;
+	this.reservationSubStatus = value;
     }
 
     /**
      * Gets the value of the links property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the links property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the links property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getLinks().add(newItem);
+     * getLinks().add(newItem);
      * </pre>
      * 
      * 
@@ -2465,82 +2258,73 @@ public class ReservationResponse
      * 
      */
     public List<ReservationLink> getLinks() {
-        if (links == null) {
-            links = new ArrayList<ReservationLink>();
-        }
-        return this.links;
+	if (links == null) {
+	    links = new ArrayList<ReservationLink>();
+	}
+	return this.links;
     }
 
     /**
      * Gets the value of the vriEligible property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getVriEligible() {
-        return vriEligible;
+	return vriEligible;
     }
 
     /**
      * Sets the value of the vriEligible property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setVriEligible(Boolean value) {
-        this.vriEligible = value;
+	this.vriEligible = value;
     }
 
     /**
      * Gets the value of the onRequestAfterHours property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     * @return possible object is {@link Boolean }
+     * 
      */
     public Boolean getOnRequestAfterHours() {
-        return onRequestAfterHours;
+	return onRequestAfterHours;
     }
 
     /**
      * Sets the value of the onRequestAfterHours property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *            allowed object is {@link Boolean }
+     * 
      */
     public void setOnRequestAfterHours(Boolean value) {
-        this.onRequestAfterHours = value;
+	this.onRequestAfterHours = value;
     }
 
     /**
      * Gets the value of the oneClickDefaultCarClass property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getOneClickDefaultCarClass() {
-        return oneClickDefaultCarClass;
+	return oneClickDefaultCarClass;
     }
 
     /**
      * Sets the value of the oneClickDefaultCarClass property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setOneClickDefaultCarClass(String value) {
-        this.oneClickDefaultCarClass = value;
+	this.oneClickDefaultCarClass = value;
     }
 
 }

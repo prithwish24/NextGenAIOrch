@@ -5,21 +5,23 @@
 // Generated on: 2018.12.07 at 06:05:25 PM IST 
 //
 
-
 package com.cts.product.rental.dto.reservation;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for ReservationEligibility complex type.
+ * <p>
+ * Java class for ReservationEligibility complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="ReservationEligibility"&gt;
@@ -44,20 +46,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ReservationEligibility", propOrder = {
-    "createReservation",
-    "modifyReservation",
-    "modifyPrefillReservation",
-    "cancelReservation",
-    "viewBaseReservation",
-    "viewFullReservation",
-    "checkoutTicket",
-    "blockedReasons",
-    "messages"
-})
-public class ReservationEligibility
-    implements Serializable
-{
+@XmlType(name = "ReservationEligibility", propOrder = { "createReservation", "modifyReservation",
+	"modifyPrefillReservation", "cancelReservation", "viewBaseReservation", "viewFullReservation", "checkoutTicket",
+	"virtualAisle", "blockedReasons", "messages" })
+public class ReservationEligibility implements Serializable {
 
     protected boolean createReservation;
     protected boolean modifyReservation;
@@ -66,6 +58,7 @@ public class ReservationEligibility
     protected boolean viewBaseReservation;
     protected boolean viewFullReservation;
     protected boolean checkoutTicket;
+    protected boolean virtualAisle;
     protected List<String> blockedReasons;
     protected List<EligibilityMessage> messages;
 
@@ -74,7 +67,7 @@ public class ReservationEligibility
      * 
      */
     public boolean isCreateReservation() {
-        return createReservation;
+	return createReservation;
     }
 
     /**
@@ -82,7 +75,7 @@ public class ReservationEligibility
      * 
      */
     public void setCreateReservation(boolean value) {
-        this.createReservation = value;
+	this.createReservation = value;
     }
 
     /**
@@ -90,7 +83,7 @@ public class ReservationEligibility
      * 
      */
     public boolean isModifyReservation() {
-        return modifyReservation;
+	return modifyReservation;
     }
 
     /**
@@ -98,7 +91,7 @@ public class ReservationEligibility
      * 
      */
     public void setModifyReservation(boolean value) {
-        this.modifyReservation = value;
+	this.modifyReservation = value;
     }
 
     /**
@@ -106,7 +99,7 @@ public class ReservationEligibility
      * 
      */
     public boolean isModifyPrefillReservation() {
-        return modifyPrefillReservation;
+	return modifyPrefillReservation;
     }
 
     /**
@@ -114,7 +107,7 @@ public class ReservationEligibility
      * 
      */
     public void setModifyPrefillReservation(boolean value) {
-        this.modifyPrefillReservation = value;
+	this.modifyPrefillReservation = value;
     }
 
     /**
@@ -122,7 +115,7 @@ public class ReservationEligibility
      * 
      */
     public boolean isCancelReservation() {
-        return cancelReservation;
+	return cancelReservation;
     }
 
     /**
@@ -130,7 +123,7 @@ public class ReservationEligibility
      * 
      */
     public void setCancelReservation(boolean value) {
-        this.cancelReservation = value;
+	this.cancelReservation = value;
     }
 
     /**
@@ -138,7 +131,7 @@ public class ReservationEligibility
      * 
      */
     public boolean isViewBaseReservation() {
-        return viewBaseReservation;
+	return viewBaseReservation;
     }
 
     /**
@@ -146,7 +139,7 @@ public class ReservationEligibility
      * 
      */
     public void setViewBaseReservation(boolean value) {
-        this.viewBaseReservation = value;
+	this.viewBaseReservation = value;
     }
 
     /**
@@ -154,7 +147,7 @@ public class ReservationEligibility
      * 
      */
     public boolean isViewFullReservation() {
-        return viewFullReservation;
+	return viewFullReservation;
     }
 
     /**
@@ -162,7 +155,7 @@ public class ReservationEligibility
      * 
      */
     public void setViewFullReservation(boolean value) {
-        this.viewFullReservation = value;
+	this.viewFullReservation = value;
     }
 
     /**
@@ -170,7 +163,7 @@ public class ReservationEligibility
      * 
      */
     public boolean isCheckoutTicket() {
-        return checkoutTicket;
+	return checkoutTicket;
     }
 
     /**
@@ -178,51 +171,68 @@ public class ReservationEligibility
      * 
      */
     public void setCheckoutTicket(boolean value) {
-        this.checkoutTicket = value;
+	this.checkoutTicket = value;
+    }
+
+    /**
+     * Gets the value of the virtualAisle property.
+     * 
+     */
+    public boolean isVirtualAisle() {
+	return virtualAisle;
+    }
+
+    /**
+     * Sets the value of the virtualAisle property.
+     * 
+     */
+    public void setVirtualAisle(boolean value) {
+	this.virtualAisle = value;
     }
 
     /**
      * Gets the value of the blockedReasons property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the blockedReasons property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the blockedReasons property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getBlockedReasons().add(newItem);
+     * getBlockedReasons().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link String }
      * 
      * 
      */
     public List<String> getBlockedReasons() {
-        if (blockedReasons == null) {
-            blockedReasons = new ArrayList<String>();
-        }
-        return this.blockedReasons;
+	if (blockedReasons == null) {
+	    blockedReasons = new ArrayList<String>();
+	}
+	return this.blockedReasons;
     }
 
     /**
      * Gets the value of the messages property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the messages property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the messages property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getMessages().add(newItem);
+     * getMessages().add(newItem);
      * </pre>
      * 
      * 
@@ -233,10 +243,10 @@ public class ReservationEligibility
      * 
      */
     public List<EligibilityMessage> getMessages() {
-        if (messages == null) {
-            messages = new ArrayList<EligibilityMessage>();
-        }
-        return this.messages;
+	if (messages == null) {
+	    messages = new ArrayList<EligibilityMessage>();
+	}
+	return this.messages;
     }
 
 }
