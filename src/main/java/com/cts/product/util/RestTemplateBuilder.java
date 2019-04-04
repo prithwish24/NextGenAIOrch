@@ -9,6 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -33,6 +34,7 @@ public class RestTemplateBuilder {
 	MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
 	ObjectMapper objMapper = getObjectMapper();
 	jsonMessageConverter.setObjectMapper(objMapper);
+	jsonMessageConverter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
 	messageConverters.add(jsonMessageConverter);
 	restTemplate.setMessageConverters(messageConverters);
 	return restTemplate;
