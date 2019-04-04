@@ -47,8 +47,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public String findBranch(Airport airport) {
-	// TODO Auto-generated method stub
-	return "STLT61";
+	return findBranch(airport.getCity());
     }
 
     @Override
