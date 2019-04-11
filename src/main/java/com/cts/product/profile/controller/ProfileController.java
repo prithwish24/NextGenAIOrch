@@ -2,8 +2,6 @@ package com.cts.product.profile.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +35,7 @@ public class ProfileController {
     @RequestMapping(value = "/{loyalty}/login", method = RequestMethod.POST)
     public BaseResponse<UserProfile> login(@RequestBody LoginRequest loginRequest, @PathVariable("brand") String brand,
 	    @PathVariable("channel") String channel, @PathVariable("loyalty") String loyalty,
-	    HttpServletRequest request, @RequestHeader HttpHeaders headers) throws Exception {
+	    @RequestHeader HttpHeaders headers) throws Exception {
 	LOG.info("Entering login service");
 
 	ProfileResponse response = null;

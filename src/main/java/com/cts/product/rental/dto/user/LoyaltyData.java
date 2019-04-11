@@ -5,20 +5,22 @@
 // Generated on: 2018.12.07 at 06:05:25 PM IST 
 //
 
-
 package com.cts.product.rental.dto.user;
 
 import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for LoyaltyData complex type.
+ * <p>
+ * Java class for LoyaltyData complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="LoyaltyData"&gt;
@@ -37,92 +39,100 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LoyaltyData", propOrder = {
-    "loyaltyNumber",
-    "loyaltyProgram",
-    "loyaltyLevelCode"
-})
-public class LoyaltyData
-    implements Serializable
-{
+@XmlType(name = "LoyaltyData", propOrder = { "loyaltyNumber", "loyaltyProgram", "loyaltyLevelCode" })
+public class LoyaltyData implements Serializable {
 
     @XmlElement(required = true)
     protected String loyaltyNumber;
     @XmlElement(required = true)
     protected String loyaltyProgram;
     @XmlElement(required = true)
+    protected String loyaltyCode;
+    @XmlElement(required = true)
     protected String loyaltyLevelCode;
 
     /**
      * Gets the value of the loyaltyNumber property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getLoyaltyNumber() {
-        return loyaltyNumber;
+	return loyaltyNumber;
     }
 
     /**
      * Sets the value of the loyaltyNumber property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setLoyaltyNumber(String value) {
-        this.loyaltyNumber = value;
+	this.loyaltyNumber = value;
     }
 
     /**
      * Gets the value of the loyaltyProgram property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getLoyaltyProgram() {
-        return loyaltyProgram;
+	return loyaltyProgram;
     }
 
     /**
      * Sets the value of the loyaltyProgram property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setLoyaltyProgram(String value) {
-        this.loyaltyProgram = value;
+	this.loyaltyProgram = value;
+    }
+
+    /**
+     * Gets the value of the loyaltyCode property.
+     * 
+     * @return possible object is {@link String }
+     * 
+     */
+    public String getLoyaltyCode() {
+	return loyaltyCode;
+    }
+
+    /**
+     * Sets the value of the loyaltyCode property.
+     * 
+     * @param value
+     *            allowed object is {@link String }
+     * 
+     */
+    public void setLoyaltyCode(String value) {
+	this.loyaltyCode = value;
     }
 
     /**
      * Gets the value of the loyaltyLevelCode property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getLoyaltyLevelCode() {
-        return loyaltyLevelCode;
+	return loyaltyLevelCode;
     }
 
     /**
      * Sets the value of the loyaltyLevelCode property.
      * 
      * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *            allowed object is {@link String }
+     * 
      */
     public void setLoyaltyLevelCode(String value) {
-        this.loyaltyLevelCode = value;
+	this.loyaltyLevelCode = value;
     }
 
 }

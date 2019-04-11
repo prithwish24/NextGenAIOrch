@@ -107,9 +107,8 @@ public class ReservationMapper {
 	CommitReservationRequest commitReservationRequest = new CommitReservationRequest();
 	String driverFirstName = "Guest", driverLastName = " ";
 	if (params.getFirstName() != null && params.getLastName() != null) {
-	    driverFirstName = params.getFirstName().getGivenName() != null ? params.getFirstName().getGivenName() : " ";
-	    driverLastName = params.getLastName().getLastName() != null ? params.getLastName().getLastName() : " ";
-
+	    driverFirstName = params.getFirstName() != null ? params.getFirstName() : " ";
+	    driverLastName = params.getLastName() != null ? params.getLastName() : " ";
 	} else if (StringUtils.isNotBlank(params.getFullName())) {
 	    String[] split = params.getFullName().split(" ");
 	    if (split.length > 1) {
@@ -128,7 +127,9 @@ public class ReservationMapper {
 	phone.setPhoneNumber(params.getPhoneNumber());
 	phone.setPhoneType(PhoneTypeEnum.HOME);
 	driverInfo.setPhone(phone);
-	commitReservationRequest.setDriverInfo(driverInfo);
+	if (StringUtils.isBlank(params.getAuthToken())) {
+	    commitReservationRequest.setDriverInfo(driverInfo);
+	}
 	return commitReservationRequest;
     }
 

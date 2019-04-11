@@ -33,13 +33,23 @@ public class Parameters {
     private RentDuration duration;
     @JsonProperty("date-period")
     private String datePeriod;
-    @JsonProperty("firstname")
-    private Name firstName;
-    @JsonProperty("lastname")
-    private Name lastName;
+    @JsonProperty("username")
+    private String userName;
+    @JsonProperty("password")
+    private String password;
+    @JsonProperty("remember_credentials")
+    private boolean rememberCredentials;
+    @JsonProperty("accept_decline_version")
+    private String acceptDeclineVersion;
+    @JsonProperty("auth_token")
+    private String authToken;
+    @JsonProperty("first_name")
+    private String firstName;
+    @JsonProperty("last_name")
+    private String lastName;
     @JsonProperty("fullname")
     private String fullName;
-    @JsonProperty("phone-number")
+    @JsonProperty("phone_number")
     private String phoneNumber;
 
     // Output parameters
@@ -152,19 +162,35 @@ public class Parameters {
 	this.datePeriod = datePeriod;
     }
 
-    public Name getFirstName() {
+    public String getUserName() {
+	return userName;
+    }
+
+    public void setUserName(String userName) {
+	this.userName = userName;
+    }
+
+    public String getPassword() {
+	return password;
+    }
+
+    public void setPassword(String password) {
+	this.password = password;
+    }
+
+    public String getFirstName() {
 	return firstName;
     }
 
-    public void setFirstName(Name firstName) {
+    public void setFirstName(String firstName) {
 	this.firstName = firstName;
     }
 
-    public Name getLastName() {
+    public String getLastName() {
 	return lastName;
     }
 
-    public void setLastName(Name lastName) {
+    public void setLastName(String lastName) {
 	this.lastName = lastName;
     }
 
@@ -192,12 +218,36 @@ public class Parameters {
 	this.branchCode = branchCode;
     }
 
-	public String getGboSessionId() {
+    public String getGboSessionId() {
 	return gboSessionId;
-	}
+    }
 
-	public void setGboSessionId(String gboSessionId) {
+    public void setGboSessionId(String gboSessionId) {
 	this.gboSessionId = gboSessionId;
-	}
-    
+    }
+
+    public boolean isRememberCredentials() {
+	return rememberCredentials;
+    }
+
+    public void setRememberCredentials(boolean rememberCredentials) {
+	this.rememberCredentials = rememberCredentials;
+    }
+
+    public String getAcceptDeclineVersion() {
+	return acceptDeclineVersion;
+    }
+
+    public void setAcceptDeclineVersion(String acceptDeclineVersion) {
+	this.acceptDeclineVersion = acceptDeclineVersion;
+    }
+
+    public String getAuthToken() {
+	return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+	this.authToken = authToken;
+    }
+
 }

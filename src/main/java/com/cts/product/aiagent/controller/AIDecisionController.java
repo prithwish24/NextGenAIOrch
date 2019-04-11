@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cts.product.aiagent.AIConstants;
 import com.cts.product.aiagent.converter.RequestConverter;
 import com.cts.product.aiagent.dto.Airport;
 import com.cts.product.aiagent.dto.FollowupEventInput;
@@ -30,14 +31,15 @@ import com.cts.product.aiagent.dto.Parameters;
 import com.cts.product.aiagent.dto.Text;
 import com.cts.product.aiagent.service.AIDecisionService;
 import com.cts.product.lrd.LocationService;
+import com.cts.product.profile.domain.BaseResponse;
+import com.cts.product.profile.domain.ServiceError;
+import com.cts.product.profile.domain.UserProfile;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @RestController
 @RequestMapping("/services")
 public class AIDecisionController {
     private static Logger LOG = LoggerFactory.getLogger(AIDecisionController.class);
-    private static final String CARRENTAL = "carrental";
-    private static final String ACTION_SPLIT_DELIM = ".";
 
     @Autowired
     private LocationService locationService;
@@ -62,19 +64,29 @@ public class AIDecisionController {
 	    return response;
 	}
 
-	final String[] actionTokens = StringUtils.split(request.getQueryResult().getAction(), ACTION_SPLIT_DELIM, 2);
+	final String[] actionTokens = StringUtils.split(request.getQueryResult().getAction(),
+		AIConstants.ACTION_SPLIT_DELIM, 2);
 	if (actionTokens.length == 2
 		&& ("smalltalk".equalsIgnoreCase(actionTokens[0]) || "fallback".equalsIgnoreCase(actionTokens[0]))) {
 	    addDefaultFulfillment(response, request);
 	    addAllContexts(response, request.getQueryResult().getOutputContexts());
 
 	} else if (actionTokens.length == 2 && "decision".equalsIgnoreCase(actionTokens[0])) {
+	    Parameters p = getRentalContextParams(request);
+	    if (StringUtils.isNotBlank(p.getAuthToken())) {
+		headers.add("Ehi-Auth-Token", p.getAuthToken());
+	    }
 	    switch (actionTokens[1]) {
 	    case "initiate.request":
 		initiateRequest(request, response);
 		break;
 	    case "locationverify.request":
 		locationVerifyRequest(request, response);
+		break;
+	    case "login.request":
+		BaseResponse<UserProfile> loginResponse = aIDecisionService.login(request, response, headers);
+		addAllContexts(response, request.getQueryResult().getOutputContexts());
+		updateCarRentalContext(loginResponse, request.getQueryResult().getOutputContexts(), response);
 		break;
 	    case "startreservation.request":
 		aIDecisionService.initiateReseration(request, response, headers);
@@ -86,9 +98,9 @@ public class AIDecisionController {
 		addAllContexts(response, request.getQueryResult().getOutputContexts());
 		break;
 	    case "confirmation.request":
-	    bookingConfirmationRequest(request, response);
-	    addAllContexts(response, request.getQueryResult().getOutputContexts());
-	    break;
+		bookingConfirmationRequest(request, response);
+		addAllContexts(response, request.getQueryResult().getOutputContexts());
+		break;
 	    case "reserve.request":
 		aIDecisionService.commitReservationCall(request, response, headers);
 		break;
@@ -97,7 +109,6 @@ public class AIDecisionController {
 		Intent intent = request.getQueryResult().getIntent();
 		response.setError(988, formatMsg("{0} :: Matching 'action' parameter not found", intent));
 	    }
-
 	}
 
 	LOG.debug("Response :: " + requestConverter.logRequestOrResponse(response));
@@ -106,26 +117,56 @@ public class AIDecisionController {
     }
 
     private void bookingConfirmationRequest(InputRequest request, OutputResponse response) {
-    	String ffText = request.getQueryResult().getFulfillmentText();
-    	Parameters params = getRentalContextParams(request); 
-    	if (params != null) {
-    		if (params.getFirstName() != null) {
-    			ffText = ffText.replace("rentername", params.getFirstName().getGivenName());
-    		} else {
-    			ffText = ffText.replace("rentername", params.getFullName());
-    		}
-    	}
-	    response.setFulfillmentText(ffText);
+	String ffText = request.getQueryResult().getFulfillmentText();
+	Parameters params = getRentalContextParams(request);
+	if (params != null) {
+	    if (params.getFirstName() != null) {
+		ffText = ffText.replace("rentername", params.getFirstName());
+	    } else {
+		ffText = ffText.replace("rentername", params.getFullName());
+	    }
 	}
+	response.setFulfillmentText(ffText);
+    }
 
-	private void updateSessionIdInCarRentalContext(String sessionId, List<OutputContext> outputContexts) {
-    	outputContexts.stream().forEach(c -> {
-    		if (c.getName().endsWith(CARRENTAL)) {
-    			c.getParameters().setGboSessionId(sessionId);
-    		}
-    	});
+    private void updateSessionIdInCarRentalContext(String sessionId, List<OutputContext> outputContexts) {
+	outputContexts.stream().forEach(c -> {
+	    if (c.getName().endsWith(AIConstants.CARRENTAL)) {
+		c.getParameters().setGboSessionId(sessionId);
+	    }
+	});
+    }
+
+    private void updateCarRentalContext(BaseResponse<UserProfile> loginResponse, List<OutputContext> outputContexts,
+	    OutputResponse response) {
+	if (loginResponse.isSuccess()) {
+	    UserProfile userProfile = loginResponse.getResponse();
+	    String authToken = userProfile.getAuthToken();
+	    String firstName = userProfile.getFirstName();
+	    String lastName = userProfile.getLastName();
+	    String phoneNumber = userProfile.getMobileNo();
+	    outputContexts.stream().forEach(c -> {
+		if (c.getName().endsWith(AIConstants.CARRENTAL)) {
+		    Parameters parameters = c.getParameters();
+		    parameters.setAuthToken(authToken);
+		    parameters.setFirstName(firstName);
+		    parameters.setLastName(lastName);
+		    parameters.setPhoneNumber(phoneNumber);
+		}
+	    });
+	} else {
+	    ServiceError error = loginResponse.getError();
+	    String messageText = error.getText();
+	    response.setFulfillmentText(messageText);
+	    FulfillmentMessage fulfillmentMessage = new FulfillmentMessage();
+	    response.addFulfillmentMessage(fulfillmentMessage);
+
+	    Text text = new Text();
+	    fulfillmentMessage.setText(text);
+	    text.addText(messageText);
 	}
-    
+    }
+
     private void locationVerifyRequest(InputRequest request, OutputResponse response) {
 	String pmsg = null, nmsg = null;
 	JsonNode payload = getFulfilmentPayload(request.getQueryResult().getFulfillmentMessages());
@@ -144,9 +185,7 @@ public class AIDecisionController {
 	    } else {
 		addFulfillmentMessage(response, request.getQueryResult().getFulfillmentText());
 	    }
-
 	    addAllContexts(response, request.getQueryResult().getOutputContexts());
-
 	} else {
 	    // When Location not found
 	    if (p.getAirport() != null) {
@@ -156,7 +195,6 @@ public class AIDecisionController {
 		} else {
 		    addFulfillmentMessage(response, "Can you please tell me the airport code?");
 		}
-
 	    } else if (p.getGeoCity() != null) {
 		addFulfillmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
 		if (payload != null) {
@@ -164,7 +202,6 @@ public class AIDecisionController {
 		} else {
 		    addFulfillmentMessage(response, "Which city you want to rent from?");
 		}
-
 	    } else if (p.getAddress() != null) {
 		addFulfillmentEvent(response, "EVNT_LOC_ADDRESS_CALLBACK");
 		if (payload != null) {
@@ -173,7 +210,6 @@ public class AIDecisionController {
 		    addFulfillmentMessage(response,
 			    "I could not find the address. Can you please tell me the address in full?");
 		}
-
 	    } else if (p.getZipCode() != null) {
 		addFulfillmentEvent(response, "EVNT_RENTERNAME_CALLBACK");
 		if (payload != null) {
@@ -182,9 +218,7 @@ public class AIDecisionController {
 		    addFulfillmentMessage(response,
 			    "I could not find the address. Can you please tell me the address in full?");
 		}
-
 	    }
-
 	    return;
 	}
     }
@@ -230,7 +264,6 @@ public class AIDecisionController {
 	    addAllContexts(response, request.getQueryResult().getOutputContexts());
 	    return;
 	}
-
     }
 
     private void addDefaultFulfillment(final OutputResponse response, final InputRequest request) {
@@ -304,8 +337,8 @@ public class AIDecisionController {
     }
 
     private OutputContext getCarRentalContext(final InputRequest request) {
-	return request.getQueryResult().getOutputContexts().stream().filter(c -> c.getName().endsWith(CARRENTAL))
-		.findFirst().orElse(null);
+	return request.getQueryResult().getOutputContexts().stream()
+		.filter(c -> c.getName().endsWith(AIConstants.CARRENTAL)).findFirst().orElse(null);
     }
 
     private Parameters getRentalContextParams(final InputRequest request) {
